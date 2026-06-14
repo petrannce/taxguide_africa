@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Services | TaxGuide Africa LLP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="taxguide-shared.css">
+<link rel="stylesheet" href="taxguide-page.css">
+</head>
+<body>
+
+<!-- WhatsApp floating button -->
+<a href="https://wa.me/254711355015?text=Hello%20TaxGuide%20Africa%20LLP%2C%20I%20would%20like%20to%20inquire%20about%20your%20services." class="wa-float" target="_blank" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      Services
+    </div>
+    <br>
+    <div class="page-hero-eyebrow">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      <span id="heroEyebrow">Our Services</span>
+    </div>
+    <h1>Integrated Professional<br><span>Services</span></h1>
+    <p>Delivering world-class audit, tax, legal, financial advisory, and technology solutions — all under one roof, across Africa.</p>
+  </div>
+</div>
+
+<!-- SERVICE NAV -->
+<div class="svc-nav">
+  <div class="svc-nav-inner" id="svcNavInner">
+    <!-- Injected dynamically -->
+    <div style="padding:14px 0;color:var(--text-muted);font-size:13px">Loading…</div>
+  </div>
+</div>
+
+<!-- SERVICES CONTENT -->
+<div class="section-inner" id="servicesContent">
+  <!-- Skeleton -->
+  <div id="servicesLoading" style="padding:80px 0;text-align:center;color:var(--text-muted)">
+    Loading services…
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-band">
+  <div class="cta-band-inner">
+    <div>
+      <h2>Ready to Get Started?</h2>
+      <p>Speak with one of our specialists about how TaxGuide Africa LLP can support your organization.</p>
+    </div>
+    <div class="cta-band-actions">
+      <a href="taxguide-contact.html" class="btn btn-gold btn-lg">Request a Consultation</a>
+      <a href="taxguide-about.html" class="btn btn-outline-white btn-lg">Learn About Us</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── CONFIG ────────────────────────────────────────────────────────────────
+const API_BASE = 'http://127.0.0.1:8000/api';
+
+// ─── ICON MAP (keyed on slug fragments / name fragments) ──────────────────
+// Falls back to a generic briefcase icon if no match
+const ICON_MAP = [
+  {
+    test: s => /tax/i.test(s),
+    svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M7 8h10M7 12h6"/></svg>`,
+  },
+  {
+    test: s => /audit|account|assur/i.test(s),
+    svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 7H6a2 2 0 00-2 2v9a2 2 0 002 2h9a2 2 0 002-2v-3"/><path d="M21 3L9 15"/></svg>`,
+  },
+  {
+    test: s => /legal|corporate|law/i.test(s),
+    svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/></svg>`,
+  },
+  {
+    test: s => /financ|advisory|wealth/i.test(s),
+    svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>`,
+  },
+  {
+    test: s => /tech|digital|it\b|software|cyber/i.test(s),
+    svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M17 8l-5 5-3-3-3 3"/></svg>`,
+  },
+];
+
+const FALLBACK_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-4 0v2"/></svg>`;
+
+function getIcon(name) {
+  const match = ICON_MAP.find(m => m.test(name));
+  return match ? match.svg : FALLBACK_ICON;
+}
+
+// ─── FETCH & RENDER ────────────────────────────────────────────────────────
+async function loadServices() {
+  try {
+    const res = await fetch(`${API_BASE}/services`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const { services } = await res.json();
+
+    if (!services || services.length === 0) {
+      document.getElementById('servicesLoading').textContent = 'No services found.';
+      document.getElementById('svcNavInner').innerHTML = '';
+      return;
+    }
+
+    // Update hero eyebrow count
+    document.getElementById('heroEyebrow').textContent =
+      `${services.length} Practice Area${services.length !== 1 ? 's' : ''}`;
+
+    renderNav(services);
+    renderBlocks(services);
+
+    document.getElementById('servicesLoading').remove();
+    initScrollBehaviours();
+    initFadeIn();
+
+  } catch (err) {
+    document.getElementById('servicesLoading').textContent =
+      'Failed to load services. Please try again later.';
+    document.getElementById('svcNavInner').innerHTML = '';
+    console.error('Services fetch error:', err);
+  }
+}
+
+// ─── NAV TABS ──────────────────────────────────────────────────────────────
+function renderNav(services) {
+  const nav = document.getElementById('svcNavInner');
+  nav.innerHTML = services.map((svc, i) => `
+    <a href="#svc-${escHtml(svc.slug)}" class="svc-nav-tab${i === 0 ? ' active' : ''}">
+      ${getIcon(svc.name)}
+      ${escHtml(svc.name)}
+    </a>
+  `).join('');
+}
+
+// ─── SERVICE BLOCKS ────────────────────────────────────────────────────────
+function renderBlocks(services) {
+  const container = document.getElementById('servicesContent');
+
+  services.forEach((svc, index) => {
+    const isReverse = index % 2 !== 0;
+    const num = String(index + 1).padStart(2, '0');
+    const children = Array.isArray(svc.children) ? svc.children : [];
+
+    // Build sub-service grid items
+    // If children exist use them; otherwise show nothing (admin adds via CMS)
+    const listHTML = children.length > 0
+      ? children.map(c => `<div class="svc-list-item">${escHtml(c.name)}</div>`).join('')
+      : (svc.description
+          ? '' // description-only mode, no grid
+          : '<div style="color:var(--text-muted);font-size:13px">Sub-services coming soon.</div>');
+
+    const block = document.createElement('div');
+    block.className = 'svc-block fade-in';
+    block.id = `svc-${escHtml(svc.slug)}`;
+
+    block.innerHTML = `
+      <div class="svc-block-grid${isReverse ? ' reverse' : ''}">
+        <div class="svc-photo">
+          <img
+            src="${svc.image_url}"
+            alt="${escHtml(svc.name)}"
+            onerror="this.src='images/default-service.jpg'"
+          >
+        </div>
+        <div class="svc-body">
+          <div class="section-label">${num} / Practice Area</div>
+          <h2 class="section-title">${escHtml(svc.name)}</h2>
+          ${svc.description
+            ? `<p class="svc-intro">${svc.description}</p>`
+            : ''}
+          ${listHTML
+            ? `<div class="svc-list-grid">${listHTML}</div>`
+            : ''}
+          <a href="taxguide-service-single.html?slug=${encodeURIComponent(svc.slug)}" class="btn btn-navy btn-lg">
+            Learn More
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="taxguide-contact.html" class="btn btn-outline btn-lg" style="margin-left:10px">
+            Enquire
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    `;
+
+    container.appendChild(block);
+  });
+}
+
+// ─── SCROLL: sticky tab highlight ─────────────────────────────────────────
+function initScrollBehaviours() {
+  const nav = document.getElementById('mainNav');
+  if (nav) {
+    window.addEventListener('scroll', () =>
+      nav.classList.toggle('scrolled', window.scrollY > 80)
+    );
+  }
+
+  const tabs = document.querySelectorAll('.svc-nav-tab');
+  const blocks = document.querySelectorAll('.svc-block[id]');
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        tabs.forEach(t => t.classList.remove('active'));
+        const match = document.querySelector(
+          `.svc-nav-tab[href="#${e.target.id}"]`
+        );
+        if (match) match.classList.add('active');
+      }
+    });
+  }, { threshold: 0.4 });
+
+  blocks.forEach(b => obs.observe(b));
+}
+
+// ─── FADE IN ───────────────────────────────────────────────────────────────
+function initFadeIn() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in, .reveal').forEach(el => obs.observe(el));
+}
+
+// ─── HELPERS ───────────────────────────────────────────────────────────────
+function escHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+// ─── INIT ──────────────────────────────────────────────────────────────────
+loadServices();
+</script>
+<script src="taxguide-shared.js"></script>
+</body>
+</html>

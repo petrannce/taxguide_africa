@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Service | TaxGuide Africa LLP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="taxguide-shared.css">
+<link rel="stylesheet" href="taxguide-page.css">
+</head>
+<body>
+
+<!-- SERVICE HERO -->
+<div class="service-hero">
+  <div class="service-hero-grid"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        <a href="taxguide-services.html">Services</a>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        <span id="heroCrumb">Loading…</span>
+      </div>
+      <div class="service-icon-large" id="heroIcon">
+        <!-- injected -->
+      </div>
+      <h1 id="heroTitle"><span style="opacity:0">Loading…</span></h1>
+      <p class="sub" id="heroSub"></p>
+      <div class="hero-tags" id="heroTags"></div>
+      <div style="display:flex;gap:14px;flex-wrap:wrap" id="heroActions">
+        <a href="taxguide-contact.html" class="btn btn-gold btn-lg">Request a Consultation</a>
+        <a href="taxguide-services.html" class="btn btn-outline-white btn-lg">All Services</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-img reveal" id="heroImg">
+        <!-- injected -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="page-body">
+  <div id="mainCol">
+    <div id="mainLoading" style="padding:60px 0;color:var(--text-muted);text-align:center">
+      Loading service…
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-card">
+      <h4>All Services</h4>
+      <div class="sidebar-links" id="allServicesNav">
+        <div style="color:var(--text-muted);font-size:13px">Loading…</div>
+      </div>
+    </div>
+
+    <div class="contact-card">
+      <h4 style="color:white;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:12px;margin-bottom:16px">Talk to a Specialist</h4>
+      <p>Available for a free initial consultation on your challenges.</p>
+      <a href="taxguide-contact.html" class="btn btn-gold" style="width:100%;justify-content:center;margin-bottom:10px">Request Consultation</a>
+      <a href="tel:+254711355015" class="btn btn-outline-white" style="width:100%;justify-content:center">+254 711 355 015</a>
+    </div>
+
+    <div class="sidebar-card" style="background:var(--navy-deeper);border-color:transparent">
+      <h4 style="color:white;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:12px;margin-bottom:16px">Related Insights</h4>
+      <div id="relatedInsights">
+        <div style="color:rgba(255,255,255,0.4);font-size:13px">Loading…</div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<!-- CTA -->
+<div class="cta-band">
+  <div class="cta-inner">
+    <div>
+      <h2>Ready to Get Started?</h2>
+      <p>Our professionals are ready to help — with a free initial consultation for new clients.</p>
+    </div>
+    <div class="cta-actions">
+      <a href="taxguide-contact.html" class="btn btn-gold btn-lg">Request Free Consultation</a>
+      <a href="taxguide-services.html" class="btn btn-outline-white btn-lg">All Services</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── CONFIG ────────────────────────────────────────────────────────────────
+const API_BASE = 'http://127.0.0.1:8000/api';
+
+// ─── ICON MAP ──────────────────────────────────────────────────────────────
+const ICON_MAP = [
+  {
+    test: s => /tax/i.test(s),
+    svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M7 8h10M7 12h6"/></svg>`,
+  },
+  {
+    test: s => /audit|account|assur/i.test(s),
+    svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 7H6a2 2 0 00-2 2v9a2 2 0 002 2h9a2 2 0 002-2v-3"/><path d="M21 3L9 15"/></svg>`,
+  },
+  {
+    test: s => /legal|corporate|law/i.test(s),
+    svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/></svg>`,
+  },
+  {
+    test: s => /financ|advisory|wealth/i.test(s),
+    svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>`,
+  },
+  {
+    test: s => /tech|digital|it\b|software|cyber/i.test(s),
+    svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M17 8l-5 5-3-3-3 3"/></svg>`,
+  },
+];
+
+const FALLBACK_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-4 0v2"/></svg>`;
+
+function getIcon(name) {
+  const match = ICON_MAP.find(m => m.test(name || ''));
+  return match ? match.svg : FALLBACK_ICON;
+}
+
+// ─── GET SLUG FROM URL ─────────────────────────────────────────────────────
+function getSlug() {
+  return new URLSearchParams(window.location.search).get('slug') || '';
+}
+
+// ─── LOAD SERVICE ──────────────────────────────────────────────────────────
+async function loadService() {
+  const slug = getSlug();
+
+  if (!slug) {
+    renderError('No service specified. <a href="taxguide-services.html">View all services</a>.');
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/services/${encodeURIComponent(slug)}`);
+
+    if (res.status === 404) {
+      renderError('Service not found. <a href="taxguide-services.html">View all services</a>.');
+      return;
+    }
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+    const { service, all_services } = await res.json();
+
+    // Update page title
+    document.title = `${service.name} | TaxGuide Africa LLP`;
+
+    renderHero(service);
+    renderMainContent(service);
+    renderAllServicesNav(all_services, service.slug);
+    renderRelatedInsights(service);
+
+    document.getElementById('mainLoading').remove();
+    initReveal();
+    initNav();
+
+  } catch (err) {
+    renderError('Failed to load service. Please try again.');
+    console.error('Service fetch error:', err);
+  }
+}
+
+// ─── RENDER: HERO ──────────────────────────────────────────────────────────
+function renderHero(svc) {
+  document.getElementById('heroCrumb').textContent = svc.name;
+  document.getElementById('heroIcon').innerHTML = getIcon(svc.name);
+
+  const titleEl = document.getElementById('heroTitle');
+  // Split name into two lines if it has multiple words
+  const words = svc.name.trim().split(' ');
+  if (words.length >= 3) {
+    const mid = Math.ceil(words.length / 2);
+    titleEl.innerHTML = `${escHtml(words.slice(0, mid).join(' '))}<br><span>${escHtml(words.slice(mid).join(' '))}</span>`;
+  } else {
+    titleEl.innerHTML = `${escHtml(svc.name)}<br><span>Services</span>`;
+  }
+
+  document.getElementById('heroSub').textContent =
+    svc.description
+      ? stripHtml(svc.description).substring(0, 200)
+      : `Professional ${svc.name} solutions across East Africa.`;
+
+  // Build child-based hero tags
+  const children = Array.isArray(svc.children) ? svc.children : [];
+  if (children.length > 0) {
+    document.getElementById('heroTags').innerHTML = children.slice(0, 6).map(c =>
+      `<span class="hero-tag">${escHtml(c.name)}</span>`
+    ).join('');
+  }
+
+  document.getElementById('heroImg').innerHTML = `
+    <img
+      src="${svc.image_url}"
+      alt="${escHtml(svc.name)}"
+      onerror="this.src='images/default-service.jpg'"
+    >
+  `;
+
+  // Update CTA button label
+  document.getElementById('heroActions').innerHTML = `
+    <a href="taxguide-contact.html" class="btn btn-gold btn-lg">
+      Request a ${escHtml(svc.name)} Consultation
+    </a>
+    <a href="taxguide-services.html" class="btn btn-outline-white btn-lg">All Services</a>
+  `;
+}
+
+// ─── RENDER: MAIN CONTENT ──────────────────────────────────────────────────
+function renderMainContent(svc) {
+  const col = document.getElementById('mainCol');
+  const children = Array.isArray(svc.children) ? svc.children : [];
+
+  let html = `
+    <!-- Overview -->
+    <div class="reveal">
+      <div class="sec-label">Overview</div>
+      <h2 class="sec-title">About Our<br>${escHtml(svc.name)}</h2>
+      ${svc.description
+        ? `<div style="font-size:16px;color:var(--text-muted);line-height:1.8">${svc.description}</div>`
+        : `<p style="font-size:16px;color:var(--text-muted);line-height:1.8">
+             TaxGuide Africa LLP provides comprehensive ${escHtml(svc.name)} solutions to 
+             corporations, investors, NGOs, and individuals operating across East Africa.
+           </p>`
+      }
+    </div>
+  `;
+
+  // Sub-services / service areas
+  if (children.length > 0) {
+    html += `
+      <div style="margin-top:56px" class="reveal">
+        <div class="sec-label">Service Areas</div>
+        <h2 class="sec-title">What We Do</h2>
+      </div>
+      <div class="service-areas">
+        ${children.map(child => `
+          <div class="area-card reveal">
+            <div class="area-top">
+              <div class="area-icon">
+                ${getIcon(child.name)}
+              </div>
+              <h3>${escHtml(child.name)}</h3>
+            </div>
+            ${child.description
+              ? `<p>${child.description}</p>`
+              : ''}
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  // Our approach — generic process steps, always shown
+  html += `
+    <div style="margin-top:64px" class="reveal">
+      <div class="sec-label">Our Approach</div>
+      <h2 class="sec-title">How We Work With You</h2>
+    </div>
+    <div class="process-steps">
+      <div class="process-step reveal">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>Initial Consultation &amp; Diagnosis</h4>
+          <p>We begin with a comprehensive free consultation to understand your business, current position, risk exposure, and objectives — with no obligation.</p>
+        </div>
+      </div>
+      <div class="process-step reveal">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h4>Technical Analysis &amp; Strategy</h4>
+          <p>Our specialists analyse your situation against current legislation, best practices, and industry standards to develop a tailored strategy.</p>
+        </div>
+      </div>
+      <div class="process-step reveal">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h4>Implementation &amp; Documentation</h4>
+          <p>We prepare all required documentation, filings, and correspondence with meticulous accuracy and timeliness.</p>
+        </div>
+      </div>
+      <div class="process-step reveal">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h4>Regulatory Liaison &amp; Representation</h4>
+          <p>When needed, we represent you directly before regulatory bodies, ensuring your interests are robustly protected throughout.</p>
+        </div>
+      </div>
+      <div class="process-step reveal">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h4>Ongoing Monitoring &amp; Updates</h4>
+          <p>We proactively monitor legislative and regulatory changes and advise you on implications for your business immediately.</p>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Append to column (after the loading placeholder was removed)
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  col.appendChild(div);
+}
+
+// ─── RENDER: ALL SERVICES NAV (sidebar) ───────────────────────────────────
+function renderAllServicesNav(services, activeSlug) {
+  const el = document.getElementById('allServicesNav');
+  if (!services || services.length === 0) {
+    el.innerHTML = '<div style="color:var(--text-muted);font-size:13px">No services found.</div>';
+    return;
+  }
+
+  el.innerHTML = services.map(s => `
+    <a
+      href="taxguide-service-single.html?slug=${encodeURIComponent(s.slug)}"
+      class="${s.slug === activeSlug ? 'active' : ''}"
+    >
+      ${getIcon(s.name)}
+      ${escHtml(s.name)}
+    </a>
+  `).join('');
+}
+
+// ─── RENDER: RELATED INSIGHTS (sidebar) ───────────────────────────────────
+function renderRelatedInsights(svc) {
+  // Static links to blog filtered by service name — real-time filtering
+  // would require a blog search call; this links to the blog with a search param
+  const el = document.getElementById('relatedInsights');
+  el.innerHTML = `
+    <a href="taxguide-blog.html?search=${encodeURIComponent(svc.name)}" style="text-decoration:none">
+      <div style="font-size:13px;font-weight:600;color:white;margin-bottom:3px;line-height:1.4">
+        Latest ${escHtml(svc.name)} Insights
+      </div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.4)">View articles →</div>
+    </a>
+    <div style="height:1px;background:rgba(255,255,255,0.07);margin:12px 0"></div>
+    <a href="taxguide-blog.html" style="text-decoration:none">
+      <div style="font-size:13px;font-weight:600;color:white;margin-bottom:3px;line-height:1.4">
+        All Blog Articles
+      </div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.4)">Browse all insights →</div>
+    </a>
+  `;
+}
+
+// ─── RENDER: ERROR ─────────────────────────────────────────────────────────
+function renderError(msg) {
+  document.getElementById('mainLoading').innerHTML =
+    `<p style="color:var(--text-muted)">${msg}</p>`;
+  document.getElementById('heroCrumb').textContent = 'Error';
+  document.getElementById('heroTitle').textContent = 'Service Unavailable';
+  document.getElementById('allServicesNav').innerHTML =
+    '<a href="taxguide-services.html">← All Services</a>';
+  document.getElementById('relatedInsights').innerHTML = '';
+}
+
+// ─── SCROLL REVEAL ─────────────────────────────────────────────────────────
+function initReveal() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal:not(.visible), .fade-in:not(.visible)').forEach(el =>
+    obs.observe(el)
+  );
+}
+
+// ─── NAV SCROLL ────────────────────────────────────────────────────────────
+function initNav() {
+  const nav = document.getElementById('mainNav');
+  if (nav) {
+    window.addEventListener('scroll', () =>
+      nav.classList.toggle('scrolled', window.scrollY > 80)
+    );
+  }
+}
+
+// ─── HELPERS ───────────────────────────────────────────────────────────────
+function escHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function stripHtml(html) {
+  if (!html) return '';
+  return html.replace(/<[^>]*>/g, '');
+}
+
+// ─── INIT ──────────────────────────────────────────────────────────────────
+loadService();
+</script>
+<script src="taxguide-shared.js"></script>
+</body>
+</html>

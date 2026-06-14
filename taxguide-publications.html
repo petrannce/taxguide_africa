@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Publications | TaxGuide Africa LLP</title>
+<meta name="description" content="Download research reports, whitepapers, regulatory bulletins, and professional guides published by TaxGuide Africa LLP.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="taxguide-shared.css">
+<link rel="stylesheet" href="taxguide-page.css">
+</head>
+<body>
+
+<!-- HERO -->
+<div class="page-hero">
+  <div class="page-hero-grid"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="breadcrumb"><a href="index.html">Home</a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>Publications</div>
+      <div class="hero-eyebrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Research &amp; Reports</div>
+      <h1>Our<br><span>Publications</span></h1>
+      <p class="sub">In-depth research reports, whitepapers, regulatory bulletins, and professional guides from TaxGuide Africa LLP — freely available for download by practitioners and business leaders across Africa.</p>
+      <div style="display:flex;gap:14px;flex-wrap:wrap">
+        <a href="#pub-library" class="btn btn-gold btn-lg">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Browse Library
+        </a>
+        <a href="#subscribe" class="btn btn-outline-white btn-lg">Subscribe for Updates</a>
+      </div>
+    </div>
+    <!-- Featured pub hero card — injected by JS -->
+    <div class="hero-pub-card" id="heroPubCard">
+      <div class="hpc-type"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 6 7 1-5 5 1.18 7L12 17l-6.18 3L7 13 2 8l7-1 3-6z"/></svg>Latest Publication</div>
+      <div class="hpc-cover">
+        <div class="hpc-cover-deco"></div>
+        <div class="hpc-cover-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div>
+      </div>
+      <div class="hpc-title" id="heroCardTitle">Loading latest publication…</div>
+      <div class="hpc-desc" id="heroCardDesc"></div>
+      <div class="hpc-meta" id="heroCardMeta"></div>
+      <a href="#" class="btn btn-gold" id="heroCardBtn" style="display:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download Free Report
+      </a>
+    </div>
+  </div>
+  <div class="hero-wave"><svg viewBox="0 0 1440 50" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,0 C360,50 1080,50 1440,0 L1440,50 L0,50 Z" fill="var(--navy)"/></svg></div>
+</div>
+
+<!-- STATS STRIP -->
+<div class="pub-stats">
+  <div class="pub-stats-inner" id="pubStatsStrip">
+    <div class="ps-item"><div class="ps-num" id="statTotal">–</div><div class="ps-label">Publications</div></div>
+    <div class="ps-item"><div class="ps-num" id="statDownloads">12<span class="c">k+</span></div><div class="ps-label">Downloads This Year</div></div>
+    <div class="ps-item"><div class="ps-num" id="statSeries">5</div><div class="ps-label">Publication Series</div></div>
+    <div class="ps-item"><div class="ps-num">Free</div><div class="ps-label">All Downloads</div></div>
+  </div>
+</div>
+
+<!-- FILTER -->
+<div class="pub-filter">
+  <div class="pf-inner">
+    <div class="pf-tabs" id="pubTypeTabs">
+      <button class="pf-tab active" onclick="filterPubType('all',this)">All</button>
+      <!-- Dynamic type tabs injected here -->
+    </div>
+    <div class="pf-search">
+      <input type="text" placeholder="Search publications…" id="pubSearch" oninput="triggerPubSearch(this.value)">
+      <button onclick="triggerPubSearch(document.getElementById('pubSearch').value)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN LIBRARY -->
+<div class="pub-layout" id="pub-library">
+
+  <!-- FEATURED -->
+  <div class="sec-label">Featured Publication</div>
+  <div class="feat-pub reveal" id="featuredPub" style="display:none">
+    <!-- Injected by JS -->
+  </div>
+
+  <!-- SECTION HEADER -->
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:20px">
+    <div class="sec-label" style="margin-bottom:0">Publication Library</div>
+    <span style="font-size:13px;color:var(--text-muted)" id="pubCount">Loading publications…</span>
+  </div>
+
+  <!-- State (error / empty) -->
+  <div id="pubState" class="blog-state" style="display:none"></div>
+
+  <!-- GRID -->
+  <div class="pub-grid" id="pubGrid"></div>
+
+  <div style="text-align:center;margin-top:44px;display:none" id="loadMoreSection" style="display:none">
+    <button class="btn btn-outline btn-lg" id="loadMoreBtn">Load More Publications</button>
+  </div>
+</div>
+
+<!-- PUBLICATION SERIES -->
+<div class="series-sec">
+  <div class="series-inner">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:32px;flex-wrap:wrap" class="reveal">
+      <div>
+        <div class="sec-label" style="color:var(--gold)"><span style="display:block;width:22px;height:1.5px;background:var(--gold)"></span>Publication Series</div>
+        <h2 class="sec-title" style="color:white">Our Research Series</h2>
+        <p style="font-size:16px;color:rgba(255,255,255,0.55);max-width:480px">Ongoing series of in-depth research and guidance across our five practice areas — published regularly throughout the year.</p>
+      </div>
+    </div>
+    <div class="series-grid">
+      <div class="series-card reveal" style="--sc:var(--gold)">
+        <div class="sc-icon" style="background:rgba(239,191,4,0.12)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M7 8h10M7 12h6"/></svg></div>
+        <div class="sc-count">18 Publications</div>
+        <h3>East Africa Tax Intelligence Series</h3>
+        <p>Quarterly tax bulletins, Finance Act summaries, transfer pricing updates, and cross-border structuring guidance for East African markets.</p>
+        <div class="sc-link">Browse Series <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      </div>
+      <div class="series-card reveal" style="--sc:var(--cyan)">
+        <div class="sc-icon" style="background:rgba(10,160,215,0.12)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="1.5"><path d="M9 7H6a2 2 0 00-2 2v9a2 2 0 002 2h9a2 2 0 002-2v-3"/><path d="M21 3L9 15"/></svg></div>
+        <div class="sc-count">12 Publications</div>
+        <h3>Audit &amp; Governance Advisory Series</h3>
+        <p>Practical guidance on audit standards, internal controls, board governance, and financial reporting for corporations, NGOs, and public sector entities.</p>
+        <div class="sc-link">Browse Series <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      </div>
+      <div class="series-card reveal" style="--sc:#a78bfa">
+        <div class="sc-icon" style="background:rgba(167,139,250,0.12)"><svg viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.5"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/></svg></div>
+        <div class="sc-count">9 Publications</div>
+        <h3>Africa Legal Intelligence Series</h3>
+        <p>Commercial law updates, employment law briefings, IP guidance, and regulatory compliance notes for legal teams and business leaders.</p>
+        <div class="sc-link">Browse Series <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      </div>
+      <div class="series-card reveal" style="--sc:#6ee7a0">
+        <div class="sc-icon" style="background:rgba(52,211,153,0.12)"><svg viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+        <div class="sc-count">11 Publications</div>
+        <h3>Digital &amp; Technology Risk Series</h3>
+        <p>Cybersecurity handbooks, IT governance guides, FinTech regulatory briefings, and cloud security frameworks for technology-focused practitioners.</p>
+        <div class="sc-link">Browse Series <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NEWSLETTER SUBSCRIBE -->
+<div class="nl-sec" id="subscribe">
+  <div class="nl-inner reveal">
+    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(0,87,125,0.07);border:1px solid var(--border-light);border-radius:100px;padding:5px 16px;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--navy);margin-bottom:20px">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Stay Informed
+    </div>
+    <h2>Get New Publications<br>Delivered to Your Inbox</h2>
+    <p>Subscribe to receive our latest research reports, regulatory bulletins, whitepapers, and client briefings as soon as they are published — free of charge.</p>
+    <div class="nl-form">
+      <input type="text" id="nlName" placeholder="Your full name">
+      <input type="email" id="nlEmail" placeholder="Your email address">
+      <button class="btn btn-navy btn-lg" id="nlBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+        Subscribe Free
+      </button>
+    </div>
+    <div class="nl-badges">
+      <div class="nl-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>No spam — ever</div>
+      <div class="nl-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Unsubscribe anytime</div>
+      <div class="nl-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>Confidential</div>
+    </div>
+  </div>
+</div>
+
+<div class="cta-band">
+  <div class="cta-inner">
+    <div><h2>Need Custom Research<br>or a Bespoke Report?</h2><p>Our professionals can prepare tailored research reports, market analyses, and regulatory briefings for your organization's specific needs.</p></div>
+    <div class="cta-actions">
+      <a href="taxguide-contact.html" class="btn btn-gold btn-lg">Request Custom Research</a>
+      <a href="taxguide-services.html" class="btn btn-outline-white btn-lg">Our Services</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── CONFIG ────────────────────────────────────────────────────────────────
+const API_BASE = 'http://127.0.0.1:8000/api';
+const PER_PAGE = 6;
+
+// ─── STATE ─────────────────────────────────────────────────────────────────
+let state = {
+  currentPage: 1,
+  lastPage: 1,
+  currentType: 'all',
+  currentSearch: '',
+  loading: false,
+  featuredLoaded: false,
+};
+
+// ─── TYPE COLOR MAP ────────────────────────────────────────────────────────
+const TYPE_COLORS = {
+  'report'          : 'var(--navy)',
+  'annual report'   : 'var(--navy)',
+  'whitepaper'      : 'var(--cyan)',
+  'bulletin'        : 'var(--gold)',
+  'regulatory bulletin': 'var(--gold)',
+  'guide'           : '#059669',
+  'practical guide' : '#059669',
+  'brief'           : '#7c3aed',
+  'client briefing' : '#7c3aed',
+};
+
+function typeColor(type) {
+  if (!type) return 'var(--gold)';
+  return TYPE_COLORS[type.toLowerCase()] || 'var(--gold)';
+}
+
+function typeSlug(type) {
+  if (!type) return '';
+  return type.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+}
+
+// ─── FETCH PUBLICATIONS ────────────────────────────────────────────────────
+async function fetchPublications({ page = 1, type = 'all', search = '', append = false } = {}) {
+  if (state.loading) return;
+  state.loading = true;
+
+  const params = new URLSearchParams({ per_page: PER_PAGE, page });
+  if (type && type !== 'all') params.set('type', type);
+  if (search) params.set('search', search);
+
+  try {
+    const res = await fetch(`${API_BASE}/publications?${params}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+
+    const { publications, types, tags } = data;
+
+    state.currentPage = publications.current_page;
+    state.lastPage    = publications.last_page;
+
+    // Populate type tabs and stats on first load
+    if (!state.featuredLoaded) {
+      renderTypeTabs(types);
+      renderStatTotal(publications.total);
+    }
+
+    // Featured publication — first item on unfiltered page 1
+    if (page === 1 && !search && type === 'all' && publications.data.length > 0 && !state.featuredLoaded) {
+      renderFeaturedPub(publications.data[0]);
+      renderHeroCard(publications.data[0]);
+      state.featuredLoaded = true;
+    }
+
+    // Grid posts — skip featured on unfiltered page 1
+    const gridPubs = (page === 1 && !search && type === 'all')
+      ? publications.data.slice(1)
+      : publications.data;
+
+    if (!append) {
+      document.getElementById('pubGrid').innerHTML = '';
+    }
+
+    if (gridPubs.length === 0 && !append) {
+      showState('No publications found. Try a different search or type.');
+    } else {
+      hideState();
+      gridPubs.forEach(p => appendPubCard(p));
+    }
+
+    const count = publications.total;
+    document.getElementById('pubCount').textContent =
+      `Showing ${document.getElementById('pubGrid').children.length + (state.featuredLoaded && !search && type === 'all' ? 1 : 0)} of ${count} publication${count !== 1 ? 's' : ''}`;
+
+    // Load more
+    const loadMoreSection = document.getElementById('loadMoreSection');
+    if (state.currentPage < state.lastPage) {
+      loadMoreSection.style.display = 'block';
+    } else {
+      loadMoreSection.style.display = 'none';
+    }
+
+    initReveal();
+  } catch (err) {
+    showState('Failed to load publications. Please try again later.');
+    console.error('Publications fetch error:', err);
+  } finally {
+    state.loading = false;
+  }
+}
+
+// ─── RENDER: HERO CARD ─────────────────────────────────────────────────────
+function renderHeroCard(pub) {
+  document.getElementById('heroCardTitle').textContent = pub.title;
+  document.getElementById('heroCardDesc').textContent = stripHtml(pub.abstract || pub.description || '').substring(0, 160) + '…';
+  document.getElementById('heroCardMeta').innerHTML = `
+    <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>${formatDate(pub.published_at)}</span>
+    <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>${pub.pages ? pub.pages + ' Pages' : pub.type || ''}</span>
+    <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/></svg>Free PDF</span>
+  `;
+  const btn = document.getElementById('heroCardBtn');
+  btn.href = pub.file_url || '#';
+  btn.style.display = '';
+}
+
+// ─── RENDER: FEATURED PUBLICATION ─────────────────────────────────────────
+function renderFeaturedPub(pub) {
+  const el = document.getElementById('featuredPub');
+  el.style.display = '';
+  const tags = Array.isArray(pub.tags) ? pub.tags : [];
+  const tagHTML = tags.map(t => `<span class="fp-tag">${escHtml(t)}</span>`).join('');
+  const color = typeColor(pub.type);
+
+  el.innerHTML = `
+    <div class="fp-cover">
+      <div class="fp-book">
+        <div class="fp-book-inner">
+          <div class="fp-book-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div>
+          <div class="fp-book-title">${escHtml(pub.title)}</div>
+        </div>
+      </div>
+      <div class="fp-cover-label">${escHtml(pub.type || 'Publication')} · ${new Date(pub.published_at).getFullYear()}</div>
+    </div>
+    <div class="fp-body">
+      <div class="fp-type-badge" style="background:rgba(0,87,125,0.08);border:1px solid var(--border-light);color:var(--navy)">${escHtml(pub.type || 'Publication')}</div>
+      <h2>${escHtml(pub.title)}</h2>
+      <p>${escHtml(stripHtml(pub.abstract || pub.description || '').substring(0, 300))}${(pub.abstract || pub.description || '').length > 300 ? '…' : ''}</p>
+      <div class="fp-tags">${tagHTML}</div>
+      <div class="fp-meta-row">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>${formatDate(pub.published_at)}</span>
+        ${pub.pages ? `<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>${pub.pages} Pages · PDF</span>` : ''}
+        ${pub.author ? `<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>${escHtml(pub.author)}</span>` : ''}
+        ${pub.downloads ? `<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/></svg>${pub.downloads.toLocaleString()} Downloads</span>` : ''}
+      </div>
+      <div class="fp-actions">
+        <a href="${pub.file_url || '#'}" class="btn btn-navy btn-lg" ${pub.file_url ? '' : 'onclick="event.preventDefault();alert(\'File coming soon\')"'}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download Free PDF
+        </a>
+        <a href="#" class="btn btn-outline" onclick="event.preventDefault();alert('Print request noted.')">Request Print Copy</a>
+        <a href="#" class="btn btn-outline" onclick="event.preventDefault();navigator.clipboard&&navigator.clipboard.writeText(window.location.href)">Share</a>
+      </div>
+    </div>
+  `;
+}
+
+// ─── RENDER: PUBLICATION CARD ──────────────────────────────────────────────
+function appendPubCard(pub) {
+  const grid = document.getElementById('pubGrid');
+  const card = document.createElement('div');
+  card.className = 'pub-card reveal';
+  card.dataset.type = typeSlug(pub.type);
+  const color = typeColor(pub.type);
+
+  const tags = Array.isArray(pub.tags) ? pub.tags : [];
+  const tagHTML = tags.slice(0, 3).map(t =>
+    `<span class="pc-tag">${escHtml(t)}</span>`
+  ).join('');
+
+  const year = pub.published_at ? new Date(pub.published_at).getFullYear() : '';
+
+  card.innerHTML = `
+    <div class="pc-cover" style="background:linear-gradient(135deg,${color},${darken(color)})">
+      <div class="pc-cover-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+      </div>
+      <div class="pc-year">${year}</div>
+      ${isNew(pub.published_at) ? '<div class="pc-new">New</div>' : ''}
+    </div>
+    <div class="pc-body">
+      <div class="pc-type-row">
+        <div class="pc-type" style="color:${color}">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/></svg>
+          ${escHtml(pub.type || 'Publication')}
+        </div>
+        ${pub.pages ? `<span class="pc-pages">${pub.pages} pp</span>` : ''}
+      </div>
+      <h3>${escHtml(pub.title)}</h3>
+      <p>${escHtml(stripHtml(pub.abstract || pub.description || '').substring(0, 160))}…</p>
+      <div class="pc-tags">${tagHTML}</div>
+      <div class="pc-footer">
+        <div class="pc-meta">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/></svg>
+          ${pub.downloads ? pub.downloads.toLocaleString() + ' downloads' : 'Free download'}
+        </div>
+        <a href="${pub.file_url || '#'}" class="pc-dl" ${pub.file_url ? '' : 'onclick="event.preventDefault();alert(\'File coming soon\')"'}>
+          Download
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </a>
+      </div>
+    </div>
+  `;
+  grid.appendChild(card);
+}
+
+// ─── RENDER: TYPE TABS ─────────────────────────────────────────────────────
+function renderTypeTabs(types) {
+  const bar = document.getElementById('pubTypeTabs');
+  bar.querySelectorAll('[data-dynamic]').forEach(el => el.remove());
+
+  if (!Array.isArray(types)) return;
+
+  types.forEach(t => {
+    if (!t.type) return;
+    const btn = document.createElement('button');
+    btn.className = 'pf-tab';
+    btn.dataset.type = typeSlug(t.type);
+    btn.dataset.dynamic = '1';
+    btn.textContent = t.type;
+    btn.addEventListener('click', () => {
+      filterPubType(t.type, btn);
+    });
+    bar.appendChild(btn);
+  });
+}
+
+// ─── RENDER: STAT TOTAL ───────────────────────────────────────────────────
+function renderStatTotal(total) {
+  const el = document.getElementById('statTotal');
+  if (el && total) el.innerHTML = `${total}<span class="c">+</span>`;
+}
+
+// ─── FILTER BY TYPE ────────────────────────────────────────────────────────
+function filterPubType(type, btn) {
+  document.querySelectorAll('.pf-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  state.currentType = type === 'all' ? 'all' : type;
+  state.currentSearch = '';
+  state.featuredLoaded = true; // don't re-render featured on filter
+  document.getElementById('pubGrid').innerHTML = '';
+  document.getElementById('featuredPub').style.display = 'none';
+  fetchPublications({ page: 1, type: state.currentType, search: '' });
+}
+
+// ─── SEARCH ────────────────────────────────────────────────────────────────
+let searchTimer;
+function triggerPubSearch(value) {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => {
+    const q = (value || '').trim();
+    state.currentSearch = q;
+    state.currentType = 'all';
+    state.featuredLoaded = true;
+    document.getElementById('pubGrid').innerHTML = '';
+    document.getElementById('featuredPub').style.display = 'none';
+    document.querySelectorAll('.pf-tab').forEach(t => t.classList.remove('active'));
+    document.querySelector('.pf-tab[data-type="all"], .pf-tab:first-child').classList.add('active');
+    fetchPublications({ page: 1, type: 'all', search: q });
+  }, 350);
+}
+
+// ─── LOAD MORE ─────────────────────────────────────────────────────────────
+document.getElementById('loadMoreBtn').addEventListener('click', () => {
+  if (state.currentPage >= state.lastPage) return;
+  fetchPublications({
+    page: state.currentPage + 1,
+    type: state.currentType,
+    search: state.currentSearch,
+    append: true,
+  });
+});
+
+// ─── NEWSLETTER ────────────────────────────────────────────────────────────
+document.getElementById('nlBtn').addEventListener('click', async () => {
+  const email = document.getElementById('nlEmail').value.trim();
+  const name  = document.getElementById('nlName').value.trim();
+  if (!email) return;
+  const btn = document.getElementById('nlBtn');
+  btn.disabled = true;
+  btn.textContent = 'Subscribing…';
+  try {
+    const res = await fetch(`${API_BASE}/subscribe`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ email, name }),
+    });
+    btn.textContent = res.ok ? 'Subscribed ✓' : 'Error. Try again.';
+  } catch {
+    btn.textContent = 'Error. Try again.';
+    btn.disabled = false;
+  }
+});
+
+// ─── HELPERS ───────────────────────────────────────────────────────────────
+function showState(msg) {
+  const el = document.getElementById('pubState');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+function hideState() {
+  document.getElementById('pubState').style.display = 'none';
+}
+function escHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+function stripHtml(html) {
+  if (!html) return '';
+  return html.replace(/<[^>]*>/g, '');
+}
+function formatDate(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+}
+function isNew(dateStr) {
+  if (!dateStr) return false;
+  const d = new Date(dateStr);
+  const now = new Date();
+  const diffMs = now - d;
+  return diffMs < 1000 * 60 * 60 * 24 * 90; // within 90 days
+}
+function darken(cssVar) {
+  // Map CSS vars to darker gradient stops
+  const map = {
+    'var(--navy)' : '#020e1f',
+    'var(--cyan)' : '#005e8a',
+    'var(--gold)' : '#7a5f00',
+    '#059669'     : '#065f46',
+    '#7c3aed'     : '#4c1d95',
+    '#e11d48'     : '#9f1239',
+  };
+  return map[cssVar] || '#111';
+}
+function initReveal() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal:not(.visible)').forEach(el => obs.observe(el));
+}
+
+// ─── NAV SCROLL ────────────────────────────────────────────────────────────
+const nav = document.getElementById('mainNav');
+if (nav) {
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 80));
+}
+
+// ─── INIT ──────────────────────────────────────────────────────────────────
+fetchPublications({ page: 1, type: 'all', search: '' });
+initReveal();
+</script>
+<script src="taxguide-shared.js"></script>
+</body>
+</html>

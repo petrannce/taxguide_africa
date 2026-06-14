@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Branches | TaxGuide Africa LLP</title>
+<meta name="description" content="TaxGuide Africa LLP offices in Nairobi, Kisumu, Homabay and Mombasa — professional advisory services across Kenya.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="taxguide-shared.css">
+<link rel="stylesheet" href="taxguide-page.css">
+
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════ -->
+<div class="page-hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-content">
+    <div class="breadcrumb">
+      <a href="taxguide-home.html">Home</a>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      Our Branches
+    </div>
+    <div class="hero-eyebrow"><span class="hero-eyebrow-dot"></span>Kenya-Wide Coverage</div>
+    <h1>Our Offices<br>Across <span>Kenya</span></h1>
+    <p class="sub">TaxGuide Africa LLP operates professional advisory offices across Kenya — bringing world-class audit, tax, legal, financial, and technology advisory services closer to you.</p>
+    <div class="branch-pills">
+      <button class="bp active" onclick="switchBranch('kisumu',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Kisumu
+      </button>
+      <button class="bp" onclick="switchBranch('oyugis',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Homabay
+      </button>
+      <button class="bp" onclick="switchBranch('mombasa',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Mombasa
+      </button>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-num">3<span class="c">+</span></div><div class="hstat-label">Branch Offices</div></div>
+      <div class="hstat"><div class="hstat-num">5</div><div class="hstat-label">Practice Areas</div></div>
+      <div class="hstat"><div class="hstat-num">Pan<span class="c">-KE</span></div><div class="hstat-label">Kenya Coverage</div></div>
+      <div class="hstat"><div class="hstat-num">24<span class="c">/7</span></div><div class="hstat-label">Client Support</div></div>
+    </div>
+    <div class="hero-wave"><svg viewBox="0 0 1440 50" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,0 C360,50 1080,50 1440,0 L1440,50 L0,50 Z" fill="white"/></svg></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     BRANCH TAB BAR
+══════════════════════════════════════════════ -->
+<div class="branch-bar">
+  <div class="branch-bar-inner">
+    <button class="bb-tab active" id="tab-kisumu" onclick="switchBranch('kisumu',null)">
+      <span class="bb-dot" style="background:#0aa0d7"></span>Kisumu Branch<span class="bb-count">HQ West</span>
+    </button>
+    <button class="bb-tab" id="tab-oyugis" onclick="switchBranch('oyugis',null)">
+      <span class="bb-dot" style="background:#059669"></span>Homabay Branch<span class="bb-count">South Nyanza</span>
+    </button>
+    <button class="bb-tab" id="tab-mombasa" onclick="switchBranch('mombasa',null)">
+      <span class="bb-dot" style="background:var(--gold-dark)"></span>Mombasa Branch<span class="bb-count">Coast Region</span>
+    </button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     BRANCH: KISUMU
+══════════════════════════════════════════════ -->
+<div class="branch-panel active" id="panel-kisumu">
+
+  <!-- Branch hero card -->
+  <div class="branch-hero" style="background:linear-gradient(135deg,#f0f8ff 0%,var(--off-white) 100%)">
+    <div class="bh-inner">
+      <div class="bh-photo">
+        <div class="bh-ring"></div>
+        <div class="bh-img-wrap">
+          <img src="images/reception.jpeg" alt="Kisumu Office">
+        </div>
+        <div class="bh-badge"><div class="bh-badge-city">Kisumu</div><div class="bh-badge-region">Western Kenya HQ</div></div>
+        <div class="bh-float">
+          <div class="bh-float-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+          <div><strong>12 Staff</strong><span>At this branch</span></div>
+        </div>
+      </div>
+      <div class="bh-info">
+        <div class="branch-name-label">Western Kenya Branch</div>
+        <h2>Kisumu<br><em>Branch Office</em></h2>
+        <p class="bh-intro">Our Kisumu branch serves as our Western Kenya headquarters, delivering the full spectrum of TaxGuide Africa LLP advisory services to businesses, NGOs, county governments, and investors operating across the Lake Victoria basin and Western Kenya region.</p>
+        <div class="contact-details">
+          <div class="cd-item">
+            <div class="cd-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+            <div><span class="cd-label">Address</span><span class="cd-value">Swan Centre, 3rd Floor, Suite 12<br>Oginga Odinga Street, Kisumu, Kenya</span></div>
+          </div>
+          <div class="cd-item">
+            <div class="cd-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.07 9.81 19.79 19.79 0 012 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 9.1a16 16 0 006 6z"/></svg></div>
+            <div><span class="cd-label">Phone</span><span class="cd-value"><a href="tel:+254572020100">+254 57 202 0100</a></span></div>
+          </div>
+          <div class="cd-item">
+            <div class="cd-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <div><span class="cd-label">Email</span><span class="cd-value"><a href="mailto:kisumu@taxguidellp.com">kisumu@taxguidellp.com</a></span></div>
+          </div>
+          <div class="cd-item">
+            <div class="cd-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M17 8l-5 5-3-3"/></svg></div>
+            <div><span class="cd-label">WhatsApp</span><span class="cd-value"><a href="https://wa.me/254722000100">+254 722 000 100</a></span></div>
+          </div>
+        </div>
+        <div class="hours-widget">
+          <div class="hw-header">
+            <span class="hw-label">Office Hours</span>
+            <span class="hw-status open" id="kisumu-status">
+              <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="12"/></svg>
+              Open Now
+            </span>
+          </div>
+          <div class="hw-grid">
+            <div class="hw-row today"><span class="day">Monday – Friday</span><span class="time">8:00 AM – 5:30 PM</span></div>
+            <div class="hw-row"><span class="day">Saturday</span><span class="time">9:00 AM – 1:00 PM</span></div>
+            <div class="hw-row"><span class="day">Sunday</span><span class="time">Closed</span></div>
+            <div class="hw-row"><span class="day">Public Holidays</span><span class="time">Closed</span></div>
+          </div>
+        </div>
+        <div class="branch-actions">
+          <a href="taxguide-contact.html" class="btn btn-navy btn-lg">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            Contact This Branch
+          </a>
+          <a href="https://maps.google.com/?q=Oginga+Odinga+Street+Kisumu+Kenya" target="_blank" class="btn btn-outline btn-lg">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/></svg>
+            Get Directions
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Services at this branch -->
+  <div class="services-section">
+    <div class="ss-inner">
+      <div class="ss-header reveal">
+        <div>
+          <div class="sec-label">Kisumu Branch</div>
+          <h2 class="sec-title">Services Available at This Branch</h2>
+        </div>
+        <a href="taxguide-services.html" class="btn btn-outline">All Services <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+      <div class="services-grid">
+        <a href="taxguide-service-single.html" class="svc-card reveal" style="--bar:var(--gold)"><div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/></svg></div><h3>Tax Advisory</h3><p>Corporate tax compliance, VAT, transfer pricing, KRA liaison, and tax dispute resolution for Western Kenya businesses.</p></a>
+        <a href="taxguide-services.html" class="svc-card reveal" style="--bar:var(--navy)"><div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 7H6a2 2 0 00-2 2v9a2 2 0 002 2h9a2 2 0 002-2v-3"/><path d="M21 3L9 15"/></svg></div><h3>Audit &amp; Assurance</h3><p>Statutory audits, internal audit, NGO donor compliance, and IPSAS-based public sector audits across Western Kenya.</p></a>
+        <a href="taxguide-services.html" class="svc-card reveal" style="--bar:#7c3aed"><div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/></svg></div><h3>Legal &amp; Corporate</h3><p>Company secretarial, contracts, employment law, and commercial legal advisory for Kisumu-based businesses.</p></a>
+        <a href="taxguide-services.html" class="svc-card reveal" style="--bar:#059669"><div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><h3>Financial Advisory</h3><p>Financial modelling, feasibility studies, business valuations, and M&A advisory for Western Kenya investors.</p></a>
+        <a href="taxguide-services.html" class="svc-card reveal" style="--bar:#e11d48"><div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M17 8l-5 5-3-3"/></svg></div><h3>Technology &amp; Digital</h3><p>IT audit, cybersecurity advisory, and digital transformation consulting for county governments and enterprises.</p></a>
+        <a href="taxguide-services.html" class="svc-card reveal" style="--bar:var(--cyan)"><div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><h3>NGO Advisory</h3><p>Specialist services for development organisations, county-level USAID programmes, and Lake Victoria basin NGOs.</p></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Map -->
+  <div class="map-section">
+    <div class="map-inner">
+      <div class="sec-label reveal" style="margin-bottom:8px">Location</div>
+      <h2 class="sec-title reveal" style="margin-bottom:28px">Find Our Kisumu Office</h2>
+      <div class="map-wrap reveal">
+        <div class="map-overlay-card">
+          <div class="moc-label">TaxGuide Africa LLP</div>
+          <div class="moc-branch">Kisumu Branch</div>
+          <div class="moc-address">Swan Centre, 3rd Floor, Suite 12<br>Oginga Odinga Street, Kisumu</div>
+          <div class="moc-btns">
+            <a href="https://maps.google.com/?q=Oginga+Odinga+Street+Kisumu+Kenya" target="_blank" class="moc-btn primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/></svg>Directions</a>
+            <a href="tel:+254572020100" class="moc-btn secondary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.07 9.81"/></svg>Call</a>
+          </div>
+        </div>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.667!2d34.7519!3d-0.0917!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182aa4f4a0b0b0b1%3A0x1!2sOginga+Odinga+St%2C+Kisumu!5e0!3m2!1sen!2ske!4v1" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- Branch Team -->
+  <div class="team-section">
+    <div class="team-inner">
+      <div class="sec-label reveal">Our Team</div>
+      <h2 class="sec-title reveal">Kisumu Branch Team</h2>
+      <div class="team-grid">
+        <div class="team-card reveal"><div class="tc-photo" style="background:linear-gradient(135deg,#00577d,#003d58)"><div class="tc-initials">JO</div></div><div class="tc-body"><div class="tc-name">James Otieno</div><div class="tc-role">Branch Manager</div><div class="tc-quals"><span class="tc-qual">CPA(K)</span><span class="tc-qual">MBA</span></div><a href="taxguide-contact.html" class="tc-li"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Get in Touch</a></div></div>
+        <div class="team-card reveal"><div class="tc-photo" style="background:linear-gradient(135deg,var(--gold-dark),#5a3a00)"><div class="tc-initials">AO</div></div><div class="tc-body"><div class="tc-name">Achieng Ouma</div><div class="tc-role">Senior Tax Associate</div><div class="tc-quals"><span class="tc-qual">CPA(K)</span><span class="tc-qual">ACCA</span></div><a href="taxguide-contact.html" class="tc-li"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Get in Touch</a></div></div>
+        <div class="team-card reveal"><div class="tc-photo" style="background:linear-gradient(135deg,#7c3aed,#4c1d95)"><div class="tc-initials">PO</div></div><div class="tc-body"><div class="tc-name">Paul Odhiambo</div><div class="tc-role">Audit Associate</div><div class="tc-quals"><span class="tc-qual">CPA Part III</span></div><a href="taxguide-contact.html" class="tc-li"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Get in Touch</a></div></div>
+        <div class="team-card reveal"><div class="tc-photo" style="background:linear-gradient(135deg,#059669,#065f46)"><div class="tc-initials">MO</div></div><div class="tc-body"><div class="tc-name">Mary Owino</div><div class="tc-role">Client Relations</div><div class="tc-quals"><span class="tc-qual">BCom</span><span class="tc-qual">CPS</span></div><a href="taxguide-contact.html" class="tc-li"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Get in Touch</a></div></div>
+      </div>
+    </div>
+  </div>
+</div><!-- /panel-kisumu -->
+
+<!-- ═══════════════════════════════════════════
+     BRANCH: OYUGIS
+══════════════════════════════════════════════ -->
+<div class="branch-panel" id="panel-oyugis">
+  <div class="branch-hero" style="background:linear-gradient(135deg,#f0fff8 0%,var(--off-white) 100%)">
+    <div class="bh-inner">
+      <div class="bh-photo">
+        <div class="bh-ring"></div>
+        <div class="bh-img-wrap">
+          <img src="images/workstations.jpeg" alt="Homabay Office">
+        </div>
+        <div class="bh-badge" style="background:#059669"><div class="bh-badge-city" style="color:white">Homabay</div><div class="bh-badge-region" style="color:rgba(255,255,255,0.7)">South Nyanza</div></div>
+        <div class="bh-float">
+          <div class="bh-float-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+          <div><strong>7 Staff</strong><span>At this branch</span></div>
+        </div>
+      </div>
+      <div class="bh-info">
+        <div class="branch-name-label">South Nyanza Branch</div>
+        <h2>Homabay<br><em>Branch Office</em></h2>
+        <p class="bh-intro">Our Homabay branch serves businesses, farmers, cooperatives, NGOs, and community organisations in Rachuonyo South and the wider Homa Bay County — bringing accessible, professional advisory services to South Nyanza.</p>
+        <div class="contact-details">
+          <div class="cd-item"><div class="cd-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><span class="cd-label">Address</span><span class="cd-value">Homabay Plaza, 1st Floor<br>Main Street, Homabay, Homa Bay County</span></div></div>
+          <div class="cd-item"><div class="cd-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.07 9.81"/></svg></div><div><span class="cd-label">Phone</span><span class="cd-value"><a href="tel:+254786000200">+254 786 000 200</a></span></div></div>
+          <div class="cd-item"><div class="cd-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><span class="cd-label">Email</span><span class="cd-value"><a href="mailto:oyugis@taxguidellp.com">oyugis@taxguidellp.com</a></span></div></div>
+          <div class="cd-item"><div class="cd-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M17 8l-5 5-3-3"/></svg></div><div><span class="cd-label">WhatsApp</span><span class="cd-value"><a href="https://wa.me/254786000200">+254 786 000 200</a></span></div></div>
+        </div>
+        <div class="hours-widget">
+          <div class="hw-header"><span class="hw-label">Office Hours</span><span class="hw-status open" id="oyugis-status"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="12"/></svg>Open Now</span></div>
+          <div class="hw-grid">
+            <div class="hw-row today"><span class="day">Monday – Friday</span><span class="time">8:00 AM – 5:00 PM</span></div>
+            <div class="hw-row"><span class="day">Saturday</span><span class="time">9:00 AM – 12:30 PM</span></div>
+            <div class="hw-row"><span class="day">Sunday</span><span class="time">Closed</span></div>
+            <div class="hw-row"><span class="day">Public Holidays</span><span class="time">Closed</span></div>
+          </div>
+        </div>
+        <div class="branch-actions">
+          <a href="taxguide-contact.html" class="btn btn-navy btn-lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Contact This Branch</a>
+          <a href="https://maps.google.com/?q=Homabay+Homa+Bay+Kenya" target="_blank" class="btn btn-outline btn-lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/></svg>Get Directions</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="services-section">
+    <div class="ss-inner">
+      <div class="ss-header reveal"><div><div class="sec-label">Homabay Branch</div><h2 class="sec-title">Services Available at This Branch</h2></div><a href="taxguide-services.html" class="btn btn-outline">All Services <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
+      <div class="services-grid">
+        <a href="taxguide-service-single.html" class="svc-card reveal" style="--bar:var(--gold)"><div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/></svg></div><h3>Tax Advisory</h3><p>Business tax compliance, VAT registration, KRA returns, and SME tax planning for Homa Bay County businesses.</p></a>
+        <a href="taxguide-services.html" class="svc-card reveal" style="--bar:var(--navy)"><div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 7H6a2 2 0 00-2 2v9a2 2 0 002 2h9a2 2 0 002-2v-3"/></svg></div><h3>Audit &amp; Assurance</h3><p>Annual financial statement audits, cooperative society audits, and SME bookkeeping services.</p></a>
+        <a href="taxguide-services.html" class="svc-card reveal" style="--bar:#059669"><div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><h3>Financial Advisory</h3><p>Business planning, loan application support, agricultural enterprise valuations, and SACCO advisory services.</p></a>
+        <a href="taxguide-services.html" class="svc-card reveal" style="--bar:#7c3aed"><div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/></svg></div><h3>Legal &amp; Corporate</h3><p>Business registration, land agreements, cooperative registration, and general commercial contracts.</p></a>
+        <a href="taxguide-services.html" class="svc-card reveal" style="--bar:var(--cyan)"><div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><h3>NGO &amp; CBO Advisory</h3><p>Registration, governance, financial management, and compliance for NGOs, CBOs, and self-help groups in South Nyanza.</p></a>
+        <a href="taxguide-services.html" class="svc-card reveal" style="--bar:#e11d48"><div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><h3>SME Business Advisory</h3><p>Business growth strategy, financial health checks, pricing models, and enterprise development for local SMEs.</p></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="map-section">
+    <div class="map-inner">
+      <div class="sec-label reveal" style="margin-bottom:8px">Location</div>
+      <h2 class="sec-title reveal" style="margin-bottom:28px">Find Our Homabay Office</h2>
+      <div class="map-wrap reveal">
+        <div class="map-overlay-card">
+          <div class="moc-label">TaxGuide Africa LLP</div>
+          <div class="moc-branch">Homabay Branch</div>
+          <div class="moc-address">Homabay Plaza, 1st Floor<br>Main Street, Homabay, Homa Bay County</div>
+          <div class="moc-btns">
+            <a href="https://maps.google.com/?q=Homabay+Homa+Bay+Kenya" target="_blank" class="moc-btn primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/></svg>Directions</a>
+            <a href="tel:+254786000200" class="moc-btn secondary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2"/></svg>Call</a>
+          </div>
+        </div>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3995.0!2d34.7264!3d-0.5617!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182a9!2sOyugis!5e0!3m2!1sen!2ske!4v1" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <div class="team-section">
+    <div class="team-inner">
+      <div class="sec-label reveal">Our Team</div>
+      <h2 class="sec-title reveal">Homabay Branch Team</h2>
+      <div class="team-grid">
+        <div class="team-card reveal"><div class="tc-photo" style="background:linear-gradient(135deg,#059669,#065f46)"><div class="tc-initials">BO</div></div><div class="tc-body"><div class="tc-name">Beatrice Omondi</div><div class="tc-role">Branch Manager</div><div class="tc-quals"><span class="tc-qual">CPA(K)</span><span class="tc-qual">BBA</span></div><a href="taxguide-contact.html" class="tc-li"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Get in Touch</a></div></div>
+        <div class="team-card reveal"><div class="tc-photo" style="background:linear-gradient(135deg,var(--navy),var(--cyan))"><div class="tc-initials">DO</div></div><div class="tc-body"><div class="tc-name">Dennis Ogola</div><div class="tc-role">Tax &amp; Accounts Associate</div><div class="tc-quals"><span class="tc-qual">CPA Part III</span></div><a href="taxguide-contact.html" class="tc-li"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Get in Touch</a></div></div>
+        <div class="team-card reveal"><div class="tc-photo" style="background:linear-gradient(135deg,#7c3aed,#4c1d95)"><div class="tc-initials">EO</div></div><div class="tc-body"><div class="tc-name">Esther Ochieng</div><div class="tc-role">Client Relations Officer</div><div class="tc-quals"><span class="tc-qual">BCom</span></div><a href="taxguide-contact.html" class="tc-li"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Get in Touch</a></div></div>
+        <div class="team-card reveal"><div class="tc-photo" style="background:linear-gradient(135deg,var(--gold-dark),#5a3a00)"><div class="tc-initials">RO</div></div><div class="tc-body"><div class="tc-name">Richard Owuor</div><div class="tc-role">Field Advisory Officer</div><div class="tc-quals"><span class="tc-qual">BCom</span><span class="tc-qual">CIFA</span></div><a href="taxguide-contact.html" class="tc-li"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Get in Touch</a></div></div>
+      </div>
+    </div>
+  </div>
+</div><!-- /panel-oyugis -->
+
+<!-- ═══════════════════════════════════════════
+     BRANCH: MOMBASA
+══════════════════════════════════════════════ -->
+<div class="branch-panel" id="panel-mombasa">
+  <div class="branch-hero" style="background:linear-gradient(135deg,#fffbf0 0%,var(--off-white) 100%)">
+    <div class="bh-inner">
+      <div class="bh-photo">
+        <div class="bh-ring"></div>
+        <div class="bh-img-wrap">
+          <img src="images/waiting-room.jpeg" alt="Mombasa Office">
+        </div>
+        <div class="bh-badge" style="background:var(--gold-dark)"><div class="bh-badge-city" style="color:white">Mombasa</div><div class="bh-badge-region" style="color:rgba(255,255,255,0.7)">Coast Region HQ</div></div>
+        <div class="bh-float">
+          <div class="bh-float-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+          <div><strong>15 Staff</strong><span>At this branch</span></div>
+        </div>
+      </div>
+      <div class="bh-info">
+        <div class="branch-name-label">Coast Region Branch</div>
+        <h2>Mombasa<br><em>Branch Office</em></h2>
+        <p class="bh-intro">Our Mombasa branch is our Coast Region headquarters, serving port-related businesses, maritime logistics, tourism enterprises, hospitality, import/export companies, and coastal county governments with the full range of TaxGuide Africa LLP professional advisory services.</p>
+        <div class="contact-details">
+          <div class="cd-item"><div class="cd-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><span class="cd-label">Address</span><span class="cd-value">Nyali Sands Business Centre, 2nd Floor<br>Links Road, Nyali, Mombasa, Kenya</span></div></div>
+          <div class="cd-item"><div class="cd-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.07 9.81"/></svg></div><div><span class="cd-label">Phone</span><span class="cd-value"><a href="tel:+254412220300">+254 41 222 0300</a></span></div></div>
+          <div class="cd-item"><div class="cd-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><span class="cd-label">Email</span><span class="cd-value"><a href="mailto:mombasa@taxguidellp.com">mombasa@taxguidellp.com</a></span></div></div>
+          <div class="cd-item"><div class="cd-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M17 8l-5 5-3-3"/></svg></div><div><span class="cd-label">WhatsApp</span><span class="cd-value"><a href="https://wa.me/254733000300">+254 733 000 300</a></span></div></div>
+        </div>
+        <div class="hours-widget">
+          <div class="hw-header"><span class="hw-label">Office Hours</span><span class="hw-status open" id="mombasa-status"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="12"/></svg>Open Now</span></div>
+          <div class="hw-grid">
+            <div class="hw-row today"><span class="day">Monday – Friday</span><span class="time">8:00 AM – 5:30 PM</span></div>
+            <div class="hw-row"><span class="day">Saturday</span><span class="time">9:00 AM – 1:00 PM</span></div>
+            <div class="hw-row"><span class="day">Sunday</span><span class="time">Closed</span></div>
+            <div class="hw-row"><span class="day">Public Holidays</span><span class="time">Closed</span></div>
+          </div>
+        </div>
+        <div class="branch-actions">
+          <a href="taxguide-contact.html" class="btn btn-navy btn-lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Contact This Branch</a>
+          <a href="https://maps.google.com/?q=Nyali+Mombasa+Kenya" target="_blank" class="btn btn-outline btn-lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/></svg>Get Directions</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="services-section">
+    <div class="ss-inner">
+      <div class="ss-header reveal"><div><div class="sec-label">Mombasa Branch</div><h2 class="sec-title">Services Available at This Branch</h2></div><a href="taxguide-services.html" class="btn btn-outline">All Services <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
+      <div class="services-grid">
+        <a href="taxguide-service-single.html" class="svc-card reveal" style="--bar:var(--gold)"><div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/></svg></div><h3>Tax Advisory</h3><p>Customs duty advisory, port-related VAT, excise duty, import tax structuring, and KRA Coast Region liaison services.</p></a>
+        <a href="taxguide-services.html" class="svc-card reveal" style="--bar:var(--navy)"><div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 7H6a2 2 0 00-2 2v9a2 2 0 002 2h9a2 2 0 002-2v-3"/></svg></div><h3>Audit &amp; Assurance</h3><p>Statutory audits for hospitality, tourism, maritime, and import/export businesses operating from the Port of Mombasa.</p></a>
+        <a href="taxguide-services.html" class="svc-card reveal" style="--bar:#7c3aed"><div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/></svg></div><h3>Legal &amp; Maritime Advisory</h3><p>Maritime law, port logistics contracts, hospitality sector legal advisory, land matters, and commercial legal services.</p></a>
+        <a href="taxguide-services.html" class="svc-card reveal" style="--bar:#059669"><div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><h3>Financial Advisory</h3><p>Trade finance advisory, tourism sector investments, hotel valuations, feasibility studies, and M&A advisory for Coast region.</p></a>
+        <a href="taxguide-services.html" class="svc-card reveal" style="--bar:#e11d48"><div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M17 8l-5 5-3-3"/></svg></div><h3>Technology &amp; Digital</h3><p>IT audit, cybersecurity, and digital systems advisory for port logistics, hospitality, and financial services firms.</p></a>
+        <a href="taxguide-services.html" class="svc-card reveal" style="--bar:var(--cyan)"><div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20"/></svg></div><h3>Import/Export Advisory</h3><p>Trade structuring, customs classification, KEBS compliance, EAC rules of origin, and cross-border trade advisory.</p></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="map-section">
+    <div class="map-inner">
+      <div class="sec-label reveal" style="margin-bottom:8px">Location</div>
+      <h2 class="sec-title reveal" style="margin-bottom:28px">Find Our Mombasa Office</h2>
+      <div class="map-wrap reveal">
+        <div class="map-overlay-card">
+          <div class="moc-label">TaxGuide Africa LLP</div>
+          <div class="moc-branch">Mombasa Branch</div>
+          <div class="moc-address">Nyali Sands Business Centre, 2nd Floor<br>Links Road, Nyali, Mombasa</div>
+          <div class="moc-btns">
+            <a href="https://maps.google.com/?q=Nyali+Mombasa+Kenya" target="_blank" class="moc-btn primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/></svg>Directions</a>
+            <a href="tel:+254412220300" class="moc-btn secondary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2"/></svg>Call</a>
+          </div>
+        </div>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4005.0!2d39.7167!3d-4.0435!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x184012!2sNyali+Mombasa!5e0!3m2!1sen!2ske!4v1" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <div class="team-section">
+    <div class="team-inner">
+      <div class="sec-label reveal">Our Team</div>
+      <h2 class="sec-title reveal">Mombasa Branch Team</h2>
+      <div class="team-grid">
+        <div class="team-card reveal"><div class="tc-photo" style="background:linear-gradient(135deg,var(--gold-dark),#3d2a00)"><div class="tc-initials">SJ</div></div><div class="tc-body"><div class="tc-name">Salim Juma</div><div class="tc-role">Branch Manager</div><div class="tc-quals"><span class="tc-qual">CPA(K)</span><span class="tc-qual">MBA</span><span class="tc-qual">ACCA</span></div><a href="taxguide-contact.html" class="tc-li"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Get in Touch</a></div></div>
+        <div class="team-card reveal"><div class="tc-photo" style="background:linear-gradient(135deg,var(--navy),var(--navy-deeper))"><div class="tc-initials">FH</div></div><div class="tc-body"><div class="tc-name">Fatuma Hassan</div><div class="tc-role">Senior Tax Associate</div><div class="tc-quals"><span class="tc-qual">CPA(K)</span><span class="tc-qual">LLB</span></div><a href="taxguide-contact.html" class="tc-li"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Get in Touch</a></div></div>
+        <div class="team-card reveal"><div class="tc-photo" style="background:linear-gradient(135deg,#059669,#065f46)"><div class="tc-initials">OK</div></div><div class="tc-body"><div class="tc-name">Omar Khalid</div><div class="tc-role">Maritime Advisory Specialist</div><div class="tc-quals"><span class="tc-qual">LLB</span><span class="tc-qual">LSK</span></div><a href="taxguide-contact.html" class="tc-li"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Get in Touch</a></div></div>
+        <div class="team-card reveal"><div class="tc-photo" style="background:linear-gradient(135deg,var(--cyan),var(--navy-dark))"><div class="tc-initials">NK</div></div><div class="tc-body"><div class="tc-name">Naomi Katana</div><div class="tc-role">Audit Associate</div><div class="tc-quals"><span class="tc-qual">CPA Part III</span><span class="tc-qual">BCom</span></div><a href="taxguide-contact.html" class="tc-li"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Get in Touch</a></div></div>
+      </div>
+    </div>
+  </div>
+</div><!-- /panel-mombasa -->
+
+<!-- ═══════════════════════════════════════════
+     ALL BRANCHES OVERVIEW
+══════════════════════════════════════════════ -->
+<div class="all-branches">
+  <div class="ab-inner">
+    <div style="text-align:center;max-width:580px;margin:0 auto 0" class="reveal">
+      <div class="sec-label" style="justify-content:center;color:var(--gold)">
+        <span style="display:block;width:22px;height:1.5px;background:var(--gold)"></span>All Branches
+      </div>
+      <h2 style="font-family:var(--ff-display);font-size:clamp(28px,3vw,42px);font-weight:600;color:white;line-height:1.15;letter-spacing:-0.8px;margin-bottom:12px">Find a Branch Near You</h2>
+      <p style="font-size:15px;color:rgba(255,255,255,0.5);line-height:1.75">Professional advisory services across Kenya — click any branch to explore.</p>
+    </div>
+    <div class="ab-grid">
+      <div class="ab-card reveal" style="--ac:var(--cyan)" onclick="switchBranch('kisumu',null);window.scrollTo({top:0,behavior:'smooth'})">
+        <div class="ab-city">Kisumu</div>
+        <div class="ab-region">Western Kenya · HQ West</div>
+        <div class="ab-address"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Swan Centre, 3rd Floor, Suite 12, Oginga Odinga Street</div>
+        <div class="ab-contact">
+          <div class="ab-contact-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.07 9.81"/></svg><a href="tel:+254572020100">+254 57 202 0100</a></div>
+          <div class="ab-contact-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><a href="mailto:kisumu@taxguidellp.com">kisumu@taxguidellp.com</a></div>
+          <div class="ab-contact-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Mon–Fri: 8:00 AM – 5:30 PM</div>
+        </div>
+        <button class="ab-btn">View Branch <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+      </div>
+
+      <div class="ab-card reveal" style="--ac:#059669" onclick="switchBranch('oyugis',null);window.scrollTo({top:0,behavior:'smooth'})">
+        <div class="ab-city">Homabay</div>
+        <div class="ab-region">South Nyanza · Homa Bay County</div>
+        <div class="ab-address"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Homabay Plaza, 1st Floor, Main Street, Homabay</div>
+        <div class="ab-contact">
+          <div class="ab-contact-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.07 9.81"/></svg><a href="tel:+254786000200">+254 786 000 200</a></div>
+          <div class="ab-contact-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><a href="mailto:oyugis@taxguidellp.com">oyugis@taxguidellp.com</a></div>
+          <div class="ab-contact-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Mon–Fri: 8:00 AM – 5:00 PM</div>
+        </div>
+        <button class="ab-btn">View Branch <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+      </div>
+
+      <div class="ab-card reveal" style="--ac:var(--gold)" onclick="switchBranch('mombasa',null);window.scrollTo({top:0,behavior:'smooth'})">
+        <div class="ab-city">Mombasa</div>
+        <div class="ab-region">Coast Region · HQ Coast</div>
+        <div class="ab-address"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Nyali Sands Business Centre, 2nd Floor, Links Road, Nyali</div>
+        <div class="ab-contact">
+          <div class="ab-contact-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.07 9.81"/></svg><a href="tel:+254412220300">+254 41 222 0300</a></div>
+          <div class="ab-contact-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><a href="mailto:mombasa@taxguidellp.com">mombasa@taxguidellp.com</a></div>
+          <div class="ab-contact-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Mon–Fri: 8:00 AM – 5:30 PM</div>
+        </div>
+        <button class="ab-btn">View Branch <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-band">
+  <div class="cta-inner">
+    <div><h2>Visit a Branch Near You</h2><p>Walk in or book an appointment at any of our branches — our team is ready to assist you with any professional advisory need.</p></div>
+    <div class="cta-actions">
+      <a href="taxguide-contact.html" class="btn btn-gold btn-lg">Book an Appointment</a>
+      <a href="taxguide-services.html" class="btn btn-outline-white btn-lg">Our Services</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Branch switcher ──────────────────────────
+function switchBranch(branch, pillBtn) {
+  // Panels
+  document.querySelectorAll('.branch-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + branch).classList.add('active');
+
+  // Tab bar
+  document.querySelectorAll('.bb-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + branch).classList.add('active');
+
+  // Hero pills
+  if (pillBtn) {
+    document.querySelectorAll('.bp').forEach(p => p.classList.remove('active'));
+    pillBtn.classList.add('active');
+  } else {
+    // sync pills
+    const branchMap = { kisumu: 0, oyugis: 1, mombasa: 2 };
+    const pills = document.querySelectorAll('.bp');
+    pills.forEach(p => p.classList.remove('active'));
+    if (pills[branchMap[branch]]) pills[branchMap[branch]].classList.add('active');
+  }
+
+  // Scroll to tab bar
+  const bar = document.querySelector('.branch-bar');
+  if (bar) bar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // Re-trigger reveal animations for new panel
+  setTimeout(() => {
+    const panel = document.getElementById('panel-' + branch);
+    panel.querySelectorAll('.reveal:not(.visible)').forEach(el => {
+      if (isInViewport(el)) {
+        el.classList.add('visible');
+      }
+    });
+    revealObs.disconnect();
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+  }, 50);
+}
+
+function isInViewport(el) {
+  const r = el.getBoundingClientRect();
+  return r.top < window.innerHeight && r.bottom > 0;
+}
+
+// ── Office hours status ─────────────────────
+function updateHoursStatus() {
+  const now = new Date();
+  const day = now.getDay(); // 0=Sun, 6=Sat
+  const h = now.getHours(), m = now.getMinutes();
+  const mins = h * 60 + m;
+  const isWeekday = day >= 1 && day <= 5;
+  const isSat = day === 6;
+
+  const kisOpen  = (isWeekday && mins >= 480 && mins < 1050) || (isSat && mins >= 540 && mins < 780);
+  const oyOpen   = (isWeekday && mins >= 480 && mins < 1020) || (isSat && mins >= 540 && mins < 750);
+  const momOpen  = (isWeekday && mins >= 480 && mins < 1050) || (isSat && mins >= 540 && mins < 780);
+
+  const set = (id, isOpen) => {
+    const el = document.getElementById(id + '-status');
+    if (!el) return;
+    el.className = 'hw-status ' + (isOpen ? 'open' : 'closed');
+    el.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor" width="8" height="8"><circle cx="12" cy="12" r="12"/></svg>${isOpen ? 'Open Now' : 'Closed'}`;
+  };
+  set('kisumu', kisOpen);
+  set('oyugis', oyOpen);
+  set('mombasa', momOpen);
+}
+updateHoursStatus();
+
+// ── Scroll reveal ────────────────────────────
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+// ── URL hash branch routing ──────────────────
+const hash = location.hash.replace('#','');
+if (['kisumu','oyugis','mombasa'].includes(hash)) {
+  switchBranch(hash, null);
+}
+</script>
+<script src="taxguide-shared.js"></script>
+</body>
+</html>

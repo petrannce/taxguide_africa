@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog | TaxGuide Africa LLP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="taxguide-shared.css">
+<link rel="stylesheet" href="taxguide-page.css">
+</head>
+<body>
+
+<div id="readingProgress"></div>
+
+<!-- ARTICLE HERO -->
+<div class="article-hero" id="articleHero">
+  <div class="ah-grid"></div>
+  <div class="ah-inner">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      <a href="taxguide-blog.html">Blog</a>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      <span id="heroCat">Loading…</span>
+    </div>
+    <div class="article-cat" id="heroTag">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>
+      <span>Loading…</span>
+    </div>
+    <h1 id="heroTitle"> </h1>
+    <div class="article-meta" id="articleMeta"></div>
+    <div class="article-cover" id="articleCover"></div>
+  </div>
+</div>
+
+<!-- ARTICLE BODY -->
+<div class="article-body">
+
+  <!-- MAIN CONTENT -->
+  <article class="article-content" id="articleContent">
+    <!-- Skeleton -->
+    <div id="articleLoading" style="padding:40px 0;color:var(--text-muted);text-align:center">Loading article…</div>
+  </article>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-card">
+      <h4>Table of Contents</h4>
+      <ul class="toc-list" id="tocList">
+        <li style="color:var(--text-muted);font-size:13px">Loading…</li>
+      </ul>
+    </div>
+
+    <div class="sidebar-card" style="background:rgba(0,87,125,0.04);border-color:rgba(0,87,125,0.15)">
+      <h4>Need Expert Help?</h4>
+      <p style="font-size:13.5px;color:var(--text-muted);line-height:1.65;margin-bottom:16px">Our specialists can review your situation and provide tailored guidance — free initial consultation.</p>
+      <a href="taxguide-contact.html" class="btn btn-navy" style="width:100%;justify-content:center;margin-bottom:10px">Request Free Consultation</a>
+      <a href="taxguide-services.html" class="btn btn-outline" style="width:100%;justify-content:center">Our Services</a>
+    </div>
+
+    <div class="sidebar-card">
+      <h4>Recent Posts</h4>
+      <div id="recentPosts">
+        <div style="color:var(--text-muted);font-size:13px">Loading…</div>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <h4>Related Articles</h4>
+      <div id="relatedSidebar">
+        <div style="color:var(--text-muted);font-size:13px">Loading…</div>
+      </div>
+    </div>
+
+    <div class="nl-card sidebar-card">
+      <h4>Tax Insights Newsletter</h4>
+      <p>Get our latest tax updates, KRA developments, and regulatory bulletins delivered to your inbox — free.</p>
+      <input type="email" id="nlEmail" placeholder="Your email address" class="nl-input">
+      <button class="nl-btn" id="nlBtn">Subscribe Free</button>
+    </div>
+  </aside>
+</div>
+
+<!-- RELATED ARTICLES SECTION -->
+<div class="related-section" id="relatedSection" style="display:none">
+  <div class="related-inner">
+    <div class="sec-label">Keep Reading</div>
+    <h2 style="font-family:var(--ff-display);font-size:clamp(26px,2.8vw,36px);font-weight:600;color:var(--navy-deeper);letter-spacing:-0.5px;margin-bottom:0">Related Articles</h2>
+    <div class="related-grid" id="relatedGrid"></div>
+  </div>
+</div>
+
+<!-- PREV / NEXT NAV -->
+<div id="prevNextNav" style="display:none">
+  <div class="prev-next-inner">
+    <a id="prevLink" href="#" class="prev-next-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      <span id="prevTitle">Previous</span>
+    </a>
+    <a id="nextLink" href="#" class="prev-next-btn next">
+      <span id="nextTitle">Next</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</div>
+
+<div class="cta-band">
+  <div class="cta-inner">
+    <div><h2>Have a Challenge?</h2><p>Our professionals are ready to help — with a free initial consultation for new clients.</p></div>
+    <div class="cta-actions">
+      <a href="taxguide-contact.html" class="btn btn-gold btn-lg">Request Consultation</a>
+      <a href="taxguide-services.html" class="btn btn-outline-white btn-lg">Our Services</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── CONFIG ────────────────────────────────────────────────────────────────
+const API_BASE = 'http://127.0.0.1:8000/api';
+
+// ─── GET SLUG FROM URL ─────────────────────────────────────────────────────
+function getSlug() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('slug') || '';
+}
+
+// ─── FETCH & RENDER ARTICLE ────────────────────────────────────────────────
+async function loadArticle() {
+  const slug = getSlug();
+  if (!slug) {
+    renderError('No article specified. <a href="taxguide-blog.html">Return to blog</a>.');
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/blogs/${encodeURIComponent(slug)}`);
+    if (res.status === 404) {
+      renderError('Article not found. <a href="taxguide-blog.html">Return to blog</a>.');
+      return;
+    }
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+    const data = await res.json();
+    const { blog, prev_blog, next_blog, related_blogs, recent_blogs } = data;
+
+    // Update page title
+    document.title = `${blog.title} | TaxGuide Africa LLP`;
+
+    renderHero(blog);
+    renderArticleBody(blog);
+    renderToC(blog.description);
+    renderRecentPosts(recent_blogs);
+    renderRelatedSidebar(related_blogs);
+    renderRelatedSection(related_blogs);
+    renderPrevNext(prev_blog, next_blog);
+    initReveal();
+    initReadingProgress();
+    initToCHighlight();
+
+    // Newsletter
+    document.getElementById('nlBtn').addEventListener('click', handleNewsletter);
+
+  } catch (err) {
+    renderError('Failed to load the article. Please try again.');
+    console.error('Article fetch error:', err);
+  }
+}
+
+// ─── RENDER: HERO ──────────────────────────────────────────────────────────
+function renderHero(blog) {
+  document.getElementById('heroCat').textContent = blog.category || 'General';
+
+  const heroTag = document.getElementById('heroTag');
+  heroTag.querySelector('span').textContent = blog.category || 'General';
+
+  document.getElementById('heroTitle').textContent = blog.title;
+
+  const initials = getInitials(blog.author_name || '');
+  document.getElementById('articleMeta').innerHTML = `
+    ${initials ? `
+    <div class="author-row">
+      <div class="author-av">${escHtml(initials)}</div>
+      <div>
+        <div class="author-name">${escHtml(blog.author_name || '')}</div>
+        <div class="author-role">${escHtml(blog.author_role || '')}</div>
+      </div>
+    </div>
+    <div class="meta-sep"></div>
+    ` : ''}
+    <div class="meta-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+      ${formatDate(blog.created_at)}
+    </div>
+    <div class="meta-sep"></div>
+    <div class="meta-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      ${escHtml(blog.read_time)}
+    </div>
+  `;
+
+  document.getElementById('articleCover').innerHTML = `
+    <img src="${blog.image_url}" alt="${escHtml(blog.title)}" onerror="this.src='images/graph.jpeg'">
+  `;
+}
+
+// ─── RENDER: ARTICLE BODY ──────────────────────────────────────────────────
+function renderArticleBody(blog) {
+  const content = document.getElementById('articleContent');
+  const tags = Array.isArray(blog.tags) ? blog.tags : [];
+  const tagLinks = tags.map(t =>
+    `<a href="taxguide-blog.html" class="af-tag">${escHtml(t)}</a>`
+  ).join('');
+
+  // The description field contains the full HTML content from the CMS
+  content.innerHTML = `
+    <div class="prose" id="articleProse">
+      ${blog.description}
+    </div>
+
+    <div class="article-footer reveal">
+      <div class="af-tags">
+        ${tagLinks || `<a href="taxguide-blog.html" class="af-tag">${escHtml(blog.category || 'General')}</a>`}
+      </div>
+      <div class="share-row">
+        <span class="share-label">Share this article:</span>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(location.href)}" target="_blank" rel="noopener" class="share-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+        <a href="https://twitter.com/intent/tweet?url=${encodeURIComponent(location.href)}&text=${encodeURIComponent(blog.title)}" target="_blank" rel="noopener" class="share-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          X / Twitter
+        </a>
+        <button id="copyLinkBtn" class="share-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+          Copy Link
+        </button>
+      </div>
+    </div>
+
+    ${blog.author_name ? `
+    <div class="author-bio reveal">
+      <div class="author-bio-av">${escHtml(getInitials(blog.author_name))}</div>
+      <div>
+        <div class="author-bio-label">About the Author</div>
+        <div class="author-bio-name">${escHtml(blog.author_name)}</div>
+        ${blog.author_role ? `<div class="author-bio-role">${escHtml(blog.author_role)} — TaxGuide Africa LLP</div>` : ''}
+      </div>
+    </div>
+    ` : ''}
+  `;
+
+  document.getElementById('copyLinkBtn').addEventListener('click', function () {
+    navigator.clipboard.writeText(location.href).then(() => {
+      this.textContent = 'Copied!';
+      setTimeout(() => { this.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg> Copy Link`; }, 2000);
+    });
+  });
+
+  // Remove loading placeholder
+  const loading = document.getElementById('articleLoading');
+  if (loading) loading.remove();
+}
+
+// ─── RENDER: TABLE OF CONTENTS ─────────────────────────────────────────────
+function renderToC(html) {
+  const tocList = document.getElementById('tocList');
+  const tmp = document.createElement('div');
+  tmp.innerHTML = html;
+  const headings = tmp.querySelectorAll('h2[id], h3[id]');
+
+  if (headings.length === 0) {
+    tocList.innerHTML = '<li style="color:var(--text-muted);font-size:13px">No sections found.</li>';
+    return;
+  }
+
+  tocList.innerHTML = Array.from(headings).map(h => `
+    <li>
+      <a href="#${h.id}" style="${h.tagName === 'H3' ? 'padding-left:12px;font-size:13px' : ''}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        ${escHtml(h.textContent)}
+      </a>
+    </li>
+  `).join('');
+}
+
+// ─── RENDER: RECENT POSTS ──────────────────────────────────────────────────
+function renderRecentPosts(blogs) {
+  const el = document.getElementById('recentPosts');
+  if (!blogs || blogs.length === 0) {
+    el.innerHTML = '<div style="color:var(--text-muted);font-size:13px">None found.</div>';
+    return;
+  }
+  el.innerHTML = blogs.map(b => `
+    <a href="taxguide-blog-single.html?slug=${encodeURIComponent(b.slug)}" class="rel-post">
+      <div class="rel-thumb">
+        <img src="${b.image_url}" alt="${escHtml(b.title)}" onerror="this.src='images/graph.jpeg'">
+      </div>
+      <div>
+        <div class="rel-title">${escHtml(b.title)}</div>
+        <div class="rel-meta">${formatDate(b.created_at)} · ${escHtml(b.read_time)}</div>
+      </div>
+    </a>
+  `).join('');
+}
+
+// ─── RENDER: RELATED SIDEBAR ───────────────────────────────────────────────
+function renderRelatedSidebar(blogs) {
+  const el = document.getElementById('relatedSidebar');
+  if (!blogs || blogs.length === 0) {
+    el.innerHTML = '<div style="color:var(--text-muted);font-size:13px">None found.</div>';
+    return;
+  }
+  el.innerHTML = blogs.map(b => `
+    <a href="taxguide-blog-single.html?slug=${encodeURIComponent(b.slug)}" class="rel-post">
+      <div class="rel-thumb">
+        <img src="${b.image_url}" alt="${escHtml(b.title)}" onerror="this.src='images/graph.jpeg'">
+      </div>
+      <div>
+        <div class="rel-title">${escHtml(b.title)}</div>
+        <div class="rel-meta">${formatDate(b.created_at)} · ${escHtml(b.read_time)}</div>
+      </div>
+    </a>
+  `).join('');
+}
+
+// ─── RENDER: RELATED SECTION ───────────────────────────────────────────────
+function renderRelatedSection(blogs) {
+  if (!blogs || blogs.length === 0) return;
+  const section = document.getElementById('relatedSection');
+  const grid = document.getElementById('relatedGrid');
+  section.style.display = '';
+
+  const CAT_COLORS = {
+    'tax advisory': 'var(--gold)',
+    'audit & assurance': 'var(--navy)',
+    'audit': 'var(--navy)',
+    'legal': '#7c3aed',
+    'financial': '#059669',
+    'technology': '#e11d48',
+    'regulatory': 'var(--cyan)',
+  };
+
+  grid.innerHTML = blogs.map(b => {
+    const color = CAT_COLORS[(b.category || '').toLowerCase()] || 'var(--gold)';
+    const excerpt = stripHtml(b.description).substring(0, 140);
+    return `
+      <a href="taxguide-blog-single.html?slug=${encodeURIComponent(b.slug)}" class="blog-mini reveal">
+        <div class="bm-thumb">
+          <img src="${b.image_url}" alt="${escHtml(b.title)}" onerror="this.src='images/graph.jpeg'">
+          <div class="bm-cat" style="background:${color};color:white">${escHtml(b.category || 'General')}</div>
+        </div>
+        <div class="bm-body">
+          <h4>${escHtml(b.title)}</h4>
+          <p>${escHtml(excerpt)}…</p>
+          <div class="bm-footer">
+            <span>${formatDate(b.created_at)}</span>
+            <div class="bm-read">
+              Read
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </div>
+        </div>
+      </a>
+    `;
+  }).join('');
+}
+
+// ─── RENDER: PREV / NEXT NAV ───────────────────────────────────────────────
+function renderPrevNext(prev, next) {
+  if (!prev && !next) return;
+  const nav = document.getElementById('prevNextNav');
+  nav.style.display = '';
+
+  const prevLink = document.getElementById('prevLink');
+  const nextLink = document.getElementById('nextLink');
+
+  if (prev) {
+    prevLink.href = `taxguide-blog-single.html?slug=${encodeURIComponent(prev.slug)}`;
+    document.getElementById('prevTitle').textContent = prev.title;
+  } else {
+    prevLink.style.visibility = 'hidden';
+  }
+
+  if (next) {
+    nextLink.href = `taxguide-blog-single.html?slug=${encodeURIComponent(next.slug)}`;
+    document.getElementById('nextTitle').textContent = next.title;
+  } else {
+    nextLink.style.visibility = 'hidden';
+  }
+}
+
+// ─── RENDER: ERROR STATE ───────────────────────────────────────────────────
+function renderError(msg) {
+  document.getElementById('articleLoading').innerHTML =
+    `<p style="color:var(--text-muted)">${msg}</p>`;
+  document.getElementById('heroCat').textContent = 'Error';
+  document.getElementById('heroTag').querySelector('span').textContent = 'Error';
+  document.getElementById('heroTitle').textContent = 'Article Unavailable';
+}
+
+// ─── READING PROGRESS ──────────────────────────────────────────────────────
+function initReadingProgress() {
+  const prog = document.getElementById('readingProgress');
+  window.addEventListener('scroll', () => {
+    const total = document.body.scrollHeight - window.innerHeight;
+    prog.style.transform = `scaleX(${Math.min(window.scrollY / total, 1)})`;
+  }, { passive: true });
+}
+
+// ─── TOC HIGHLIGHT ─────────────────────────────────────────────────────────
+function initToCHighlight() {
+  const sections = document.querySelectorAll('#articleProse h2[id], #articleProse h3[id]');
+  const tocLinks = document.querySelectorAll('.toc-list a');
+  if (sections.length === 0 || tocLinks.length === 0) return;
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        tocLinks.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`.toc-list a[href="#${e.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+
+  sections.forEach(s => obs.observe(s));
+}
+
+// ─── NEWSLETTER ────────────────────────────────────────────────────────────
+async function handleNewsletter() {
+  const email = document.getElementById('nlEmail').value.trim();
+  const btn = document.getElementById('nlBtn');
+  if (!email) return;
+  btn.disabled = true;
+  btn.textContent = 'Subscribing…';
+  try {
+    const res = await fetch(`${API_BASE}/subscribe`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ email }),
+    });
+    btn.textContent = res.ok ? 'Subscribed ✓' : 'Error. Try again.';
+    if (!res.ok) btn.disabled = false;
+  } catch {
+    btn.textContent = 'Error. Try again.';
+    btn.disabled = false;
+  }
+}
+
+// ─── HELPERS ───────────────────────────────────────────────────────────────
+function escHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+function stripHtml(html) {
+  if (!html) return '';
+  return html.replace(/<[^>]*>/g, '');
+}
+function formatDate(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+function getInitials(name) {
+  if (!name) return '';
+  return name.trim().split(/\s+/).slice(0, 2).map(w => w[0].toUpperCase()).join('');
+}
+function initReveal() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal:not(.visible)').forEach(el => obs.observe(el));
+}
+
+// ─── NAV SCROLL ────────────────────────────────────────────────────────────
+const nav = document.getElementById('mainNav');
+if (nav) {
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 80));
+}
+
+// ─── INIT ──────────────────────────────────────────────────────────────────
+loadArticle();
+</script>
+<script src="taxguide-shared.js"></script>
+</body>
+</html>

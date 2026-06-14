@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects & Case Studies | TaxGuide Africa LLP</title>
+<meta name="description" content="Explore TaxGuide Africa LLP's projects and case studies across audit, tax, legal, financial advisory, and technology engagements.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="taxguide-shared.css">
+<link rel="stylesheet" href="taxguide-page.css">
+</head>
+<body>
+
+<div class="page-hero">
+  <div class="page-hero-grid"></div>
+  <div class="hero-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>Projects</div>
+    <div class="hero-eyebrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Case Studies</div>
+    <h1>Our Projects &amp;<br><span>Case Studies</span></h1>
+    <p class="sub">Real-world engagements demonstrating how TaxGuide Africa LLP delivers measurable impact for corporations, governments, NGOs, and investors across Africa.</p>
+    <div style="display:flex;gap:14px;flex-wrap:wrap">
+      <a href="taxguide-contact.html" class="btn btn-gold btn-lg">Start a Project</a>
+      <a href="#projects" class="btn btn-outline-white btn-lg">Browse Case Studies</a>
+    </div>
+  </div>
+</div>
+
+<!-- IMPACT STATS -->
+<div class="impact-bar">
+  <div class="impact-inner">
+    <div class="impact-item"><div class="impact-num">120<span class="c">+</span></div><div class="impact-label">Projects Delivered</div></div>
+    <div class="impact-item"><div class="impact-num">$500<span class="c">M+</span></div><div class="impact-label">Transaction Value Advised</div></div>
+    <div class="impact-item"><div class="impact-num">18</div><div class="impact-label">African Countries</div></div>
+    <div class="impact-item"><div class="impact-num">98<span class="c">%</span></div><div class="impact-label">Client Satisfaction</div></div>
+  </div>
+</div>
+
+<!-- FILTER -->
+<div class="filter-bar" id="projects">
+  <div class="filter-inner" id="deptFilterBar">
+    <button class="f-tab active" data-dept="all">All Projects</button>
+    <!-- Dynamic department tabs injected here -->
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-inner">
+
+    <!-- FEATURED PROJECT -->
+    <div class="sec-label">Featured Case Study</div>
+    <div id="featuredProject" class="fp-project reveal" style="display:none">
+      <!-- Injected by JS -->
+    </div>
+
+    <!-- State -->
+    <div id="projState" class="blog-state" style="display:none"></div>
+
+    <!-- PROJECT GRID -->
+    <div class="sec-label">All Case Studies</div>
+    <div class="proj-grid" id="projGrid"></div>
+
+    <div style="text-align:center;margin-top:44px;display:none" id="loadMoreSection">
+      <button class="btn btn-outline btn-lg" id="loadMoreBtn">Load More Projects</button>
+    </div>
+  </div>
+</div>
+
+<!-- CLIENT TESTIMONIAL -->
+<div class="testimonial-strip">
+  <div class="ts-inner reveal">
+    <div class="ts-quote">TaxGuide Africa LLP brought exceptional technical depth and cross-border expertise to our engagement. Their team understood the complexity of our operations and delivered solutions that were both commercially practical and fully compliant with East African regulations.</div>
+    <div class="ts-author">
+      <div class="ts-av">CEO</div>
+      <div>
+        <div class="ts-name">Chief Executive Officer</div>
+        <div class="ts-role">Regional Development Finance Institution, East Africa</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cta-band">
+  <div class="cta-inner">
+    <div><h2>Have a Project in Mind?</h2><p>Tell us about your organization's challenge and we'll connect you with the right specialist to deliver results.</p></div>
+    <div class="cta-actions">
+      <a href="taxguide-contact.html" class="btn btn-gold btn-lg">Start a Conversation</a>
+      <a href="taxguide-services.html" class="btn btn-outline-white btn-lg">Our Services</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── CONFIG ────────────────────────────────────────────────────────────────
+const API_BASE = 'http://127.0.0.1:8000/api';
+
+// ─── STATE ─────────────────────────────────────────────────────────────────
+let state = {
+  currentDept: 'all',
+  featuredLoaded: false,
+  loading: false,
+};
+
+// ─── DEPT COLOR MAP ────────────────────────────────────────────────────────
+const DEPT_COLORS = {
+  'audit'      : 'var(--navy)',
+  'tax'        : 'var(--gold)',
+  'legal'      : '#7c3aed',
+  'financial'  : '#059669',
+  'technology' : '#e11d48',
+  'tech'       : '#e11d48',
+};
+
+function deptColor(name) {
+  if (!name) return 'var(--navy)';
+  const key = name.toLowerCase().split(/[\s&]/)[0];
+  return DEPT_COLORS[key] || 'var(--navy)';
+}
+
+function deptSlug(name) {
+  if (!name) return '';
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+}
+
+// ─── FETCH PROJECTS ────────────────────────────────────────────────────────
+async function fetchProjects({ dept = 'all', featured = false } = {}) {
+  if (state.loading) return;
+  state.loading = true;
+
+  const params = new URLSearchParams();
+  if (dept && dept !== 'all') params.set('department', dept);
+  if (featured) params.set('featured', '1');
+
+  try {
+    const res = await fetch(`${API_BASE}/projects?${params}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+
+    const { projects, departments } = data;
+
+    if (!state.featuredLoaded) {
+      renderDeptTabs(departments);
+    }
+
+    document.getElementById('projGrid').innerHTML = '';
+
+    const featured = projects.find(p => p.is_featured);
+    const gridProjects = projects.filter(p => !p.is_featured || state.currentDept !== 'all');
+
+    if (!state.featuredLoaded && featured && dept === 'all') {
+      renderFeaturedProject(featured);
+      state.featuredLoaded = true;
+    }
+
+    if (gridProjects.length === 0) {
+      showState('No projects found for this department.');
+    } else {
+      hideState();
+      gridProjects.forEach(p => appendProjectCard(p));
+    }
+
+    initReveal();
+  } catch (err) {
+    showState('Failed to load projects. Please try again later.');
+    console.error('Projects fetch error:', err);
+  } finally {
+    state.loading = false;
+  }
+}
+
+// ─── RENDER: FEATURED PROJECT ──────────────────────────────────────────────
+function renderFeaturedProject(project) {
+  const el = document.getElementById('featuredProject');
+  el.style.display = '';
+  const countries = Array.isArray(project.countries) ? project.countries.join(' · ') : '';
+  const dept = project.department?.name || '';
+
+  el.innerHTML = `
+    <div class="fpp-img">
+      <img src="${project.image_url}" alt="${escHtml(project.title)}" onerror="this.src='images/graph.jpeg'">
+      <div class="fpp-overlay"></div>
+      <div class="fpp-badge">⭐ Featured Project</div>
+    </div>
+    <div class="fpp-body">
+      <div class="fpp-tag">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 7H6a2 2 0 00-2 2v9a2 2 0 002 2h9a2 2 0 002-2v-3"/><path d="M21 3L9 15"/></svg>
+        ${escHtml(dept)}
+      </div>
+      <h2>${escHtml(project.title)}</h2>
+      <p>${escHtml(stripHtml(project.description).substring(0, 260))}…</p>
+      <div style="display:flex;gap:12px;margin-bottom:20px">
+        <a href="taxguide-project-single.html?slug=${encodeURIComponent(project.slug)}" class="btn btn-navy">View Full Case Study</a>
+        <a href="taxguide-contact.html" class="btn btn-outline">Similar Project? Talk to Us</a>
+      </div>
+      <div class="fpp-meta">
+        ${dept ? `<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M9 8h1m5 0h1M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16"/></svg>${escHtml(dept)}</span>` : ''}
+        ${countries ? `<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20"/></svg>${escHtml(countries)}</span>` : ''}
+      </div>
+    </div>
+  `;
+}
+
+// ─── RENDER: PROJECT CARD ──────────────────────────────────────────────────
+function appendProjectCard(project) {
+  const grid = document.getElementById('projGrid');
+  const card = document.createElement('div');
+  card.className = 'proj-card reveal';
+  const dept = project.department?.name || '';
+  card.dataset.practice = deptSlug(dept);
+  const color = deptColor(dept);
+  const countries = Array.isArray(project.countries) ? project.countries.join(', ') : '';
+
+  card.innerHTML = `
+    <div class="pc-thumb">
+      <img src="${project.image_url}" alt="${escHtml(project.title)}" loading="lazy" onerror="this.src='images/graph.jpeg'">
+      <div class="pc-sector" style="background:${color};color:${color === 'var(--gold)' ? 'var(--navy-deeper)' : 'white'}">${escHtml(dept)}</div>
+      <div class="pc-status">Active</div>
+    </div>
+    <div class="pc-body">
+      <div class="pc-practice">${escHtml(dept)}</div>
+      <h3>${escHtml(project.title)}</h3>
+      <p>${escHtml(stripHtml(project.description).substring(0, 160))}…</p>
+      ${countries ? `<div class="pc-outcomes"><div class="pc-outcome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>${escHtml(countries)}</div></div>` : ''}
+      <div class="pc-footer">
+        <span>${project.human_date}</span>
+        <a href="taxguide-project-single.html?slug=${encodeURIComponent(project.slug)}" class="pc-link">
+          Read More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  `;
+  grid.appendChild(card);
+}
+
+// ─── RENDER: DEPT TABS ─────────────────────────────────────────────────────
+function renderDeptTabs(departments) {
+  const bar = document.getElementById('deptFilterBar');
+  bar.querySelectorAll('[data-dynamic]').forEach(el => el.remove());
+
+  if (!Array.isArray(departments)) return;
+
+  departments.forEach(dept => {
+    if (!dept.name) return;
+    const btn = document.createElement('button');
+    btn.className = 'f-tab';
+    btn.dataset.dept = deptSlug(dept.name);
+    btn.dataset.dynamic = '1';
+    btn.textContent = dept.name;
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.f-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      state.currentDept = dept.slug || deptSlug(dept.name);
+      state.featuredLoaded = true;
+      document.getElementById('featuredProject').style.display = 'none';
+      fetchProjects({ dept: dept.slug || deptSlug(dept.name) });
+    });
+    bar.appendChild(btn);
+  });
+
+  // All Projects tab behaviour
+  bar.querySelector('[data-dept="all"]').addEventListener('click', function () {
+    document.querySelectorAll('.f-tab').forEach(t => t.classList.remove('active'));
+    this.classList.add('active');
+    state.currentDept = 'all';
+    state.featuredLoaded = false;
+    document.getElementById('featuredProject').style.display = 'none';
+    fetchProjects({ dept: 'all' });
+  });
+}
+
+// ─── HELPERS ───────────────────────────────────────────────────────────────
+function showState(msg) {
+  const el = document.getElementById('projState');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+function hideState() {
+  document.getElementById('projState').style.display = 'none';
+}
+function escHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+function stripHtml(html) {
+  if (!html) return '';
+  return html.replace(/<[^>]*>/g, '');
+}
+function initReveal() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal:not(.visible)').forEach(el => obs.observe(el));
+}
+
+// ─── NAV SCROLL ────────────────────────────────────────────────────────────
+const nav = document.getElementById('mainNav');
+if (nav) window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 80));
+
+// ─── INIT ──────────────────────────────────────────────────────────────────
+fetchProjects({ dept: 'all' });
+initReveal();
+</script>
+<script src="taxguide-shared.js"></script>
+</body>
+</html>

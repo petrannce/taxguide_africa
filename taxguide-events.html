@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Events | TaxGuide Africa LLP</title>
+<meta name="description" content="Seminars, webinars, workshops, and networking events hosted by TaxGuide Africa LLP across Kenya and Africa.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="taxguide-shared.css">
+<link rel="stylesheet" href="taxguide-page.css">
+
+<style>
+/* Registration modal */
+.reg-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.reg-modal.open { display: flex; }
+
+.reg-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(2px);
+}
+
+.reg-modal-content {
+  position: relative;
+  background: #fff;
+  border-radius: 14px;
+  padding: 32px;
+  max-width: 440px;
+  width: 100%;
+  z-index: 1;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.reg-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: var(--gray-100, #f1f5f9);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--gray-500, #64748b);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+}
+.reg-modal-close:hover {
+  background: var(--gray-200, #e2e8f0);
+}
+.reg-modal-close svg { width: 16px; height: 16px; }
+
+.reg-modal-content h3 {
+  margin: 0 0 6px;
+  font-family: 'Playfair Display', serif;
+  color: var(--navy);
+  font-size: 1.3rem;
+  padding-right: 32px; /* avoid overlap with close button */
+}
+
+.reg-modal-sub {
+  margin: 0 0 24px;
+  font-size: 0.9rem;
+  color: var(--gray-500, #64748b);
+}
+
+.reg-field {
+  margin-bottom: 16px;
+}
+
+.reg-field label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+
+.reg-field .reg-optional {
+  font-weight: 400;
+  color: var(--gray-400, #94a3b8);
+}
+
+.reg-field input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border: 1.5px solid var(--gray-200, #cbd5e1);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--navy);
+  background: #f8fafc;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.reg-field input::placeholder {
+  color: var(--gray-400, #94a3b8);
+}
+
+.reg-field input:focus {
+  outline: none;
+  border-color: var(--navy);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(15, 31, 58, 0.08);
+}
+
+.reg-submit {
+  width: 100%;
+  margin-top: 8px;
+  padding: 14px;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.reg-submit:hover {
+  transform: translateY(-1px);
+}
+
+.reg-submit:active {
+  transform: translateY(0);
+}
+
+.reg-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.reg-feedback {
+  margin-top: 14px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+.fe-actions {
+  display: flex;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.fe-actions .btn {
+  flex: 0 0 auto;        /* stop it stretching/squeezing to fill a row meant for two buttons */
+  width: auto;
+  min-width: 220px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.fe-actions .btn-navy {
+  background: var(--navy);
+  color: #fff;
+  border: 1px solid var(--navy);
+}
+
+.fe-actions .btn-navy:hover {
+  background: var(--navy-deeper, #0b1f3a);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+.fe-actions .btn-navy:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.fe-actions .btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+@media (max-width: 480px) {
+  .fe-actions .btn {
+    min-width: 100%;
+  }
+}
+</style>
+
+</head>
+<body>
+
+<div class="page-hero">
+  <div class="page-hero-grid"></div>
+  <div class="hero-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>Events</div>
+    <div class="hero-eyebrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Seminars &amp; Webinars</div>
+    <h1>Events &amp;<br><span>Workshops</span></h1>
+    <p class="sub">Join TaxGuide Africa LLP's seminars, webinars, regulatory briefings, and networking events — designed to keep you ahead in a rapidly evolving professional landscape.</p>
+    <div style="display:flex;gap:14px;flex-wrap:wrap">
+      <a href="#upcoming" class="btn btn-gold btn-lg">Upcoming Events</a>
+      <a href="#register" class="btn btn-outline-white btn-lg">Get Notified</a>
+    </div>
+  </div>
+</div>
+
+<!-- TYPE FILTER -->
+<div class="type-bar">
+  <div class="type-inner">
+    <div class="type-tabs" id="typeTabs">
+      <button class="t-tab active" onclick="filterEv('all',this)">All Events</button>
+      <!-- Additional tabs injected by JS -->
+    </div>
+    <div class="view-toggle">
+      <button class="vt-btn active" title="Grid view"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></button>
+      <button class="vt-btn" title="List view"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<!-- UPCOMING EVENTS -->
+<div class="sec" id="upcoming">
+  <div class="sec-inner">
+
+    <!-- FEATURED -->
+    <div class="sec-label">Next Major Event</div>
+    <div id="featuredSlot">
+      <div class="feat-event reveal" id="featuredSkeleton">
+        <div class="fe-img" style="background:var(--gray-100)"></div>
+        <div class="fe-body">
+          <p style="color:var(--gray-400)">Loading next event…</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- UPCOMING GRID -->
+    <div class="sec-label" style="margin-top:8px">All Upcoming Events</div>
+    <div class="events-grid" id="evGrid">
+      <p style="color:var(--gray-400)">Loading upcoming events…</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- PAST EVENTS -->
+<div class="past-sec sec">
+  <div class="sec-inner">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:36px;flex-wrap:wrap;gap:20px">
+      <div>
+        <div class="sec-label">Archive</div>
+        <h2 class="sec-title">Past Events</h2>
+      </div>
+      <button class="btn btn-outline">View All Past Events</button>
+    </div>
+
+    <div class="past-grid" id="pastGrid">
+      <p style="color:var(--gray-400)">Loading past events…</p>
+    </div>
+
+    <!-- REGISTRATION CTA -->
+    <div class="reg-cta reveal" id="register">
+      <div style="position:relative;z-index:1">
+        <h3>Never Miss an Event</h3>
+        <p>Subscribe to get early access notifications, invitations, and recordings for all TaxGuide Africa LLP events delivered directly to your inbox.</p>
+      </div>
+      <div class="reg-form">
+        <input type="email" placeholder="Your email address" id="subscribeEmail">
+        <button class="btn btn-gold btn-lg" id="subscribeBtn">Notify Me</button>
+      </div>
+      <p id="subscribeFeedback" style="position:relative;z-index:1;margin-top:10px;font-size:0.9rem"></p>
+    </div>
+  </div>
+</div>
+
+<div class="cta-band">
+  <div class="cta-inner">
+    <div><h2>Suggest a Topic or<br>Host a Private Event</h2><p>We also facilitate bespoke in-house seminars and workshops tailored to your organization's specific needs and sector.</p></div>
+    <div class="cta-actions">
+      <a href="taxguide-contact.html" class="btn btn-gold btn-lg">Get in Touch</a>
+      <a href="taxguide-services.html" class="btn btn-outline-white btn-lg">Our Services</a>
+    </div>
+  </div>
+</div>
+
+<!-- REGISTRATION MODAL -->
+<div class="reg-modal" id="regModal">
+  <div class="reg-modal-backdrop" data-action="close-modal"></div>
+  <div class="reg-modal-content">
+    <button class="reg-modal-close" data-action="close-modal" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <h3 id="regModalTitle">Register for this event</h3>
+    <p class="reg-modal-sub">Fill in your details below and we'll confirm your spot.</p>
+    <form id="regForm">
+      <div class="reg-field">
+        <label for="regFirstName">First name</label>
+        <input type="text" id="regFirstName" name="first_name" placeholder="Your first name" required>
+      </div>
+      <div class="reg-field">
+        <label for="regLastName">Last name</label>
+        <input type="text" id="regLastName" name="last_name" placeholder="Your last name" required>
+      </div>
+      <div class="reg-field">
+        <label for="regEmail">Email</label>
+        <input type="email" id="regEmail" name="email" placeholder="your@email.com" required>
+      </div>
+      <div class="reg-field">
+        <label for="regPhone">Phone <span class="reg-optional">(optional)</span></label>
+        <input type="tel" id="regPhone" name="phone" placeholder="+254 7XX XXX XXX">
+      </div>
+      <button type="submit" class="btn btn-navy btn-lg reg-submit">Submit Registration</button>
+    </form>
+    <p id="regFeedback" class="reg-feedback"></p>
+  </div>
+</div>
+
+<script src="taxguide-shared.js"></script>
+<script>
+const API_BASE = 'http://127.0.0.1:8000/api'; // adjust to your setup
+
+let EVENT_TYPES = {};
+
+async function loadEventTypes() {
+  try {
+    const res = await fetch(`${API_BASE}/event-types`);
+    EVENT_TYPES = await res.json();
+  } catch (err) {
+    console.error('Failed to load event types:', err);
+    EVENT_TYPES = {}; // renderers fall back to raw values below
+  }
+
+  // Build filter tabs
+  const container = document.getElementById('typeTabs');
+  Object.entries(EVENT_TYPES).forEach(([value, info]) => {
+    const btn = document.createElement('button');
+    btn.className = 't-tab';
+    btn.textContent = info.label;
+    btn.onclick = () => filterEv(value, btn);
+    container.appendChild(btn);
+  });
+}
+
+function typeLabel(eventType) {
+  return EVENT_TYPES[eventType]?.label || eventType;
+}
+
+function typeColor(eventType) {
+  return EVENT_TYPES[eventType]?.color || '#6c757d';
+}
+
+function formatDateChip(dateStr) {
+  const d = new Date(dateStr);
+  return {
+    day: String(d.getDate()).padStart(2, '0'),
+    mon: d.toLocaleString('en-US', { month: 'short' }),
+  };
+}
+
+function formatLongDate(event) {
+  const d = new Date(event.event_date);
+  const dateLabel = `${event.day_of_week}, ${d.getDate()} ${d.toLocaleString('en-US', { month: 'long' })} ${d.getFullYear()}`;
+  return `${dateLabel} · ${formatTime(event.start_time)} – ${formatTime(event.end_time)} EAT`;
+}
+
+function formatTime(t) {
+  const [h, m] = t.split(':');
+  const hour = parseInt(h, 10);
+  const suffix = hour >= 12 ? 'PM' : 'AM';
+  const displayHour = hour % 12 === 0 ? 12 : hour % 12;
+  return `${displayHour}:${m} ${suffix}`;
+}
+
+function locationLabel(event) {
+  if (event.delivery_type === 'virtual') return 'Online (Zoom)';
+  if (event.delivery_type === 'hybrid') return `${event.location} + Online`;
+  return event.location || 'TBA';
+}
+
+function arrowSvg() {
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
+}
+
+function spotsFooterHtml(event) {
+  if (event.registration_mode === 'invite_only') {
+    return `<span class="ev-spots">Invite Only</span>
+      <div class="ev-reg" data-action="register" data-id="${event.id}" data-title="${event.title}">Request Invite ${arrowSvg()}</div>`;
+  }
+  if (event.registration_mode === 'unlimited') {
+    return `<span class="ev-spots"><span>Unlimited</span> online</span>
+      <div class="ev-reg" data-action="register" data-id="${event.id}" data-title="${event.title}">Register Free ${arrowSvg()}</div>`;
+  }
+  const label = event.delivery_type === 'virtual' ? 'Register Free' : 'Register Now';
+  return `<span class="ev-spots"><span>${event.spots_left}</span> spots left</span>
+    <div class="ev-reg" data-action="register" data-id="${event.id}" data-title="${event.title}">${label} ${arrowSvg()}</div>`;
+}
+
+function renderCard(event) {
+  const chip = formatDateChip(event.event_date);
+  return `
+    <div class="ev-card reveal" data-type="${event.event_type}">
+      <div class="ev-thumb">
+        <img src="${event.image_url || 'images/placeholder.jpeg'}" alt="${event.title}">
+        <div class="ev-date-chip"><div class="ev-date-day">${chip.day}</div><div class="ev-date-mon">${chip.mon}</div></div>
+        <div class="ev-type" style="background:${typeColor(event.event_type)};color:white">${typeLabel(event.event_type)}</div>
+      </div>
+      <div class="ev-body">
+        <h3>${event.title}</h3>
+        <p>${event.description}</p>
+        <div class="ev-meta">
+          <div class="ev-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>${formatLongDate(event)}</div>
+          <div class="ev-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/></svg>${locationLabel(event)}</div>
+        </div>
+        <div class="ev-footer">${spotsFooterHtml(event)}</div>
+      </div>
+    </div>`;
+}
+
+function renderFeatured(event) {
+  if (!event) return '<p style="color:var(--gray-400)">No upcoming events at the moment.</p>';
+
+  const speakersHtml = (event.speakers || []).map(sp => {
+    const initials = sp.name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+    return `<div class="fe-sp-av" title="${sp.name} — ${sp.title}">${initials}</div>`;
+  }).join('');
+
+  const capacityLine = event.registration_mode === 'limited'
+    ? `Limited to ${event.max_attendees} attendees — <strong style="color:var(--navy)">${event.spots_left} spots remaining</strong>`
+    : event.registration_mode === 'invite_only'
+      ? 'Invite only'
+      : 'Open to all — unlimited online seats';
+
+  return `
+    <div class="feat-event reveal">
+      <div class="fe-img">
+        <img src="${event.image_url || 'images/placeholder.jpeg'}" alt="${event.title}">
+        <div class="fe-countdown" id="countdown">
+          <div class="fe-count-box"><div class="fe-count-num" id="cd-days">00</div><div class="fe-count-label">Days</div></div>
+          <div class="fe-count-box"><div class="fe-count-num" id="cd-hrs">00</div><div class="fe-count-label">Hours</div></div>
+          <div class="fe-count-box"><div class="fe-count-num" id="cd-min">00</div><div class="fe-count-label">Mins</div></div>
+        </div>
+      </div>
+      <div class="fe-body">
+        <div class="fe-type-badge" style="background:rgba(239,191,4,0.12);border:1px solid rgba(239,191,4,0.3);color:var(--gold-dark)">${typeLabel(event.event_type)}</div>
+        <h2>${event.title}</h2>
+        <p>${event.description}</p>
+        <div class="fe-details">
+          <div class="fe-detail"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>${formatLongDate(event)}</div>
+          <div class="fe-detail"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/></svg>${locationLabel(event)}</div>
+          <div class="fe-detail"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>${capacityLine}</div>
+        </div>
+        ${speakersHtml ? `<div class="fe-speakers"><div class="fe-speakers-label">Featured Speakers</div><div class="fe-speaker-row">${speakersHtml}</div></div>` : ''}
+        <div class="fe-actions">
+          <a href="#register" class="btn btn-navy btn-lg" data-action="register" data-id="${event.id}" data-title="${event.title}">Reserve Your Seat ${arrowSvg()}</a>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderPastCard(event) {
+  const d = new Date(event.event_date);
+  return `
+    <div class="past-card reveal">
+      <div class="past-date-block">
+        <div class="past-day">${String(d.getDate()).padStart(2, '0')}</div>
+        <div class="past-mon">${d.toLocaleString('en-US', { month: 'short' })}</div>
+        <div class="past-year">${d.getFullYear()}</div>
+      </div>
+      <div class="past-info">
+        <h4>${event.title}</h4>
+        <p>${event.confirmed_count} attendees · ${locationLabel(event)}</p>
+        <span class="past-tag">${typeLabel(event.event_type)}</span>
+      </div>
+    </div>`;
+}
+
+let countdownTarget = null;
+
+async function loadEvents() {
+  try {
+    const res = await fetch(`${API_BASE}/events`);
+    const data = await res.json();
+
+    document.getElementById('featuredSlot').innerHTML = renderFeatured(data.featured);
+    document.getElementById('evGrid').innerHTML = data.events.length
+      ? data.events.map(renderCard).join('')
+      : '<p style="color:var(--gray-400)">No upcoming events scheduled.</p>';
+
+    if (data.featured) {
+      countdownTarget = new Date(`${data.featured.event_date}T${data.featured.start_time}+03:00`);
+      updateCountdown();
+    }
+  } catch (err) {
+    document.getElementById('evGrid').innerHTML = '<p style="color:var(--gray-400)">Unable to load events right now.</p>';
+  }
+
+  try {
+    const pastRes = await fetch(`${API_BASE}/events?past=1`);
+    const pastData = await pastRes.json();
+    document.getElementById('pastGrid').innerHTML = pastData.events.length
+      ? pastData.events.map(renderPastCard).join('')
+      : '<p style="color:var(--gray-400)">No past events yet.</p>';
+  } catch (err) {
+    document.getElementById('pastGrid').innerHTML = '';
+  }
+
+  observeReveal();
+}
+
+async function loadEventTypeTabs() {
+  try {
+    const res = await fetch(`${API_BASE}/event-types`);
+    const types = await res.json();
+
+    const container = document.getElementById('typeTabs');
+    Object.entries(types).forEach(([value, label]) => {
+      const btn = document.createElement('button');
+      btn.className = 't-tab';
+      btn.textContent = label;
+      btn.onclick = () => filterEv(value, btn);
+      container.appendChild(btn);
+    });
+  } catch (err) {
+    console.error('Failed to load event types:', err);
+  }
+}
+
+function updateCountdown() {
+  if (!countdownTarget) return;
+  const diff = countdownTarget - new Date();
+  const daysEl = document.getElementById('cd-days');
+  const hrsEl = document.getElementById('cd-hrs');
+  const minEl = document.getElementById('cd-min');
+  if (!daysEl || !hrsEl || !minEl) return;
+  if (diff <= 0) { daysEl.textContent = hrsEl.textContent = minEl.textContent = '00'; return; }
+  daysEl.textContent = String(Math.floor(diff / 86400000)).padStart(2, '0');
+  hrsEl.textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, '0');
+  minEl.textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+}
+setInterval(updateCountdown, 60000);
+
+function filterEv(type, btn) {
+  document.querySelectorAll('.t-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.ev-card').forEach(c => {
+    c.style.display = (type === 'all' || c.dataset.type === type) ? 'flex' : 'none';
+    c.style.flexDirection = 'column';
+  });
+}
+
+function observeReveal() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+}
+
+// Registration modal
+const regModal = document.getElementById('regModal');
+const regForm = document.getElementById('regForm');
+const regFeedback = document.getElementById('regFeedback');
+const regModalTitle = document.getElementById('regModalTitle');
+
+document.addEventListener('click', (e) => {
+  const openBtn = e.target.closest('[data-action="register"]');
+  if (openBtn) {
+    e.preventDefault();
+    regModal.dataset.eventId = openBtn.dataset.id;
+    regModalTitle.textContent = `Register for: ${openBtn.dataset.title}`;
+    regFeedback.textContent = '';
+    regForm.reset();
+    regModal.classList.add('open');
+    return;
+  }
+  if (e.target.closest('[data-action="close-modal"]')) {
+    regModal.classList.remove('open');
+  }
+});
+
+regForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const eventId = regModal.dataset.eventId;
+  const payload = {
+    first_name: e.target.first_name.value,
+    last_name: e.target.last_name.value,
+    email: e.target.email.value,
+    phone: e.target.phone.value,
+  };
+
+  try {
+    const res = await fetch(`${API_BASE}/events/${eventId}/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+
+    regFeedback.textContent = data.message;
+    regFeedback.style.color = res.ok ? 'green' : 'crimson';
+
+    if (res.ok) {
+      regForm.reset();
+      loadEvents();
+      setTimeout(() => regModal.classList.remove('open'), 1500);
+    }
+  } catch (err) {
+    regFeedback.textContent = 'Something went wrong. Please try again.';
+    regFeedback.style.color = 'crimson';
+  }
+});
+
+// Newsletter subscribe
+document.getElementById('subscribeBtn').addEventListener('click', async () => {
+  const emailInput = document.getElementById('subscribeEmail');
+  const feedback = document.getElementById('subscribeFeedback');
+  const email = emailInput.value.trim();
+
+  if (!email) {
+    feedback.textContent = 'Please enter your email address.';
+    feedback.style.color = 'crimson';
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/subscribe`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    });
+    const data = await res.json();
+
+    feedback.textContent = res.ok ? 'Subscribed! Check your inbox for confirmation.' : (data.message || 'Something went wrong.');
+    feedback.style.color = res.ok ? '#fff' : '#ffb3b3';
+    if (res.ok) emailInput.value = '';
+  } catch (err) {
+    feedback.textContent = 'Something went wrong. Please try again.';
+    feedback.style.color = '#ffb3b3';
+  }
+});
+
+// Nav scroll effect
+const nav = document.getElementById('mainNav');
+if (nav) {
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 80));
+}
+
+async function init() {
+  await loadEventTypes();
+  await loadEvents();
+}
+
+init();
+</script>
+</body>
+</html>

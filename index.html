@@ -1,0 +1,1887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TaxGuide Africa LLP | Global Standards. African Excellence.</title>
+<meta name="description" content="A premier multidisciplinary professional services firm providing integrated audit, accounting, taxation, legal, financial advisory, and technology consulting services across Africa.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="taxguide-shared.css">
+<link rel="stylesheet" href="taxguide-page.css">
+
+<style>
+/* ── Testimonial submission modal (mirrors events .reg-modal styling) ── */
+.reg-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.reg-modal.open { display: flex; }
+
+.reg-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(2px);
+}
+
+.reg-modal-content {
+  position: relative;
+  background: #fff;
+  border-radius: 14px;
+  padding: 32px;
+  max-width: 480px;
+  width: 100%;
+  z-index: 1;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.reg-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: var(--gray-100, #f1f5f9);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--gray-500, #64748b);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+}
+.reg-modal-close:hover {
+  background: var(--gray-200, #e2e8f0);
+}
+.reg-modal-close svg { width: 16px; height: 16px; }
+
+.reg-modal-content h3 {
+  margin: 0 0 6px;
+  font-family: 'Playfair Display', serif;
+  color: var(--navy);
+  font-size: 1.3rem;
+  padding-right: 32px;
+}
+
+.reg-modal-sub {
+  margin: 0 0 24px;
+  font-size: 0.9rem;
+  color: var(--gray-500, #64748b);
+}
+
+.reg-field {
+  margin-bottom: 16px;
+}
+
+.reg-field label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+
+.reg-field .reg-optional {
+  font-weight: 400;
+  color: var(--gray-400, #94a3b8);
+}
+
+.reg-field input,
+.reg-field textarea {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border: 1.5px solid var(--gray-200, #cbd5e1);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--navy);
+  background: #f8fafc;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.reg-field input::placeholder,
+.reg-field textarea::placeholder {
+  color: var(--gray-400, #94a3b8);
+}
+
+.reg-field input:focus,
+.reg-field textarea:focus {
+  outline: none;
+  border-color: var(--navy);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(15, 31, 58, 0.08);
+}
+
+.reg-field textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Star rating picker */
+.reg-star-picker {
+  display: flex;
+  gap: 6px;
+}
+.reg-star-picker button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  color: var(--gray-300, #cbd5e1);
+  transition: color 0.15s ease, transform 0.1s ease;
+}
+.reg-star-picker button svg {
+  width: 26px;
+  height: 26px;
+}
+.reg-star-picker button:hover {
+  transform: scale(1.1);
+}
+.reg-star-picker button.active,
+.reg-star-picker button.hover-active {
+  color: var(--gold, #efbf04);
+}
+
+.reg-submit {
+  width: 100%;
+  margin-top: 8px;
+  padding: 14px;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.reg-submit:hover {
+  transform: translateY(-1px);
+}
+
+.reg-submit:active {
+  transform: translateY(0);
+}
+
+.reg-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.reg-feedback {
+  margin-top: 14px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* "Share your experience" CTA inside testimonials section */
+.t-share-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 48px;
+  padding: 28px 32px;
+  border-radius: var(--radius-lg, 14px);
+  background: rgba(10,160,215,0.06);
+  border: 1px solid rgba(10,160,215,0.15);
+  text-align: center;
+}
+.t-share-cta p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 15px;
+}
+.t-share-cta strong {
+  color: var(--navy);
+  font-family: var(--ff-display);
+}
+
+@media (max-width: 480px) {
+  .fe-actions .btn,
+  .t-share-cta .btn {
+    min-width: 100%;
+  }
+}
+</style>
+
+</head>
+<body>
+
+  <!-- WhatsApp floating button -->
+<a href="https://wa.me/254711355015?text=Hello%20TaxGuide%20Africa%20LLP%2C%20I%20would%20like%20to%20inquire%20about%20your%20services." class="wa-float" target="_blank" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- HERO -->
+<section class="hero" id="home">
+
+  <!-- SLIDER BACKGROUND IMAGES -->
+  <div class="hero-slider">
+    <div class="hero-slide active" style="background-image:url('images/boardroom.jpeg')"></div>
+    <div class="hero-slide" style="background-image:url('images/meeting.jpeg')"></div>
+    <div class="hero-slide" style="background-image:url('images/workstations.jpeg')"></div>
+    <div class="hero-slide" style="background-image:url('images/office.jpeg')"></div>
+    <div class="hero-slide" style="background-image:url('images/nairobi-view.jpeg')"></div>
+  </div>
+
+  <!-- Decorative rings -->
+  <div class="hero-deco hero-deco-1"></div>
+  <div class="hero-deco hero-deco-2"></div>
+  <div class="hero-deco hero-deco-3"></div>
+
+  <!-- Progress bar -->
+  <div class="slider-progress" id="sliderProgress"></div>
+
+  <!-- ═══ PER-SLIDE CONTENT PANELS ═══ -->
+  <div class="hero-inner">
+
+    <!-- SLIDE 1 — effect: word-by-word fall-in from top -->
+    <div class="slide-content active" data-effect="fall">
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-dot"></div>
+        <span>Pan-African Professional Services</span>
+      </div>
+      <h1 class="hero-title">
+        <span class="sc-line"><span class="sc-word">Global</span> <span class="sc-word">Standards.</span></span>
+        <span class="sc-line"><span class="sc-word sc-highlight">African</span></span>
+        <span class="sc-line"><span class="sc-word sc-accent">Excellence.</span></span>
+      </h1>
+      <p class="hero-subtitle">
+        Integrated Audit, Tax, Legal, Financial and Technology Advisory Services —<br>
+        delivering world-class solutions across Africa.
+      </p>
+      <div class="hero-actions sc-actions">
+        <a href="taxguide-contact.html" class="btn btn-gold btn-lg">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+          Request Consultation
+        </a>
+        <a href="taxguide-services.html" class="btn btn-outline-white btn-lg">
+          Explore Services
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- SLIDE 2 — effect: slide in from left, staggered lines -->
+    <div class="slide-content" data-effect="slide-left">
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-dot"></div>
+        <span>Audit &amp; Assurance Excellence</span>
+      </div>
+      <h1 class="hero-title">
+        <span class="sc-line"><span class="sc-word">Trusted by</span></span>
+        <span class="sc-line"><span class="sc-word sc-highlight">Leading</span></span>
+        <span class="sc-line"><span class="sc-word">Organizations.</span></span>
+      </h1>
+      <p class="hero-subtitle">
+        Risk-based audit, assurance, and financial reporting services that<br>
+        strengthen governance and build stakeholder confidence.
+      </p>
+      <div class="hero-actions sc-actions">
+        <a href="taxguide-services.html#accounting" class="btn btn-gold btn-lg">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M9 7H6a2 2 0 00-2 2v9a2 2 0 002 2h9a2 2 0 002-2v-3"/><path d="M21 3L9 15"/></svg>
+          Audit &amp; Assurance
+        </a>
+        <a href="taxguide-contact.html" class="btn btn-outline-white btn-lg">
+          Talk to a Specialist
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- SLIDE 3 — effect: zoom out + fade (big → normal) -->
+    <div class="slide-content" data-effect="zoom-out">
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-dot"></div>
+        <span>Our People. Our Strength.</span>
+      </div>
+      <h1 class="hero-title">
+        <span class="sc-line"><span class="sc-word">Exceptional</span></span>
+        <span class="sc-line"><span class="sc-word sc-highlight">Professionals.</span></span>
+        <span class="sc-line"><span class="sc-word">Exceptional Results.</span></span>
+      </h1>
+      <p class="hero-subtitle">
+        Qualified, experienced professionals across audit, tax, legal, financial<br>
+        advisory, and technology — united by a commitment to your success.
+      </p>
+      <div class="hero-actions sc-actions">
+        <a href="taxguide-careers.html" class="btn btn-gold btn-lg">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+          Join Our Team
+        </a>
+        <a href="taxguide-about.html" class="btn btn-outline-white btn-lg">
+          Meet the Team
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- SLIDE 4 — effect: split reveal (lines slide from centre) -->
+    <div class="slide-content" data-effect="split">
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-dot"></div>
+        <span>Strategic Tax &amp; Financial Advisory</span>
+      </div>
+      <h1 class="hero-title">
+        <span class="sc-line"><span class="sc-word">Navigate</span> <span class="sc-word">Complexity.</span></span>
+        <span class="sc-line"><span class="sc-word sc-highlight">Maximize</span></span>
+        <span class="sc-line"><span class="sc-word">Opportunity.</span></span>
+      </h1>
+      <p class="hero-subtitle">
+        Sophisticated tax planning, M&amp;A advisory, project finance,<br>
+        and wealth management — tailored for Africa's dynamic markets.
+      </p>
+      <div class="hero-actions sc-actions">
+        <a href="taxguide-services.html#tax" class="btn btn-gold btn-lg">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>
+          Tax Advisory
+        </a>
+        <a href="taxguide-services.html#financial" class="btn btn-outline-white btn-lg">
+          Financial Advisory
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- SLIDE 5 — effect: clip wipe (text reveals left-to-right) -->
+    <div class="slide-content" data-effect="clip">
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-dot"></div>
+        <span>Innovating for Africa's Future</span>
+      </div>
+      <h1 class="hero-title">
+        <span class="sc-line"><span class="sc-word">Technology-</span></span>
+        <span class="sc-line"><span class="sc-word sc-highlight">Driven</span></span>
+        <span class="sc-line"><span class="sc-word">Advisory.</span></span>
+      </h1>
+      <p class="hero-subtitle">
+        Cybersecurity, cloud solutions, FinTech advisory, and IT governance —<br>
+        enabling Africa's organizations to compete in a digital world.
+      </p>
+      <div class="hero-actions sc-actions">
+        <a href="taxguide-services.html#technology" class="btn btn-gold btn-lg">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M17 8l-5 5-3-3"/></svg>
+          Technology Solutions
+        </a>
+        <a href="taxguide-contact.html" class="btn btn-outline-white btn-lg">
+          Get in Touch
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+  </div><!-- /hero-inner -->
+
+  <!-- Floating badges (right side) -->
+  <div class="hero-badge hero-badge-1">
+    <div class="hero-badge-icon gold">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12l2 2 4-4M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+    </div>
+    <div class="hero-badge-text">
+      <strong>20+</strong>
+      <span>Professional Solutions</span>
+    </div>
+  </div>
+
+  <div class="hero-badge hero-badge-2">
+    <div class="hero-badge-icon cyan">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+    </div>
+    <div class="hero-badge-text">
+      <strong>Pan-African</strong>
+      <span>Regional Reach</span>
+    </div>
+  </div>
+
+  <div class="hero-badge hero-badge-3">
+    <div class="hero-badge-icon green">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    </div>
+    <div class="hero-badge-text">
+      <strong>5 Practice Areas</strong>
+      <span>Integrated Advisory</span>
+    </div>
+  </div>
+
+  <div class="hero-badge hero-badge-4">
+    <div class="hero-badge-icon rose">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+    </div>
+    <div class="hero-badge-text">
+      <strong>24/7</strong>
+      <span>Client Support</span>
+    </div>
+  </div>
+
+  <!-- Scroll hint -->
+  <div class="scroll-hint">
+    <div class="scroll-mouse"><div class="scroll-mouse-dot"></div></div>
+    <span>Scroll</span>
+  </div>
+
+  <!-- Dots + arrows -->
+  <div class="slider-controls">
+    <div class="slider-dots" id="sliderDots">
+      <button class="slider-dot active" data-index="0" aria-label="Slide 1"></button>
+      <button class="slider-dot" data-index="1" aria-label="Slide 2"></button>
+      <button class="slider-dot" data-index="2" aria-label="Slide 3"></button>
+      <button class="slider-dot" data-index="3" aria-label="Slide 4"></button>
+      <button class="slider-dot" data-index="4" aria-label="Slide 5"></button>
+    </div>
+    <div class="slider-arrows">
+      <button class="slider-arrow" id="prevBtn" aria-label="Previous slide">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button class="slider-arrow" id="nextBtn" aria-label="Next slide">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="slider-counter">
+    <span id="currentSlide">01</span> / 05
+  </div>
+
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-bar-inner">
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1l3 6 7 1-5 5 1.18 7L12 17l-6.18 3L7 13 2 8l7-1 3-6z"/></svg>
+      International Standards
+    </div>
+    <div class="trust-divider"></div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1l3 6 7 1-5 5 1.18 7L12 17l-6.18 3L7 13 2 8l7-1 3-6z"/></svg>
+      Multidisciplinary Expertise
+    </div>
+    <div class="trust-divider"></div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1l3 6 7 1-5 5 1.18 7L12 17l-6.18 3L7 13 2 8l7-1 3-6z"/></svg>
+      IFRS &amp; ISA Compliant
+    </div>
+    <div class="trust-divider"></div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1l3 6 7 1-5 5 1.18 7L12 17l-6.18 3L7 13 2 8l7-1 3-6z"/></svg>
+      Pan-African Market Expertise
+    </div>
+    <div class="trust-divider"></div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1l3 6 7 1-5 5 1.18 7L12 17l-6.18 3L7 13 2 8l7-1 3-6z"/></svg>
+      Technology-Driven Delivery
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+
+      <!-- LEFT: Text -->
+      <div class="about-content">
+
+        <div class="about-eyebrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Established &amp; Trusted
+        </div>
+
+        <h2 class="about-headline">
+          Delivering World-Class<br>
+          <em class="accent-italic">Professional Advisory</em><br>
+          Across Africa
+        </h2>
+
+        <p class="about-intro">
+          We are a premier multidisciplinary professional services firm providing integrated audit, accounting, taxation, legal, financial advisory, and technology consulting services to businesses, governments, development organizations, investors, and individuals across Africa. The firm combines international professional standards with deep regional expertise to provide practical, innovative, and results-driven solutions.
+        </p>
+
+        <ul class="about-bullets">
+          <li>
+            <span class="about-bullet-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+            International Professional Standards (IFRS, ISA, IPSAS)
+          </li>
+          <li>
+            <span class="about-bullet-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+            Integrated Multidisciplinary Advisory Solutions
+          </li>
+          <li>
+            <span class="about-bullet-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+            Technology-Driven &amp; Client-Centered Delivery
+          </li>
+          <li>
+            <span class="about-bullet-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+            Serving Start-ups, SMEs, Multinationals &amp; Governments
+          </li>
+        </ul>
+
+        <div class="about-cta-row">
+          <a href="#services" class="btn-about">
+            Our Services
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#contact" class="about-link">
+            Get in Touch
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+
+        <!-- Vision / Mission compact cards -->
+        <div class="about-vm-strip">
+          <div class="about-vm-card">
+            <div class="vm-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20"/></svg>
+              Vision
+            </div>
+            <p>To become a leading African professional services firm recognized globally for excellence, innovation, integrity, and transformative client solutions.</p>
+          </div>
+          <div class="about-vm-card mission">
+            <div class="vm-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+              Mission
+            </div>
+            <p>To deliver integrated professional solutions that empower organizations, strengthen governance, drive sustainable growth, and create long-term value.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: Photo -->
+      <div class="about-visual">
+        <div class="about-photo-ring"></div>
+
+        <div class="about-photo-wrap">
+          <img
+            src="images/meeting.jpeg" alt="TaxGuide Africa LLP — Professional Advisory"
+            loading="lazy"
+          >
+        </div>
+
+        <!-- Gold stats badge — bottom-left -->
+        <div class="about-stats-badge">
+          <div class="stat-num">15+</div>
+          <div class="stat-label">Years of Excellence</div>
+        </div>
+
+        <!-- Floating mini card — top-right -->
+        <div class="about-mini-card">
+          <div class="about-mini-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <div>
+            <strong>Pan-African</strong>
+            <span>Regional Expertise</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /about-grid -->
+
+    <!-- Core Values below -->
+    <div style="margin-top:72px;">
+      <div style="text-align:center;margin-bottom:36px;">
+        <div class="section-label" style="justify-content:center;">Core Values</div>
+        <h3 style="font-family:var(--ff-display);font-size:clamp(24px,2.5vw,34px);font-weight:600;color:var(--navy-deeper);letter-spacing:-0.5px;">The Principles That Guide Us</h3>
+      </div>
+      <div class="values-grid">
+        <div class="value-item">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <h4>Integrity</h4>
+          </div>
+          <p>We uphold honesty, transparency, and the highest ethical standards in every engagement.</p>
+        </div>
+        <div class="value-item">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><path d="M12 2l3 6 7 1-5 5 1.18 7L12 17l-6.18 3L7 13 2 8l7-1 3-6z"/></svg>
+            <h4>Excellence</h4>
+          </div>
+          <p>We are committed to delivering exceptional quality, technical expertise, and outstanding client service.</p>
+        </div>
+        <div class="value-item">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            <h4>Innovation</h4>
+          </div>
+          <p>We embrace technology, modern solutions, and forward-thinking strategies to solve complex business challenges.</p>
+        </div>
+        <div class="value-item">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            <h4>Confidentiality</h4>
+          </div>
+          <p>We maintain strict confidentiality and safeguard client information with the highest level of professionalism.</p>
+        </div>
+        <div class="value-item">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+            <h4>Professionalism</h4>
+          </div>
+          <p>We deliver our services with competence, accountability, discipline, and respect for international professional standards.</p>
+        </div>
+        <div class="value-item">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><path d="M9 12l2 2 4-4M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <h4>Accountability</h4>
+          </div>
+          <p>We take responsibility for our commitments, work quality, and client outcomes while maintaining transparency and trust.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="section-inner">
+
+    <div class="services-header" style="flex-direction:column;align-items:center;text-align:center;">
+      <div>
+        <div class="section-label" style="justify-content:center;">Practice Areas</div>
+        <h2 class="section-title" id="servicesSectionTitle">Integrated Professional<br>Services</h2>
+      </div>
+      <p class="section-desc" style="margin:0;">
+        Five core practice areas — one firm delivering comprehensive advisory solutions across Africa.
+      </p>
+    </div>
+
+    <div class="services-grid" id="servicesGrid">
+      <!-- Skeleton state while the API loads -->
+      <div class="svc-card" style="align-items:center;justify-content:center;display:flex;min-height:280px;color:var(--text-muted);">
+        Loading services…
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INDUSTRIES -->
+<section class="industries" id="industries">
+  <div class="section-inner">
+
+    <div class="industries-head">
+      <div class="section-label" style="justify-content:center;">Industries Served</div>
+      <h2 class="section-title">Sector Expertise<br>Across Africa</h2>
+      <p class="section-desc" style="margin:0 auto;">We serve leading organizations across diverse industries, bringing deep sector knowledge to every engagement.</p>
+    </div>
+
+  </div><!-- /section-inner header -->
+
+  <!-- Marquee rows — full bleed, outside padding -->
+  <div class="marquee-wrap">
+
+    <!-- Row 1 — slides LEFT -->
+    <div class="marquee-row row-left">
+      <div class="marquee-row-inner">
+        <div class="ind-tile"><div class="ind-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div><span class="ind-tile-label">Banking &amp; Financial Services</span></div>
+        <div class="ind-tile"><div class="ind-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 21h18M9 8h1m5 0h1M9 12h1m5 0h1M9 16h1m5 0h1M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16"/></svg></div><span class="ind-tile-label">Government &amp; Public Sector</span></div>
+        <div class="ind-tile"><div class="ind-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div><span class="ind-tile-label">NGOs &amp; Development Agencies</span></div>
+        <div class="ind-tile"><div class="ind-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><span class="ind-tile-label">Real Estate &amp; Construction</span></div>
+        <div class="ind-tile"><div class="ind-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22V12M12 12L2 7l10-5 10 5-10 5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div><span class="ind-tile-label">Manufacturing</span></div>
+        <div class="ind-tile"><div class="ind-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><span class="ind-tile-label">Technology &amp; FinTech</span></div>
+        <div class="ind-tile"><div class="ind-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><span class="ind-tile-label">Healthcare</span></div>
+        <div class="ind-tile"><div class="ind-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><span class="ind-tile-label">Energy &amp; Infrastructure</span></div>
+      </div>
+      <!-- duplicate for seamless loop -->
+      <div class="marquee-row-inner" aria-hidden="true">
+        <div class="ind-tile"><div class="ind-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div><span class="ind-tile-label">Banking &amp; Financial Services</span></div>
+        <div class="ind-tile"><div class="ind-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 21h18M9 8h1m5 0h1M9 12h1m5 0h1M9 16h1m5 0h1M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16"/></svg></div><span class="ind-tile-label">Government &amp; Public Sector</span></div>
+        <div class="ind-tile"><div class="ind-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div><span class="ind-tile-label">NGOs &amp; Development Agencies</span></div>
+        <div class="ind-tile"><div class="ind-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><span class="ind-tile-label">Real Estate &amp; Construction</span></div>
+        <div class="ind-tile"><div class="ind-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22V12M12 12L2 7l10-5 10 5-10 5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div><span class="ind-tile-label">Manufacturing</span></div>
+        <div class="ind-tile"><div class="ind-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><span class="ind-tile-label">Technology &amp; FinTech</span></div>
+        <div class="ind-tile"><div class="ind-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><span class="ind-tile-label">Healthcare</span></div>
+        <div class="ind-tile"><div class="ind-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><span class="ind-tile-label">Energy &amp; Infrastructure</span></div>
+      </div>
+    </div>
+
+    <!-- Row 2 — slides RIGHT -->
+    <div class="marquee-row row-right">
+      <div class="marquee-row-inner">
+        <div class="ind-tile"><div class="ind-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div><span class="ind-tile-label">Education</span></div>
+        <div class="ind-tile"><div class="ind-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 22V8l9-6 9 6v14"/><path d="M9 22V12h6v10"/></svg></div><span class="ind-tile-label">Hospitality &amp; Tourism</span></div>
+        <div class="ind-tile"><div class="ind-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/></svg></div><span class="ind-tile-label">Insurance</span></div>
+        <div class="ind-tile"><div class="ind-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><span class="ind-tile-label">Logistics &amp; Transport</span></div>
+        <div class="ind-tile"><div class="ind-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7h18M3 12h18M3 17h18"/></svg></div><span class="ind-tile-label">Agriculture &amp; Agribusiness</span></div>
+        <div class="ind-tile"><div class="ind-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.08a16 16 0 006 6z"/></svg></div><span class="ind-tile-label">Telecommunications</span></div>
+        <div class="ind-tile"><div class="ind-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></div><span class="ind-tile-label">Retail &amp; Consumer Business</span></div>
+        <div class="ind-tile"><div class="ind-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg></div><span class="ind-tile-label">International Development</span></div>
+      </div>
+      <!-- duplicate -->
+      <div class="marquee-row-inner" aria-hidden="true">
+        <div class="ind-tile"><div class="ind-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div><span class="ind-tile-label">Education</span></div>
+        <div class="ind-tile"><div class="ind-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 22V8l9-6 9 6v14"/><path d="M9 22V12h6v10"/></svg></div><span class="ind-tile-label">Hospitality &amp; Tourism</span></div>
+        <div class="ind-tile"><div class="ind-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/></svg></div><span class="ind-tile-label">Insurance</span></div>
+        <div class="ind-tile"><div class="ind-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><span class="ind-tile-label">Logistics &amp; Transport</span></div>
+        <div class="ind-tile"><div class="ind-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7h18M3 12h18M3 17h18"/></svg></div><span class="ind-tile-label">Agriculture &amp; Agribusiness</span></div>
+        <div class="ind-tile"><div class="ind-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.08a16 16 0 006 6z"/></svg></div><span class="ind-tile-label">Telecommunications</span></div>
+        <div class="ind-tile"><div class="ind-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></div><span class="ind-tile-label">Retail &amp; Consumer Business</span></div>
+        <div class="ind-tile"><div class="ind-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg></div><span class="ind-tile-label">International Development</span></div>
+      </div>
+    </div>
+
+  </div><!-- /marquee-wrap -->
+</section>
+
+<!-- WHY US -->
+<section class="why" id="why">
+  <div class="why-inner">
+
+    <!-- Header -->
+    <div class="why-header">
+      <div class="section-label" style="justify-content:center;">Why TaxGuide Africa</div>
+      <h2 class="section-title">Why Leading Organizations<br>Choose Us</h2>
+      <p>TaxGuide Africa LLP is a leading multidisciplinary professional services firm delivering world-class audit, tax, legal, financial, and technology advisory solutions — trusted by corporations, NGOs, governments, and investors across Africa.</p>
+    </div>
+
+    <!-- Stats counters -->
+    <div class="why-stats">
+      <div class="why-stat">
+        <div class="why-stat-num">20<span class="accent">+</span></div>
+        <div class="why-stat-label">Professional Solutions</div>
+      </div>
+      <div class="why-stat">
+        <div class="why-stat-num">5</div>
+        <div class="why-stat-label">Core Practice Areas</div>
+      </div>
+      <div class="why-stat">
+        <div class="why-stat-num">15<span class="accent">+</span></div>
+        <div class="why-stat-label">Industries Served</div>
+      </div>
+      <div class="why-stat">
+        <div class="why-stat-num"><span class="accent" style="font-size:32px;letter-spacing:0;">Pan-AF</span></div>
+        <div class="why-stat-label">Regional Reach</div>
+      </div>
+    </div>
+
+    <!-- Body: left feature + right cards -->
+    <div class="why-body">
+
+      <!-- LEFT: sticky feature panel -->
+      <div class="why-feature">
+        <div class="why-feature-tag">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Our Commitment
+        </div>
+        <h3>A Single Firm.<br>Five World-Class<br>Practice Areas.</h3>
+        <p>We combine deep technical expertise, industry specialization, and technology-driven delivery to provide integrated solutions that address the financial, legal, operational, and technological challenges facing modern organizations.</p>
+
+        <ul class="why-feature-list">
+          <li>
+            <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>
+            IFRS, ISA & IPSAS Compliant
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>
+            Cross-border African advisory
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>
+            Technology-enabled delivery
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>
+            Strict client confidentiality
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>
+            Personalized & responsive service
+          </li>
+        </ul>
+
+        <a href="taxguide-contact.html" class="why-feature-cta">
+          Request a Consultation
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <!-- RIGHT: 8 advantage cards -->
+      <div class="why-cards">
+
+        <div class="why-card" style="--card-color:var(--navy);--card-glow:rgba(0,87,125,0.05);">
+          <div class="why-card-num">01</div>
+          <div class="why-card-icon" style="background:rgba(0,87,125,0.08);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+          <h3>International Professional Standards</h3>
+          <p>IFRS, ISA, IPSAS — globally recognized standards applied across all engagements, ensuring world-class quality in every deliverable.</p>
+          <a href="taxguide-about.html" class="why-card-link">
+            Learn more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+
+        <div class="why-card" style="--card-color:var(--cyan);--card-glow:rgba(10,160,215,0.05);">
+          <div class="why-card-num">02</div>
+          <div class="why-card-icon" style="background:rgba(10,160,215,0.08);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          </div>
+          <h3>Integrated Multidisciplinary Solutions</h3>
+          <p>One firm — five practice areas. Seamless audit, tax, legal, financial, and technology expertise under one roof for every engagement.</p>
+          <a href="taxguide-services.html" class="why-card-link">
+            Explore services <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+
+        <div class="why-card" style="--card-color:#7c3aed;--card-glow:rgba(124,58,237,0.04);">
+          <div class="why-card-num">03</div>
+          <div class="why-card-icon" style="background:rgba(124,58,237,0.08);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <h3>Experienced Professionals</h3>
+          <p>Qualified professionals with extensive industry and technical experience, serving complex mandates across multiple sectors and jurisdictions.</p>
+          <a href="taxguide-careers.html" class="why-card-link" style="color:#7c3aed;">
+            Join the team <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+
+        <div class="why-card" style="--card-color:#059669;--card-glow:rgba(5,150,105,0.04);">
+          <div class="why-card-num">04</div>
+          <div class="why-card-icon" style="background:rgba(5,150,105,0.08);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M17 8l-5 5-3-3-3 3"/></svg>
+          </div>
+          <h3>Technology-Driven Delivery</h3>
+          <p>Digital tools, analytics, and innovative technologies to improve efficiency, accuracy, and client outcomes at every stage of engagement.</p>
+          <a href="taxguide-services.html#technology" class="why-card-link" style="color:#059669;">
+            Our tech services <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+
+        <div class="why-card" style="--card-color:#0aa0d7;--card-glow:rgba(10,160,215,0.05);">
+          <div class="why-card-num">05</div>
+          <div class="why-card-icon" style="background:rgba(10,160,215,0.08);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0aa0d7" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+          </div>
+          <h3>Pan-African Market Expertise</h3>
+          <p>Deep understanding of regulatory, economic, and operational environments across African markets, jurisdictions, and industries.</p>
+          <a href="taxguide-about.html" class="why-card-link">
+            About the firm <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+
+        <div class="why-card" style="--card-color:#e11d48;--card-glow:rgba(225,29,72,0.04);">
+          <div class="why-card-num">06</div>
+          <div class="why-card-icon" style="background:rgba(225,29,72,0.08);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          </div>
+          <h3>Confidentiality &amp; Integrity</h3>
+          <p>The highest ethical standards and strict confidentiality maintained in all client engagements — without exception, at every level of our organization.</p>
+          <a href="taxguide-contact.html" class="why-card-link" style="color:#e11d48;">
+            Get in touch <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+
+        <div class="why-card" style="--card-color:var(--gold-dark);--card-glow:rgba(196,154,0,0.04);">
+          <div class="why-card-num">07</div>
+          <div class="why-card-icon" style="background:rgba(239,191,4,0.10);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold-dark)" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <h3>Personalized Client Approach</h3>
+          <p>Responsive, personalized, and practical solutions tailored specifically to each client's unique operational context, goals, and sector requirements.</p>
+          <a href="taxguide-contact.html" class="why-card-link" style="color:var(--gold-dark);">
+            Speak to us <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+
+        <div class="why-card" style="--card-color:var(--navy);--card-glow:rgba(0,87,125,0.05);">
+          <div class="why-card-num">08</div>
+          <div class="why-card-icon" style="background:rgba(0,87,125,0.08);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <h3>Innovative Advisory Solutions</h3>
+          <p>Forward-thinking strategies and emerging technology applications that help organizations remain competitive, resilient, and future-ready.</p>
+          <a href="taxguide-blog.html" class="why-card-link">
+            Read our insights <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+
+      </div><!-- /why-cards -->
+    </div><!-- /why-body -->
+  </div><!-- /why-inner -->
+</section>
+
+<!-- INSIGHTS -->
+<section class="insights" id="insights">
+  <div class="section-inner">
+
+    <!-- Header -->
+    <div class="insights-top">
+      <div>
+        <div class="section-label">Thought Leadership</div>
+        <h2 class="section-title">Latest Insights &amp;<br>Publications</h2>
+        <p style="font-size:15px;color:var(--text-muted);max-width:460px;margin-top:8px;line-height:1.7;">TaxGuide Africa LLP continuously shares insights that help organizations anticipate risks, understand regulatory changes, and identify growth opportunities across Africa.</p>
+      </div>
+      <a href="taxguide-blog.html" class="btn btn-outline" style="flex-shrink:0;align-self:flex-start;margin-top:12px;">
+        View All Insights
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <!-- Filter tags -->
+    <div class="insights-tags">
+      <span class="itag active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>All</span>
+      <span class="itag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>Tax Updates</span>
+      <span class="itag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 7H6a2 2 0 00-2 2v9a2 2 0 002 2h9a2 2 0 002-2v-3"/><path d="M21 3L9 15"/></svg>Audit Insights</span>
+      <span class="itag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Financial Trends</span>
+      <span class="itag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/></svg>Legal Updates</span>
+      <span class="itag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M17 8l-5 5-3-3-3 3"/></svg>Technology</span>
+      <span class="itag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg>Regulatory</span>
+    </div>
+
+    <!-- Main 2-col grid -->
+    <div class="insights-grid">
+      <!-- FEATURED -->
+      <a href="taxguide-blog.html" class="insight-card featured">
+        <div class="insight-thumb ithumb-navy" style="height:280px;">
+          <div class="insight-thumb-deco">
+            <svg width="340" height="180" viewBox="0 0 340 180" fill="none">
+              <polyline points="0,160 56,110 110,135 170,60 224,88 280,30 340,52" stroke="white" stroke-width="2" fill="none"/>
+              <polyline points="0,180 56,160 110,155 170,140 224,120 280,90 340,80" stroke="white" stroke-width="1" fill="none" opacity="0.5"/>
+            </svg>
+          </div>
+          <div class="insight-cat ic-tax">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>
+            Tax Update
+          </div>
+          <div class="insight-read">8 min read</div>
+        </div>
+        <div class="insight-body">
+          <h4>Transfer Pricing Compliance in East Africa: Key Considerations for Multinationals in 2025</h4>
+          <p>An in-depth analysis of current transfer pricing documentation requirements, BEPS compliance standards, and practical risk management strategies for multinational enterprises operating across East African jurisdictions — including Kenya, Uganda, Tanzania, and Rwanda.</p>
+          <div class="insight-footer">
+            <div class="insight-author">
+              <div class="insight-av" style="background:linear-gradient(135deg,var(--gold-dark),#5a3a00)">GW</div>
+              Grace Wambui · June 2025
+            </div>
+            <div class="insight-read-more">Read article <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+          </div>
+        </div>
+      </a>
+
+      <!-- RIGHT: 2 stacked small -->
+      <div class="insights-right">
+        <a href="taxguide-blog.html" class="insight-card small">
+          <div class="insight-thumb ithumb-gold" style="height:160px;">
+            <div class="insight-thumb-deco"><svg width="200" height="100" viewBox="0 0 200 100" fill="none"><path d="M0 80 Q50 20 100 50 Q150 80 200 20" stroke="white" stroke-width="2" fill="none"/></svg></div>
+            <div class="insight-cat ic-audit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>Audit Insight</div>
+            <div class="insight-read">6 min read</div>
+          </div>
+          <div class="insight-body">
+            <h4>Risk-Based Auditing in the NGO Sector: A Practical Framework</h4>
+            <div class="insight-footer">
+              <div class="insight-author"><div class="insight-av" style="background:linear-gradient(135deg,var(--navy),var(--navy-deeper))">AN</div>Agnes Njoroge · May 2025</div>
+              <div class="insight-read-more">Read <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+            </div>
+          </div>
+        </a>
+        <a href="taxguide-blog.html" class="insight-card small">
+          <div class="insight-thumb ithumb-teal" style="height:160px;">
+            <div class="insight-thumb-deco"><svg width="200" height="100" viewBox="0 0 200 100" fill="none"><rect x="20" y="40" width="20" height="60" fill="white"/><rect x="60" y="20" width="20" height="80" fill="white"/><rect x="100" y="50" width="20" height="50" fill="white"/><rect x="140" y="10" width="20" height="90" fill="white"/><rect x="180" y="30" width="20" height="70" fill="white"/></svg></div>
+            <div class="insight-cat ic-tech"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M17 8l-5 5-3-3"/></svg>Tech &amp; Digital</div>
+            <div class="insight-read">7 min read</div>
+          </div>
+          <div class="insight-body">
+            <h4>Cybersecurity Maturity for African Financial Institutions</h4>
+            <div class="insight-footer">
+              <div class="insight-author"><div class="insight-av" style="background:linear-gradient(135deg,#e11d48,#9f1239)">BK</div>Brian Kamau · April 2025</div>
+              <div class="insight-read-more">Read <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Bottom row: 3 small cards -->
+    <div class="insights-bottom-row">
+      <a href="taxguide-blog.html" class="insight-card small">
+        <div class="insight-thumb ithumb-purple" style="height:140px;">
+          <div class="insight-cat ic-legal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/></svg>Legal</div>
+          <div class="insight-read">5 min</div>
+        </div>
+        <div class="insight-body">
+          <h4>Employment Law Updates in Kenya: What Employers Must Know</h4>
+          <div class="insight-footer">
+            <div class="insight-author"><div class="insight-av" style="background:linear-gradient(135deg,#7c3aed,#4c1d95)">DO</div>David Ochieng · Feb 2025</div>
+            <div class="insight-read-more">Read <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+          </div>
+        </div>
+      </a>
+      <a href="taxguide-blog.html" class="insight-card small">
+        <div class="insight-thumb ithumb-green" style="height:140px;">
+          <div class="insight-cat ic-fin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Financial</div>
+          <div class="insight-read">9 min</div>
+        </div>
+        <div class="insight-body">
+          <h4>M&amp;A Trends in Africa: Due Diligence in Emerging Markets 2025</h4>
+          <div class="insight-footer">
+            <div class="insight-author"><div class="insight-av" style="background:linear-gradient(135deg,#059669,#065f46)">SM</div>Sarah Mutua · March 2025</div>
+            <div class="insight-read-more">Read <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+          </div>
+        </div>
+      </a>
+      <a href="taxguide-blog.html" class="insight-card small">
+        <div class="insight-thumb ithumb-navy" style="height:140px;">
+          <div class="insight-cat ic-reg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg>Regulatory</div>
+          <div class="insight-read">8 min</div>
+        </div>
+        <div class="insight-body">
+          <h4>Corporate Governance Best Practices for African Boards in 2025</h4>
+          <div class="insight-footer">
+            <div class="insight-author"><div class="insight-av" style="background:linear-gradient(135deg,var(--navy),var(--navy-deeper))">JM</div>James Mwangi · Dec 2024</div>
+            <div class="insight-read-more">Read <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Banner strip -->
+    <div class="insights-banner">
+      <div class="ib-text">
+        <h3>56+ Articles, Reports &amp; Publications</h3>
+        <p>Access our full library of tax updates, audit insights, legal briefings, and financial intelligence reports — free to download.</p>
+      </div>
+      <div class="ib-actions">
+        <a href="taxguide-blog.html" class="btn btn-gold">Browse Blog</a>
+        <a href="taxguide-publications.html" class="btn btn-outline-white">Publications</a>
+        <a href="taxguide-events.html" class="btn btn-outline-white">Events</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="testimonials">
+  <div style="max-width:1280px;margin:0 auto;padding:100px 5%;">
+  <div class="t-header">
+    <div class="section-label">Client Testimonials</div>
+    <h2 class="section-title">What Our Clients Say</h2>
+    <p>Trusted by leading corporations, NGOs, government agencies, and investors across Africa to deliver world-class professional advisory services.</p>
+  </div>
+
+  <div class="t-slider-wrap">
+    <div class="t-track" id="tTrack">
+      <div class="t-card active">
+        <span class="t-quote-mark">&ldquo;</span>
+        <p style="color:var(--text-muted);padding:40px 0;text-align:center;">Loading testimonials…</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="t-controls">
+    <button class="t-btn" id="tPrev" aria-label="Previous">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <div class="t-dots" id="tDots"></div>
+    <button class="t-btn" id="tNext" aria-label="Next">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+  </div>
+
+  <!-- Share your experience CTA -->
+  <div class="t-share-cta">
+    <p><strong>Worked with us?</strong> We'd love to hear about your experience.</p>
+    <a href="#" class="btn btn-navy btn-lg" id="openTestimonialModal">
+      Share Your Testimonial
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+
+  <!-- Client logos -->
+  <div class="t-logos">
+    <div class="t-logo"><div class="t-logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 21h18M9 8h1m5 0h1M9 12h1m5 0h1M9 16h1m5 0h1M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16"/></svg></div><span>Dev Finance Institution</span></div>
+    <div class="t-logo"><div class="t-logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><span>Manufacturing Group</span></div>
+    <div class="t-logo"><div class="t-logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><span>International NGO</span></div>
+    <div class="t-logo"><div class="t-logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/></svg></div><span>County Government</span></div>
+    <div class="t-logo"><div class="t-logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><span>Energy Developer</span></div>
+    <div class="t-logo"><div class="t-logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/></svg></div><span>Private Equity Firm</span></div>
+  </div>
+
+  </div><!-- /inner wrapper -->
+</section>
+
+<!-- CTA BAND -->
+<div class="cta-band">
+  <div class="cta-band-inner">
+    <div class="cta-band-text">
+      <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(239,191,4,0.12);border:1px solid rgba(239,191,4,0.25);border-radius:100px;padding:5px 14px;margin-bottom:16px;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span style="font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold);">Our Commitment</span>
+      </div>
+      <h2>Ready to Work with<br>TaxGuide Africa LLP?</h2>
+      <p>We are committed to delivering exceptional professional services founded on integrity, technical excellence, innovation, and client-focused solutions — helping you achieve sustainable growth across Africa and beyond.</p>
+    </div>
+    <div class="cta-band-actions">
+      <a href="#contact" class="btn btn-gold btn-lg">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+        Request a Consultation
+      </a>
+      <a href="#services" class="btn btn-outline-white btn-lg">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Our Services
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo" style="margin-bottom:8px;">
+          <div class="nav-logo-mark">TG</div>
+          <div class="nav-logo-text">
+            <span style="color:white;">TaxGuide Africa</span>
+            <span>LLP</span>
+          </div>
+        </a>
+        <p>A premier multidisciplinary professional services firm delivering world-class audit, tax, legal, financial, and technology advisory solutions across Africa.</p>
+
+        <div style="margin-top:20px;display:flex;flex-direction:column;gap:12px;">
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>Milligan Court, 1st Floor, Suite 4<br>Opposite Ngong Hills Hotel, Nairobi, Kenya</span>
+          </div>
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.08a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7a2 2 0 011.72 2.01z"/></svg>
+            <span>+254 711 355 015</span>
+          </div>
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <span>info@taxguidellp.com</span>
+          </div>
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+            <span>www.taxguidellp.com</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;margin-right:6px;opacity:0.4;"><path d="M9 7H6a2 2 0 00-2 2v9a2 2 0 002 2h9a2 2 0 002-2v-3"/><path d="M21 3L9 15"/></svg>Accounting &amp; Assurance</a></li>
+          <li><a href="#"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;margin-right:6px;opacity:0.4;"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>Tax Advisory</a></li>
+          <li><a href="#"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;margin-right:6px;opacity:0.4;"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/></svg>Legal &amp; Corporate</a></li>
+          <li><a href="#"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;margin-right:6px;opacity:0.4;"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Financial Advisory</a></li>
+          <li><a href="#"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;margin-right:6px;opacity:0.4;"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M17 8l-5 5-3-3-3 3"/></svg>Technology &amp; Digital</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;margin-right:6px;opacity:0.4;"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>About Us</a></li>
+          <li><a href="#"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;margin-right:6px;opacity:0.4;"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg>Industries</a></li>
+          <li><a href="#"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;margin-right:6px;opacity:0.4;"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Insights</a></li>
+          <li><a href="#"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;margin-right:6px;opacity:0.4;"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>Careers</a></li>
+          <li><a href="#"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;margin-right:6px;opacity:0.4;"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;margin-right:6px;opacity:0.4;"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>Privacy Policy</a></li>
+          <li><a href="#"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;margin-right:6px;opacity:0.4;"><path d="M9 12l2 2 4-4M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Terms &amp; Conditions</a></li>
+          <li><a href="#"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;margin-right:6px;opacity:0.4;"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>Cookie Policy</a></li>
+          <li><a href="#"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;margin-right:6px;opacity:0.4;"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Disclaimer</a></li>
+        </ul>
+
+        <div style="margin-top:28px;padding:16px;background:rgba(10,160,215,0.08);border:1px solid rgba(10,160,215,0.15);border-radius:var(--radius-lg);">
+          <div style="font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">Quick Contact</div>
+          <a href="tel:+254711355015" style="display:flex;align-items:center;gap:8px;color:rgba(255,255,255,0.7);text-decoration:none;font-size:13px;margin-bottom:8px;transition:color 0.2s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.08a16 16 0 006 6z"/></svg>
+            +254 711 355 015
+          </a>
+          <a href="mailto:info@taxguidellp.com" style="display:flex;align-items:center;gap:8px;color:rgba(255,255,255,0.7);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            info@taxguidellp.com
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2025 TaxGuide Africa LLP. All rights reserved. | <a href="http://www.taxguidellp.com" style="color:rgba(255,255,255,0.4);text-decoration:none;">www.taxguidellp.com</a></p>
+      <div class="footer-social">
+        <a href="https://www.linkedin.com/company/taxguideafricallp" class="social-link" aria-label="LinkedIn" title="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a href="https://x.com/Taxguideafrica" class="social-link" aria-label="X (Twitter)" title="X / Twitter">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a href="https://www.facebook.com/profile.php?id=61555963430604" class="social-link" aria-label="Facebook" title="Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/taxguideafricallp?igsh=MW9mdm5pZGh6NXR5Yg==" class="social-link" aria-label="Instagram" title="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+        </a>
+        <a href="#" class="social-link" aria-label="WhatsApp" title="WhatsApp">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </a>
+        <a href="#" class="social-link" aria-label="YouTube" title="YouTube">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="var(--navy-deeper)"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- TESTIMONIAL SUBMISSION MODAL -->
+<div class="reg-modal" id="testimonialModal">
+  <div class="reg-modal-backdrop" data-action="close-testimonial-modal"></div>
+  <div class="reg-modal-content">
+    <button class="reg-modal-close" data-action="close-testimonial-modal" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <h3>Share Your Testimonial</h3>
+    <p class="reg-modal-sub">Tell us about your experience working with TaxGuide Africa LLP. Submitted testimonials are reviewed before appearing on our website.</p>
+    <form id="testimonialForm">
+      <div class="reg-field">
+        <label for="tFirstName">First name</label>
+        <input type="text" id="tFirstName" name="first_name" placeholder="Your first name" required>
+      </div>
+      <div class="reg-field">
+        <label for="tLastName">Last name</label>
+        <input type="text" id="tLastName" name="last_name" placeholder="Your last name" required>
+      </div>
+      <div class="reg-field">
+        <label for="tPosition">Position <span class="reg-optional">(optional)</span></label>
+        <input type="text" id="tPosition" name="position" placeholder="e.g. Chief Finance Officer">
+      </div>
+      <div class="reg-field">
+        <label for="tCompany">Company / Organization <span class="reg-optional">(optional)</span></label>
+        <input type="text" id="tCompany" name="company" placeholder="e.g. Acme Holdings Ltd">
+      </div>
+      <div class="reg-field">
+        <label>Your Rating</label>
+        <div class="reg-star-picker" id="tStarPicker">
+          <button type="button" data-value="1" aria-label="1 star"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
+          <button type="button" data-value="2" aria-label="2 stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
+          <button type="button" data-value="3" aria-label="3 stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
+          <button type="button" data-value="4" aria-label="4 stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
+          <button type="button" data-value="5" aria-label="5 stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
+        </div>
+        <input type="hidden" id="tStarRating" name="star_rating" value="5">
+      </div>
+      <div class="reg-field">
+        <label for="tMessage">Your Testimonial</label>
+        <textarea id="tMessage" name="message" placeholder="Tell us about your experience working with us..." minlength="10" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-navy btn-lg reg-submit">Submit Testimonial</button>
+    </form>
+    <p id="tFeedback" class="reg-feedback"></p>
+  </div>
+</div>
+
+<script>
+// ─── CONFIG ────────────────────────────────────────────────────────────────
+const API_BASE = 'http://127.0.0.1:8000/api';
+
+// ── NAV scroll ─────────────────────────────────
+const nav = document.querySelector('nav');
+if (nav) {
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 80);
+  });
+}
+
+// ── Slider + per-slide text animation ─────────
+const slides     = document.querySelectorAll('.hero-slide');
+const contents   = document.querySelectorAll('.slide-content');
+const dots       = document.querySelectorAll('.slider-dot');
+const counter    = document.getElementById('currentSlide');
+const progress   = document.getElementById('sliderProgress');
+const DURATION   = 5800;
+
+let current = 0;
+let timer   = null;
+
+/* ── Animate a single content panel in ── */
+function animateIn(panel) {
+  const effect   = panel.dataset.effect;
+  const eyebrow  = panel.querySelector('.hero-eyebrow');
+  const words    = Array.from(panel.querySelectorAll('.sc-word'));
+  const lines    = Array.from(panel.querySelectorAll('.sc-line'));
+  const subtitle = panel.querySelector('.hero-subtitle');
+  const actions  = panel.querySelector('.sc-actions');
+  const highlight= panel.querySelector('.sc-highlight');
+
+  // Reset everything first
+  [eyebrow, subtitle, actions].forEach(el => {
+    if (!el) return;
+    el.style.animation = 'none';
+    el.style.opacity   = '0';
+  });
+
+  words.forEach(w => {
+    w.style.animation = 'none';
+    w.style.opacity   = '0';
+  });
+
+  if (highlight?.style) highlight.style.setProperty('--ul', '0');
+
+  // Force reflow
+  panel.getBoundingClientRect();
+
+  // ── Eyebrow (always fades up) ──
+  if (eyebrow) {
+    eyebrow.style.animation = 'scFadeUp 0.6s ease 0.1s forwards';
+  }
+
+  // ── Words / lines ──────────────────────────
+  const baseDelay = 0.35;
+  const stagger   = 0.13;
+
+  if (effect === 'fall') {
+    // Words drop in from above one by one
+    words.forEach((w, i) => {
+      w.style.transformOrigin = 'top center';
+      w.style.animation = `scFall 0.7s cubic-bezier(0.16,1,0.3,1) ${baseDelay + i * stagger}s forwards`;
+    });
+
+  } else if (effect === 'slide-left') {
+    // Lines slide in from left, staggered
+    words.forEach((w, i) => {
+      w.style.animation = `scSlideLeft 0.65s cubic-bezier(0.16,1,0.3,1) ${baseDelay + i * stagger}s forwards`;
+    });
+
+  } else if (effect === 'zoom-out') {
+    // All words zoom out together (big → normal)
+    words.forEach((w, i) => {
+      w.style.transformOrigin = 'center center';
+      w.style.animation = `scZoomOut 0.9s cubic-bezier(0.16,1,0.3,1) ${baseDelay + i * 0.08}s forwards`;
+    });
+
+  } else if (effect === 'split') {
+    // Odd lines come up, even lines come down
+    lines.forEach((line, li) => {
+      const lineWords = line.querySelectorAll('.sc-word');
+      lineWords.forEach((w, wi) => {
+        const anim = li % 2 === 0 ? 'scSplitUp' : 'scSplitDown';
+        w.style.animation = `${anim} 0.7s cubic-bezier(0.16,1,0.3,1) ${baseDelay + li * 0.15 + wi * 0.08}s forwards`;
+      });
+    });
+
+  } else if (effect === 'clip') {
+    // Words clip-wipe left to right — needs opacity:1 first
+    words.forEach((w, i) => {
+      w.style.opacity = '1';
+      w.style.clipPath = 'inset(0 100% 0 0)';
+      w.style.animation = `scClip 0.8s cubic-bezier(0.16,1,0.3,1) ${baseDelay + i * stagger}s forwards`;
+    });
+  }
+
+  // ── Highlight underline ──
+  if (highlight) {
+    const delay = baseDelay + words.length * stagger;
+    setTimeout(() => {
+      if (highlight.style) {
+        highlight.style.setProperty('--ul', '1');
+        highlight.classList.add('sc-underline-active');
+      }
+    }, delay * 1000);
+  }
+
+  // ── Subtitle ──
+  const subtitleDelay = baseDelay + words.length * stagger + 0.1;
+  if (subtitle) subtitle.style.animation = `scFadeUp 0.65s ease ${subtitleDelay}s forwards`;
+
+  // ── Actions ──
+  const actionsDelay = subtitleDelay + 0.18;
+  if (actions) actions.style.animation = `scFadeUp 0.65s ease ${actionsDelay}s forwards`;
+}
+
+/* ── Animate out ── */
+function animateOut(panel) {
+  const eyebrow  = panel.querySelector('.hero-eyebrow');
+  const words    = panel.querySelectorAll('.sc-word');
+  const subtitle = panel.querySelector('.hero-subtitle');
+  const actions  = panel.querySelector('.sc-actions');
+  const highlight= panel.querySelector('.sc-highlight');
+
+  [eyebrow, subtitle, actions].forEach(el => {
+    if (el) { el.style.animation = 'none'; el.style.opacity = '0'; }
+  });
+  words.forEach(w => { w.style.animation = 'none'; w.style.opacity = '0'; });
+  if (highlight) highlight.classList.remove('sc-underline-active');
+}
+
+/* ── Go to slide ── */
+function goTo(index) {
+  const prev = current;
+  current = ((index % slides.length) + slides.length) % slides.length;
+
+  // Background images
+  slides[prev].classList.remove('active');
+  slides[current].classList.add('active');
+
+  // Content panels
+  animateOut(contents[prev]);
+  contents[prev].classList.remove('active');
+
+  // Small delay so out-animation clears before in starts
+  setTimeout(() => {
+    contents[current].classList.add('active');
+    animateIn(contents[current]);
+  }, 80);
+
+  // Dots + counter
+  dots[prev].classList.remove('active');
+  dots[current].classList.add('active');
+  counter.textContent = String(current + 1).padStart(2, '0');
+
+  // Progress bar
+  progress.style.transition = 'none';
+  progress.style.width = '0%';
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    progress.style.transition = `width ${DURATION}ms linear`;
+    progress.style.width = '100%';
+  }));
+}
+
+function startAuto() {
+  clearInterval(timer);
+  timer = setInterval(() => goTo(current + 1), DURATION);
+}
+
+dots.forEach(d => d.addEventListener('click', () => { goTo(+d.dataset.index); startAuto(); }));
+document.getElementById('prevBtn').addEventListener('click', () => { goTo(current - 1); startAuto(); });
+document.getElementById('nextBtn').addEventListener('click', () => { goTo(current + 1); startAuto(); });
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft')  { goTo(current - 1); startAuto(); }
+  if (e.key === 'ArrowRight') { goTo(current + 1); startAuto(); }
+});
+
+let tx = 0;
+const heroEl = document.querySelector('.hero');
+heroEl.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+heroEl.addEventListener('touchend',   e => {
+  const dx = e.changedTouches[0].clientX - tx;
+  if (Math.abs(dx) > 50) { goTo(dx < 0 ? current + 1 : current - 1); startAuto(); }
+}, { passive: true });
+
+// Init — animate slide 1 in, then start auto
+contents[0].classList.add('active');
+requestAnimationFrame(() => animateIn(contents[0]));
+startAuto();
+
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.querySelectorAll('.svc-card, .why-card, .value-item, .insight-card').forEach((card, i) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(24px)';
+        setTimeout(() => {
+          card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }, i * 100);
+      });
+      revealObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.services-grid, .why-cards, .insights-grid, .values-grid').forEach(el => revealObs.observe(el));
+
+// ── Insights tag filter ──────────────────────
+document.querySelectorAll('.itag').forEach(tag => {
+  tag.addEventListener('click', function() {
+    document.querySelectorAll('.itag').forEach(t => t.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+// ════════════════════════════════════════════════════════════════════════
+// SERVICES — Integrated Professional Services (dynamic, mirrors services page)
+// ════════════════════════════════════════════════════════════════════════
+
+const SVC_ICON_MAP = [
+  {
+    test: s => /tax/i.test(s),
+    svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>`,
+    badgeClass: 'gold',
+    duration: 'Ongoing',
+  },
+  {
+    test: s => /audit|account|assur/i.test(s),
+    svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12l2 2 4-4M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`,
+    badgeClass: 'cyan',
+    duration: 'Year-Round',
+  },
+  {
+    test: s => /legal|corporate|law/i.test(s),
+    svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/></svg>`,
+    badgeClass: 'purple',
+    duration: 'Retainer',
+  },
+  {
+    test: s => /financ|advisory|wealth/i.test(s),
+    svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>`,
+    badgeClass: 'green',
+    duration: 'Project-Based',
+  },
+  {
+    test: s => /tech|digital|it\b|software|cyber/i.test(s),
+    svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M17 8l-5 5-3-3-3 3"/></svg>`,
+    badgeClass: 'rose',
+    duration: 'Managed',
+  },
+];
+
+const SVC_FALLBACK_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-4 0v2"/></svg>`;
+
+function svcMeta(name) {
+  const match = SVC_ICON_MAP.find(m => m.test(name));
+  return match || { svg: SVC_FALLBACK_ICON, badgeClass: 'navy', duration: 'Year-Round' };
+}
+
+function svcEscHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+async function loadHomeServices() {
+  const grid = document.getElementById('servicesGrid');
+
+  try {
+    const res = await fetch(`${API_BASE}/services`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const { services } = await res.json();
+
+    if (!services || services.length === 0) {
+      grid.innerHTML = '<p style="color:var(--text-muted);text-align:center;grid-column:1/-1;">No services found.</p>';
+      return;
+    }
+
+    const cardsHtml = services.map(svc => {
+      const meta = svcMeta(svc.name);
+      const children = Array.isArray(svc.children) ? svc.children : [];
+      const tagsHtml = children.length
+        ? children.slice(0, 5).map(c => `<span class="svc-tag">${svcEscHtml(c.name)}</span>`).join('')
+        : '';
+      const descHtml = svc.description
+        ? `<p>${svc.description}</p>`
+        : '';
+      const img = svc.image_url || 'images/default-service.jpg';
+
+      return `
+        <a href="taxguide-services.html?slug=${encodeURIComponent(svc.slug)}#svc-${svcEscHtml(svc.slug)}" class="svc-card">
+          <div class="svc-card-photo">
+            <img src="${img}" alt="${svcEscHtml(svc.name)}" loading="lazy" onerror="this.src='images/default-service.jpg'">
+            <div class="svc-photo-badges">
+              <span class="svc-type-badge ${meta.badgeClass}">
+                ${meta.svg}
+                ${svcEscHtml(svc.name.split(' ')[0])}
+              </span>
+              <span class="svc-duration-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                ${meta.duration}
+              </span>
+            </div>
+          </div>
+          <div class="svc-card-body">
+            <h3>${svcEscHtml(svc.name)}</h3>
+            ${descHtml}
+            ${tagsHtml ? `<div class="svc-tags">${tagsHtml}</div>` : ''}
+            <div class="svc-card-btn">
+              Explore Service
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </div>
+        </a>`;
+    }).join('');
+
+    // CTA tile is always appended last, mirroring the static layout
+    const ctaTile = `
+      <div class="svc-card svc-card-cta">
+        <div class="cta-eyebrow">Need Expert Guidance?</div>
+        <h3>Talk to a<br>Specialist Today</h3>
+        <p>Our multidisciplinary team provides tailored advisory solutions for corporations, NGOs, governments and investors across Africa.</p>
+        <a href="#contact" class="btn btn-gold">Schedule a Consultation
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>`;
+
+    grid.innerHTML = cardsHtml + ctaTile;
+
+    // Re-trigger the reveal animation now that real cards exist
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.querySelectorAll('.svc-card').forEach((card, i) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(24px)';
+            setTimeout(() => {
+              card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+              card.style.opacity = '1';
+              card.style.transform = 'translateY(0)';
+            }, i * 100);
+          });
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    obs.observe(grid);
+
+  } catch (err) {
+    grid.innerHTML = '<p style="color:var(--text-muted);text-align:center;grid-column:1/-1;">Failed to load services. Please try again later.</p>';
+    console.error('Services fetch error:', err);
+  }
+}
+
+loadHomeServices();
+
+// ════════════════════════════════════════════════════════════════════════
+// TESTIMONIALS — load approved testimonials + slider + submission modal
+// ════════════════════════════════════════════════════════════════════════
+
+const T_SECTOR_GRADIENTS = [
+  'linear-gradient(135deg,#00577d,#003d58)',
+  'linear-gradient(135deg,#c49a00,#5a3a00)',
+  'linear-gradient(135deg,#059669,#065f46)',
+  'linear-gradient(135deg,#7c3aed,#4c1d95)',
+  'linear-gradient(135deg,#f97316,#7c2d12)',
+  'linear-gradient(135deg,#e11d48,#9f1239)',
+];
+
+function tInitials(first, last) {
+  return `${(first || '').charAt(0)}${(last || '').charAt(0)}`.toUpperCase() || '—';
+}
+
+function tStarsHtml(rating) {
+  const filled = Math.max(0, Math.min(5, parseInt(rating, 10) || 5));
+  let html = '';
+  for (let i = 0; i < 5; i++) {
+    const opacity = i < filled ? '1' : '0.25';
+    html += `<svg viewBox="0 0 24 24" style="opacity:${opacity}"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`;
+  }
+  return html;
+}
+
+function renderTestimonialCard(t, index, isFirst) {
+  const fullName = `${t.first_name || ''} ${t.last_name || ''}`.trim() || 'Valued Client';
+  const roleParts = [t.position, t.company].filter(Boolean).join(', ');
+  const gradient = T_SECTOR_GRADIENTS[index % T_SECTOR_GRADIENTS.length];
+
+  return `
+    <div class="t-card${isFirst ? ' active' : ''}">
+      <span class="t-quote-mark">&ldquo;</span>
+      <div class="t-stars">${tStarsHtml(t.star_rating)}</div>
+      <blockquote>${svcEscHtml(t.message)}</blockquote>
+      <div class="t-author">
+        <div class="t-av" style="background:${gradient}">${tInitials(t.first_name, t.last_name)}</div>
+        <div><div class="t-name">${svcEscHtml(fullName)}</div>${roleParts ? `<div class="t-role">${svcEscHtml(roleParts)}</div>` : ''}</div>
+      </div>
+    </div>`;
+}
+
+async function loadTestimonials() {
+  const tTrack = document.getElementById('tTrack');
+  const tDotsEl = document.getElementById('tDots');
+  if (!tTrack) return;
+
+  try {
+    const res = await fetch(`${API_BASE}/testimonials`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const { testimonials } = await res.json();
+
+    if (!testimonials || testimonials.length === 0) {
+      tTrack.innerHTML = '<div class="t-card active"><span class="t-quote-mark">&ldquo;</span><p style="color:var(--text-muted);padding:40px 0;text-align:center;">No testimonials yet — be the first to share your experience!</p></div>';
+      return;
+    }
+
+    tTrack.innerHTML = testimonials.map((t, i) => renderTestimonialCard(t, i, i === 0)).join('');
+    initTestimonialSlider();
+
+  } catch (err) {
+    tTrack.innerHTML = '<div class="t-card active"><span class="t-quote-mark">&ldquo;</span><p style="color:var(--text-muted);padding:40px 0;text-align:center;">Unable to load testimonials right now.</p></div>';
+    console.error('Testimonials fetch error:', err);
+  }
+}
+
+function initTestimonialSlider() {
+  const tTrack = document.getElementById('tTrack');
+  const tDotsEl = document.getElementById('tDots');
+  const tPrev = document.getElementById('tPrev');
+  const tNext = document.getElementById('tNext');
+  if (!tTrack) return;
+
+  tDotsEl.innerHTML = '';
+
+  const tCards = Array.from(tTrack.querySelectorAll('.t-card'));
+  if (tCards.length === 0) return;
+
+  const VISIBLE = window.innerWidth < 768 ? 1 : 2;
+  const tPages = Math.max(1, tCards.length - (VISIBLE - 1));
+  let tCurrent = 0;
+  let tTimer;
+
+  // Build dots
+  for (let i = 0; i < tPages; i++) {
+    const d = document.createElement('button');
+    d.className = 't-dot' + (i === 0 ? ' active' : '');
+    d.addEventListener('click', () => { tGoTo(i); tResetAuto(); });
+    tDotsEl.appendChild(d);
+  }
+
+  function tGoTo(idx) {
+    tCurrent = ((idx % tPages) + tPages) % tPages;
+    const gap = 24;
+    const w = tCards[0].offsetWidth + gap;
+    tTrack.style.transform = `translateX(-${tCurrent * w}px)`;
+    tCards.forEach((c, i) => {
+      const inView = i >= tCurrent && i < tCurrent + VISIBLE;
+      c.classList.toggle('active', inView);
+    });
+    tDotsEl.querySelectorAll('.t-dot').forEach((d, i) => d.classList.toggle('active', i === tCurrent));
+  }
+
+  function tResetAuto() {
+    clearInterval(tTimer);
+    if (tCards.length > VISIBLE) {
+      tTimer = setInterval(() => tGoTo(tCurrent + 1), 5500);
+    }
+  }
+
+  if (tPrev) tPrev.onclick = () => { tGoTo(tCurrent - 1); tResetAuto(); };
+  if (tNext) tNext.onclick = () => { tGoTo(tCurrent + 1); tResetAuto(); };
+
+  // Touch swipe
+  let tTx = 0;
+  tTrack.addEventListener('touchstart', e => { tTx = e.touches[0].clientX; }, { passive: true });
+  tTrack.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - tTx;
+    if (Math.abs(dx) > 50) { tGoTo(dx < 0 ? tCurrent + 1 : tCurrent - 1); tResetAuto(); }
+  }, { passive: true });
+
+  window.addEventListener('resize', () => tGoTo(tCurrent));
+  tGoTo(0);
+  tResetAuto();
+}
+
+loadTestimonials();
+
+// ── Testimonial submission modal ─────────────
+const testimonialModal = document.getElementById('testimonialModal');
+const testimonialForm = document.getElementById('testimonialForm');
+const tFeedback = document.getElementById('tFeedback');
+const tStarPicker = document.getElementById('tStarPicker');
+const tStarRatingInput = document.getElementById('tStarRating');
+const openTestimonialBtn = document.getElementById('openTestimonialModal');
+
+function setStarRating(value) {
+  tStarRatingInput.value = value;
+  tStarPicker.querySelectorAll('button').forEach(btn => {
+    btn.classList.toggle('active', parseInt(btn.dataset.value, 10) <= value);
+  });
+}
+
+if (tStarPicker) {
+  tStarPicker.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => setStarRating(parseInt(btn.dataset.value, 10)));
+    btn.addEventListener('mouseenter', () => {
+      const val = parseInt(btn.dataset.value, 10);
+      tStarPicker.querySelectorAll('button').forEach(b => {
+        b.classList.toggle('hover-active', parseInt(b.dataset.value, 10) <= val);
+      });
+    });
+    btn.addEventListener('mouseleave', () => {
+      tStarPicker.querySelectorAll('button').forEach(b => b.classList.remove('hover-active'));
+    });
+  });
+  setStarRating(5); // default
+}
+
+if (openTestimonialBtn) {
+  openTestimonialBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    tFeedback.textContent = '';
+    testimonialForm.reset();
+    setStarRating(5);
+    testimonialModal.classList.add('open');
+  });
+}
+
+document.addEventListener('click', (e) => {
+  if (e.target.closest('[data-action="close-testimonial-modal"]')) {
+    testimonialModal.classList.remove('open');
+  }
+});
+
+if (testimonialForm) {
+  testimonialForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const payload = {
+      first_name: e.target.first_name.value,
+      last_name: e.target.last_name.value,
+      position: e.target.position.value,
+      company: e.target.company.value,
+      message: e.target.message.value,
+      star_rating: parseInt(tStarRatingInput.value, 10),
+    };
+
+    const submitBtn = testimonialForm.querySelector('.reg-submit');
+    submitBtn.disabled = true;
+
+    try {
+      const res = await fetch(`${API_BASE}/testimonials`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+
+      tFeedback.textContent = data.message || (res.ok ? 'Thank you for your feedback!' : 'Something went wrong.');
+      tFeedback.style.color = res.ok ? 'green' : 'crimson';
+
+      if (res.ok) {
+        testimonialForm.reset();
+        setStarRating(5);
+        setTimeout(() => testimonialModal.classList.remove('open'), 1800);
+      }
+    } catch (err) {
+      tFeedback.textContent = 'Something went wrong. Please try again.';
+      tFeedback.style.color = 'crimson';
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
+}
+</script>
+
+<script src="taxguide-shared.js"></script>
+</body>
+</html>

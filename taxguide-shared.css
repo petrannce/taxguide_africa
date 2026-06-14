@@ -1,0 +1,1046 @@
+/* ============================================================
+   TaxGuide Africa LLP — Shared CSS
+   Include on every page: <link rel="stylesheet" href="taxguide-shared.css">
+   ============================================================ */
+
+/* ── FONTS ──────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap');
+
+/* ── RESET & TOKENS ────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --navy: #00577d;
+  --navy-dark: #003d58;
+  --navy-deeper: #00263a;
+  --cyan: #0aa0d7;
+  --gold: #EFBF04;
+  --gold-dark: #c49a00;
+  --white: #fff;
+  --off-white: #f4f6f9;
+  --text-primary: #0d2d40;
+  --text-secondary: #3d5a6e;
+  --text-muted: #6e8898;
+  --border-light: rgba(0,87,125,0.1);
+  --border-mid: rgba(0,87,125,0.18);
+  --ff-display: 'Playfair Display', Georgia, serif;
+  --ff-body: 'DM Sans', system-ui, sans-serif;
+  --radius: 4px;
+  --radius-lg: 10px;
+  --t: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--ff-body);
+  background: var(--white);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── NAV ────────────────────────────────────── */
+#tg-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 0 5%;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-light);
+  transition: box-shadow var(--t);
+  font-family: var(--ff-body);
+}
+
+#tg-nav.scrolled {
+  box-shadow: 0 2px 24px rgba(0, 87, 125, 0.08);
+}
+
+.tg-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.tg-logo-img {
+  display: block;
+  height: 240px;
+  width: auto;
+  max-height: 240px;
+  object-fit: contain;
+  margin: 0;
+  padding: 0;
+}
+
+.tg-logo-mark {
+  width: 38px;
+  height: 38px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, var(--navy), var(--cyan));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--ff-display);
+  font-weight: 700;
+  font-size: 18px;
+  color: #fff;
+}
+
+.tg-logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.tg-logo-text .tg-name {
+  font-family: var(--ff-display);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--navy-deeper);
+}
+
+.tg-logo-text .tg-llp {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--gold-dark);
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+}
+
+/* Desktop links */
+.tg-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tg-nav-links > li {
+  position: relative;
+}
+
+.tg-nav-links > li > a,
+.tg-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 7px 12px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: 6px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: var(--ff-body);
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  transition: color var(--t), background var(--t);
+}
+
+.tg-nav-links > li > a:hover,
+.tg-nav-btn:hover {
+  color: var(--navy);
+  background: rgba(0, 87, 125, 0.05);
+}
+
+.tg-nav-links > li > a.tg-active {
+  color: var(--navy);
+  font-weight: 600;
+  background: rgba(0, 87, 125, 0.06);
+}
+
+/* Chevron */
+.tg-chevron {
+  width: 13px;
+  height: 13px;
+  stroke: currentColor;
+  fill: none;
+  flex-shrink: 0;
+  transition: transform 0.25s;
+}
+
+/* ── DROPDOWN ────────────────────────────────── */
+.tg-has-dd {
+  position: relative;
+}
+
+.tg-has-dd::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 16px;
+}
+
+.tg-has-dd:hover .tg-chevron {
+  transform: rotate(180deg);
+}
+
+.tg-has-dd:hover > .tg-nav-btn {
+  color: var(--navy);
+  background: rgba(0, 87, 125, 0.05);
+}
+
+.tg-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 340px;
+  background: #fff;
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 87, 125, 0.16), 0 4px 16px rgba(0, 0, 0, 0.06);
+  padding: 10px;
+  z-index: 1001;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(-6px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+}
+
+.tg-dropdown::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 12px;
+  height: 12px;
+  background: #fff;
+  border-left: 1px solid var(--border-light);
+  border-top: 1px solid var(--border-light);
+  border-radius: 2px;
+}
+
+.tg-has-dd:hover .tg-dropdown {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Dropdown items */
+.tg-dd-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  border-radius: 11px;
+  text-decoration: none;
+  transition: background var(--t);
+}
+
+.tg-dd-item:hover {
+  background: var(--off-white);
+}
+
+.tg-dd-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.25s;
+}
+
+.tg-dd-item:hover .tg-dd-icon {
+  transform: scale(1.08);
+}
+
+.tg-dd-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.tg-dd-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--navy-deeper);
+  margin-bottom: 2px;
+  line-height: 1;
+}
+
+.tg-dd-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.tg-dd-div {
+  height: 1px;
+  background: var(--border-light);
+  margin: 6px 10px;
+}
+
+.tg-dd-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px 4px;
+  border-top: 1px solid var(--border-light);
+  margin-top: 4px;
+}
+
+.tg-dd-foot span {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.tg-dd-foot a {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--navy);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: gap 0.2s;
+}
+
+.tg-dd-foot a:hover {
+  gap: 7px;
+}
+
+.tg-dd-foot a svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* ── SERVICES MEGA DROPDOWN ──────────────────── */
+.tg-svc-mega {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-6px);
+  width: 680px;
+  background: #fff;
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  box-shadow: 0 24px 64px rgba(0, 87, 125, 0.18), 0 4px 16px rgba(0, 0, 0, 0.06);
+  z-index: 1001;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s;
+  display: flex;
+  overflow: hidden;
+}
+
+.tg-svc-mega::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 12px;
+  height: 12px;
+  background: #fff;
+  border-left: 1px solid var(--border-light);
+  border-top: 1px solid var(--border-light);
+  border-radius: 2px;
+}
+
+.tg-has-svc:hover .tg-svc-mega {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+  transform: translateX(-50%) translateY(0);
+}
+
+.tg-has-svc:hover .tg-chevron {
+  transform: rotate(180deg);
+}
+
+.tg-has-svc:hover > .tg-nav-btn {
+  color: var(--navy);
+  background: rgba(0, 87, 125, 0.05);
+}
+
+/* Left panel — main service list */
+.tg-svc-left {
+  width: 220px;
+  flex-shrink: 0;
+  background: var(--navy-deeper);
+  padding: 12px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tg-svc-left-head {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+  padding: 6px 12px 10px;
+}
+
+.tg-svc-tab {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 12px;
+  border-radius: 9px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.18s;
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+}
+
+.tg-svc-tab:hover,
+.tg-svc-tab.active {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.tg-svc-tab-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.tg-svc-tab-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.65);
+  font-family: var(--ff-body);
+  line-height: 1.2;
+  transition: color 0.18s;
+}
+
+.tg-svc-tab:hover .tg-svc-tab-label,
+.tg-svc-tab.active .tg-svc-tab-label {
+  color: #fff;
+}
+
+.tg-svc-tab-arrow {
+  margin-left: auto;
+  opacity: 0;
+  transition: opacity 0.18s;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.tg-svc-tab:hover .tg-svc-tab-arrow,
+.tg-svc-tab.active .tg-svc-tab-arrow {
+  opacity: 1;
+}
+
+/* Right panel — sub-services */
+.tg-svc-right {
+  flex: 1;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.tg-svc-panel {
+  display: none;
+  flex-direction: column;
+  gap: 0;
+  flex: 1;
+}
+
+.tg-svc-panel.active {
+  display: flex;
+}
+
+.tg-svc-panel-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 12px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.tg-svc-panel-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.tg-svc-panel-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.tg-svc-panel-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy-deeper);
+}
+
+.tg-svc-panel-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+
+.tg-svc-sub-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  flex: 1;
+}
+
+.tg-svc-sub-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 9px;
+  border-radius: 7px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-family: var(--ff-body);
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+  line-height: 1.3;
+}
+
+.tg-svc-sub-item:hover {
+  background: var(--off-white);
+  color: var(--navy);
+}
+
+.tg-svc-sub-item::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--cyan);
+  flex-shrink: 0;
+  opacity: 0.6;
+  transition: opacity 0.15s;
+}
+
+.tg-svc-sub-item:hover::before {
+  opacity: 1;
+}
+
+.tg-svc-panel-foot {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-light);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.tg-svc-panel-foot a {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--navy);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: gap 0.2s;
+}
+
+.tg-svc-panel-foot a:hover {
+  gap: 7px;
+}
+
+.tg-svc-panel-foot a svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* bridge to keep dropdown open */
+.tg-has-svc::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 16px;
+}
+
+/* CTA buttons */
+.tg-nav-cta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tg-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 22px;
+  font-family: var(--ff-body);
+  font-size: 13.5px;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  border: none;
+  transition: all var(--t);
+}
+
+.tg-btn-outline {
+  background: transparent;
+  border: 1.5px solid var(--border-mid);
+  color: var(--navy);
+}
+
+.tg-btn-outline:hover {
+  background: var(--off-white);
+  border-color: var(--navy);
+}
+
+.tg-btn-gold {
+  background: var(--gold);
+  color: var(--navy-deeper);
+  font-weight: 600;
+}
+
+.tg-btn-gold:hover {
+  background: #ffd10a;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(239, 191, 4, 0.4);
+}
+
+.tg-btn-navy {
+  background: var(--navy);
+  color: #fff;
+}
+
+.tg-btn-navy:hover {
+  background: var(--navy-dark);
+  transform: translateY(-1px);
+}
+
+/* Hamburger */
+.tg-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+}
+
+.tg-hamburger:hover {
+  background: var(--off-white);
+}
+
+.tg-hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--navy-deeper);
+  border-radius: 2px;
+}
+
+/* ── MOBILE DRAWER ──────────────────────────── */
+#tg-mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  background: rgba(0, 22, 35, 0.5);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+#tg-mobile-menu.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.tg-drawer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(360px, 90vw);
+  background: #fff;
+  box-shadow: -8px 0 40px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+}
+
+#tg-mobile-menu.open .tg-drawer {
+  transform: translateX(0);
+}
+
+.tg-drawer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border-light);
+  flex-shrink: 0;
+}
+
+.tg-drawer-close {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-light);
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  transition: all var(--t);
+}
+
+.tg-drawer-close:hover {
+  background: var(--off-white);
+  color: var(--navy);
+}
+
+.tg-drawer-close svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+}
+
+.tg-drawer-links {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  flex: 1;
+  gap: 6px;
+}
+
+.tg-drawer-links a {
+  display: block;
+  padding: 12px 16px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-decoration: none;
+  border-radius: 10px;
+  transition: background var(--t), color var(--t);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.tg-drawer-links a:hover {
+  background: var(--off-white);
+  color: var(--navy);
+}
+
+.tg-drawer-links a.tg-active {
+  color: var(--navy);
+  font-weight: 600;
+  background: rgba(0, 87, 125, 0.06);
+}
+
+.tg-drawer-group {
+  margin-top: 12px;
+}
+
+.tg-drawer-group-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 8px 16px 8px;
+}
+
+.tg-drawer-links a.tg-sub {
+  padding: 10px 16px 10px 30px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  position: relative;
+}
+
+.tg-drawer-links a.tg-sub::before {
+  content: '';
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--cyan);
+}
+
+.tg-drawer-cta {
+  padding: 16px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-top: 1px solid var(--border-light);
+  flex-shrink: 0;
+}
+
+.tg-drawer-cta a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+/* ── FOOTER ─────────────────────────────────── */
+#tg-footer {
+  background: var(--navy-deeper);
+  padding: 60px 5% 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-family: var(--ff-body);
+}
+
+.tg-footer-top {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.2fr;
+  gap: 52px;
+  margin-bottom: 48px;
+  align-items: stretch;
+}
+
+.tg-footer-brand {
+  display: flex;
+  flex-direction: column;
+}
+
+.tg-footer-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  width: fit-content;
+}
+
+.tg-footer-brand .tg-fdivider {
+  width: 36px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--cyan));
+  border-radius: 2px;
+  margin: 14px 0 16px 0;
+}
+
+.tg-footer-brand p {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.4);
+  line-height: 1.75;
+  margin-top: 0;
+  max-width: 300px;
+}
+
+.tg-footer-contact {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tg-fci {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.tg-fci svg {
+  width: 16px;
+  height: 16px;
+  color: var(--gold);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.tg-fci span {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.45);
+  line-height: 1.5;
+}
+
+.tg-footer-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.tg-footer-col h4 {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+  margin-bottom: 18px;
+}
+
+.tg-footer-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.tg-footer-col ul a {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  transition: color var(--t);
+}
+
+.tg-footer-col ul a:hover {
+  color: #fff;
+}
+
+.tg-footer-qc {
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 20px 0 0 0;
+}
+
+.tg-footer-qc-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+.tg-footer-qc a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.65);
+  text-decoration: none;
+  font-size: 13px;
+  margin-bottom: 10px;
+  transition: color 0.2s;
+}
+
+.tg-footer-qc a:last-child {
+  margin-bottom: 0;
+}
+
+.tg-footer-qc a:hover {
+  color: var(--cyan);
+}
+
+.tg-footer-qc a svg {
+  flex-shrink: 0;
+}
+
+.tg-footer-bottom {
+  max-width: 1280px;
+  margin: 0 auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  padding-top: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.tg-footer-bottom p {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.tg-footer-bottom a.tg-flink {
+  color: rgba(255, 255, 255, 0.35);
+  text-decoration: none;
+}
+
+.tg-socials {
+  display: flex;
+  gap: 10px;
+}
+
+.tg-social {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.4);
+  text-decoration: none;
+  transition: all var(--t);
+}
+
+.tg-social:hover {
+  background: var(--cyan);
+  border-color: var(--cyan);
+  color: #fff;
+}
+
+.tg-social svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* ── RESPONSIVE ────────────────────────────── */
+@media (max-width: 1024px) {
+  .tg-footer-top {
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 36px;
+  }
+}
+
+@media (max-width: 768px) {
+  .tg-nav-links,
+  .tg-nav-cta {
+    display: none !important;
+  }
+  
+  .tg-hamburger {
+    display: flex !important;
+  }
+  
+  .tg-footer-top {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  
+  .tg-footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+}

@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog | TaxGuide Africa LLP</title>
+<meta name="description" content="Expert articles, regulatory updates, and professional insights from TaxGuide Africa LLP's multidisciplinary team.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="taxguide-shared.css">
+<link rel="stylesheet" href="taxguide-page.css">
+</head>
+<body>
+
+<!-- HERO -->
+<div class="page-hero">
+  <div class="page-hero-grid"></div>
+  <div class="hero-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>Blog</div>
+    <div class="hero-eyebrow">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+      Expert Insights
+    </div>
+    <h1>The TaxGuide Africa<br><span>Blog</span></h1>
+    <p class="sub">Regulatory updates, tax insights, legal briefings, financial intelligence, and technology trends — written by our multidisciplinary professionals for leaders across Africa.</p>
+    <div class="search-bar-wrap">
+      <input type="text" id="heroSearch" placeholder="Search articles, topics, authors…">
+      <button id="heroSearchBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- CATEGORY BAR -->
+<div class="cat-bar">
+  <div class="cat-bar-inner" id="catBar">
+    <button class="cat-tab active" data-cat="all">All Posts</button>
+    <!-- Dynamic category tabs injected here -->
+  </div>
+</div>
+
+<!-- BLOG LAYOUT -->
+<div class="blog-layout">
+  <div>
+    <!-- FEATURED POST -->
+    <div id="featuredPost" class="featured-post reveal" style="display:none">
+      <!-- Injected by JS -->
+    </div>
+
+    <!-- Skeleton / Error state -->
+    <div id="blogState" class="blog-state" style="display:none"></div>
+
+    <!-- BLOG GRID -->
+    <div class="blog-grid" id="blogGrid"></div>
+
+    <!-- Load More -->
+    <div class="load-more-wrap reveal" id="loadMoreSection" style="display:none">
+      <button class="btn btn-outline btn-lg" id="loadMoreBtn">Load More Articles</button>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-card reveal">
+      <h4>Search Articles</h4>
+      <div class="sb-search">
+        <input type="text" id="sidebarSearch" placeholder="Search…">
+        <button id="sidebarSearchBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="sidebar-card reveal">
+      <h4>Categories</h4>
+      <ul class="sb-cats" id="sbCats">
+        <li style="color:var(--text-muted);font-size:13px">Loading…</li>
+      </ul>
+    </div>
+
+    <div class="sidebar-card reveal">
+      <h4>Popular Posts</h4>
+      <div id="popularPosts">
+        <div style="color:var(--text-muted);font-size:13px">Loading…</div>
+      </div>
+    </div>
+
+    <div class="sidebar-card reveal">
+      <h4>Tags</h4>
+      <div class="tag-cloud" id="tagCloud">
+        <span style="color:var(--text-muted);font-size:13px">Loading…</span>
+      </div>
+    </div>
+
+    <div class="sidebar-card reveal" style="background:linear-gradient(135deg,var(--navy),var(--navy-deeper));border-color:transparent">
+      <h4 style="color:white;border-bottom-color:rgba(255,255,255,0.12)">Newsletter</h4>
+      <p style="font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:16px;line-height:1.6">Get our latest tax updates, legal bulletins, and audit insights delivered to your inbox.</p>
+      <div class="sb-newsletter">
+        <input type="email" id="nlEmail" placeholder="Your email address" style="background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.15);color:white">
+        <button id="nlBtn" style="background:var(--gold);color:var(--navy-deeper)">Subscribe Now</button>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<div class="cta-band">
+  <div class="cta-inner">
+    <div><h2>Have a Specific Question?</h2><p>Our specialists are ready to provide expert guidance tailored to your organization's needs and challenges.</p></div>
+    <div class="cta-actions">
+      <a href="taxguide-contact.html" class="btn btn-gold btn-lg">Request a Consultation</a>
+      <a href="taxguide-services.html" class="btn btn-outline-white btn-lg">Our Services</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── CONFIG ────────────────────────────────────────────────────────────────
+const API_BASE = 'http://127.0.0.1:8000/api';
+const PER_PAGE = 6;
+
+// ─── STATE ─────────────────────────────────────────────────────────────────
+let state = {
+  currentPage: 1,
+  lastPage: 1,
+  currentCategory: 'all',
+  currentSearch: '',
+  loading: false,
+  featuredLoaded: false,
+};
+
+// ─── CATEGORY COLOR MAP ────────────────────────────────────────────────────
+const CAT_COLORS = {
+  'tax'        : 'var(--gold)',
+  'tax advisory': 'var(--gold)',
+  'audit'      : 'var(--navy)',
+  'audit & assurance': 'var(--navy)',
+  'legal'      : '#7c3aed',
+  'financial'  : '#059669',
+  'tech'       : '#e11d48',
+  'technology' : '#e11d48',
+  'regulatory' : 'var(--cyan)',
+};
+
+function catColor(cat) {
+  if (!cat) return 'var(--gold)';
+  return CAT_COLORS[cat.toLowerCase()] || 'var(--gold)';
+}
+
+function catSlug(cat) {
+  if (!cat) return '';
+  return cat.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+}
+
+// ─── FETCH BLOGS ───────────────────────────────────────────────────────────
+async function fetchBlogs({ page = 1, category = 'all', search = '', append = false } = {}) {
+  if (state.loading) return;
+  state.loading = true;
+
+  const params = new URLSearchParams({ per_page: PER_PAGE, page });
+  if (category && category !== 'all') params.set('category', category);
+  if (search) params.set('search', search);
+
+  try {
+    const res = await fetch(`${API_BASE}/blogs?${params}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+
+    const { blogs, categories, tags } = data;
+
+    state.currentPage = blogs.current_page;
+    state.lastPage    = blogs.last_page;
+
+    // Populate sidebar categories & tags on first load
+    if (!state.featuredLoaded) {
+      renderSidebarCategories(categories);
+      renderTagCloud(tags);
+      renderCategoryBar(categories);
+    }
+
+    // Featured post — first item on page 1 with no search/filter
+    if (page === 1 && !search && category === 'all' && blogs.data.length > 0 && !state.featuredLoaded) {
+      renderFeaturedPost(blogs.data[0]);
+      renderPopularPosts(blogs.data.slice(0, 3));
+      state.featuredLoaded = true;
+    }
+
+    // Grid posts — skip featured if on first unfiltered page
+    const gridPosts = (page === 1 && !search && category === 'all')
+      ? blogs.data.slice(1)
+      : blogs.data;
+
+    if (!append) {
+      document.getElementById('blogGrid').innerHTML = '';
+    }
+
+    if (gridPosts.length === 0 && !append) {
+      showState('No articles found. Try a different search or category.');
+    } else {
+      hideState();
+      gridPosts.forEach(b => appendBlogCard(b));
+    }
+
+    // Load more
+    const loadMoreSection = document.getElementById('loadMoreSection');
+    if (state.currentPage < state.lastPage) {
+      loadMoreSection.style.display = 'block';
+    } else {
+      loadMoreSection.style.display = 'none';
+    }
+
+    initReveal();
+  } catch (err) {
+    showState('Failed to load articles. Please try again later.');
+    console.error('Blog fetch error:', err);
+  } finally {
+    state.loading = false;
+  }
+}
+
+// ─── RENDER: FEATURED POST ─────────────────────────────────────────────────
+function renderFeaturedPost(blog) {
+  const el = document.getElementById('featuredPost');
+  el.style.display = '';
+  el.innerHTML = `
+    <div class="fp-img">
+      <img src="${blog.image_url}" alt="${escHtml(blog.title)}" onerror="this.src='images/graph.jpeg'">
+      <div class="fp-badge">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 6 7 1-5 5 1.18 7L12 17l-6.18 3L7 13 2 8l7-1 3-6z"/></svg>
+        Featured
+      </div>
+    </div>
+    <div class="fp-body">
+      <div class="fp-tag">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>
+        ${escHtml(blog.category || 'General')}
+      </div>
+      <h2>${escHtml(blog.title)}</h2>
+      <p>${escHtml(stripHtml(blog.description).substring(0, 220))}${blog.description.length > 220 ? '…' : ''}</p>
+      <div class="fp-meta">
+        <span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          ${formatDate(blog.created_at)}
+        </span>
+        <span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          ${escHtml(blog.read_time)}
+        </span>
+      </div>
+      <a href="taxguide-blog-single.html?slug=${encodeURIComponent(blog.slug)}" class="btn btn-gold">
+        Read Full Article
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  `;
+}
+
+// ─── RENDER: BLOG CARD ─────────────────────────────────────────────────────
+function appendBlogCard(blog) {
+  const grid = document.getElementById('blogGrid');
+  const card = document.createElement('div');
+  card.className = 'blog-card reveal';
+  card.dataset.cat = catSlug(blog.category);
+
+  const tags = Array.isArray(blog.tags) ? blog.tags : [];
+  const tagHTML = tags.slice(0, 2).map(t =>
+    `<span class="bc-tag">${escHtml(t)}</span>`
+  ).join('');
+
+  card.innerHTML = `
+    <a href="taxguide-blog-single.html?slug=${encodeURIComponent(blog.slug)}" class="bc-img-wrap">
+      <img src="${blog.image_url}" alt="${escHtml(blog.title)}" loading="lazy" onerror="this.src='images/graph.jpeg'">
+      <div class="bc-cat" style="background:${catColor(blog.category)}">${escHtml(blog.category || 'General')}</div>
+    </a>
+    <div class="bc-body">
+      <div class="bc-tags">${tagHTML}</div>
+      <h3><a href="taxguide-blog-single.html?slug=${encodeURIComponent(blog.slug)}">${escHtml(blog.title)}</a></h3>
+      <p>${escHtml(stripHtml(blog.description).substring(0, 140))}…</p>
+      <div class="bc-footer">
+        <div class="bc-meta">
+          <span>${formatDate(blog.created_at)}</span>
+          <span>${escHtml(blog.read_time)}</span>
+        </div>
+        <a href="taxguide-blog-single.html?slug=${encodeURIComponent(blog.slug)}" class="bc-read">
+          Read
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  `;
+  grid.appendChild(card);
+}
+
+// ─── RENDER: CATEGORY BAR ──────────────────────────────────────────────────
+function renderCategoryBar(categories) {
+  const bar = document.getElementById('catBar');
+  // Keep "All Posts" button, remove any dynamic ones first
+  bar.querySelectorAll('[data-dynamic]').forEach(el => el.remove());
+
+  if (!Array.isArray(categories)) return;
+
+  categories.forEach(cat => {
+    if (!cat.category) return;
+    const btn = document.createElement('button');
+    btn.className = 'cat-tab';
+    btn.dataset.cat = catSlug(cat.category);
+    btn.dataset.dynamic = '1';
+    btn.innerHTML = `<span class="dot" style="background:${catColor(cat.category)}"></span>${escHtml(cat.category)}`;
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      state.currentCategory = catSlug(cat.category);
+      state.currentSearch = '';
+      state.featuredLoaded = true; // don't re-render featured on filter
+      document.getElementById('blogGrid').innerHTML = '';
+      fetchBlogs({ page: 1, category: cat.category, search: '' });
+    });
+    bar.appendChild(btn);
+  });
+}
+
+// ─── RENDER: SIDEBAR CATEGORIES ───────────────────────────────────────────
+function renderSidebarCategories(categories) {
+  const el = document.getElementById('sbCats');
+  if (!Array.isArray(categories) || categories.length === 0) {
+    el.innerHTML = '<li style="color:var(--text-muted);font-size:13px">No categories found.</li>';
+    return;
+  }
+  el.innerHTML = categories.map(cat => `
+    <li>
+      <a href="#" data-filter-cat="${escHtml(cat.category)}">
+        ${escHtml(cat.category)} <span class="count">${cat.count}</span>
+      </a>
+    </li>
+  `).join('');
+
+  el.querySelectorAll('a[data-filter-cat]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const cat = a.dataset.filterCat;
+      state.currentCategory = catSlug(cat);
+      state.currentSearch = '';
+      state.featuredLoaded = true;
+      document.getElementById('blogGrid').innerHTML = '';
+      // Sync cat bar
+      document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+      const matchTab = document.querySelector(`.cat-tab[data-cat="${catSlug(cat)}"]`);
+      if (matchTab) matchTab.classList.add('active');
+      fetchBlogs({ page: 1, category: cat, search: '' });
+    });
+  });
+}
+
+// ─── RENDER: TAG CLOUD ─────────────────────────────────────────────────────
+function renderTagCloud(tags) {
+  const el = document.getElementById('tagCloud');
+  if (!Array.isArray(tags) || tags.length === 0) {
+    el.innerHTML = '<span style="color:var(--text-muted);font-size:13px">No tags found.</span>';
+    return;
+  }
+  el.innerHTML = tags.map(tag => `
+    <a href="#" class="tag-pill" data-filter-tag="${escHtml(tag)}">${escHtml(tag)}</a>
+  `).join('');
+
+  el.querySelectorAll('a[data-filter-tag]').forEach(a => {
+    a.addEventListener('click', async e => {
+      e.preventDefault();
+      const tag = a.dataset.filterTag;
+      state.currentSearch = '';
+      state.currentCategory = 'all';
+      state.featuredLoaded = true;
+      document.getElementById('blogGrid').innerHTML = '';
+      document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+      document.querySelector('.cat-tab[data-cat="all"]').classList.add('active');
+
+      // Tag filtering via query param
+      const params = new URLSearchParams({ per_page: PER_PAGE, page: 1, tag });
+      try {
+        const res = await fetch(`${API_BASE}/blogs?${params}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        const { blogs } = data;
+        state.currentPage = blogs.current_page;
+        state.lastPage    = blogs.last_page;
+        document.getElementById('blogGrid').innerHTML = '';
+        if (blogs.data.length === 0) {
+          showState('No articles found for this tag.');
+        } else {
+          hideState();
+          blogs.data.forEach(b => appendBlogCard(b));
+        }
+        document.getElementById('loadMoreSection').style.display =
+          (state.currentPage < state.lastPage) ? 'block' : 'none';
+        initReveal();
+      } catch (err) {
+        showState('Failed to load articles. Please try again.');
+      }
+    });
+  });
+}
+
+// ─── RENDER: POPULAR POSTS ─────────────────────────────────────────────────
+function renderPopularPosts(blogs) {
+  const el = document.getElementById('popularPosts');
+  if (!blogs || blogs.length === 0) {
+    el.innerHTML = '<div style="color:var(--text-muted);font-size:13px">No posts found.</div>';
+    return;
+  }
+  el.innerHTML = blogs.map(b => `
+    <div class="pop-post">
+      <div class="pop-thumb">
+        <img src="${b.image_url}" alt="${escHtml(b.title)}" onerror="this.src='images/graph.jpeg'">
+      </div>
+      <div>
+        <div class="pop-title">
+          <a href="taxguide-blog-single.html?slug=${encodeURIComponent(b.slug)}" style="color:inherit;text-decoration:none">
+            ${escHtml(b.title)}
+          </a>
+        </div>
+        <div class="pop-date">${formatDate(b.created_at)}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ─── LOAD MORE ─────────────────────────────────────────────────────────────
+document.getElementById('loadMoreBtn').addEventListener('click', () => {
+  if (state.currentPage >= state.lastPage) return;
+  fetchBlogs({
+    page: state.currentPage + 1,
+    category: state.currentCategory !== 'all' ? state.currentCategory : 'all',
+    search: state.currentSearch,
+    append: true,
+  });
+});
+
+// ─── ALL POSTS TAB ─────────────────────────────────────────────────────────
+document.querySelector('.cat-tab[data-cat="all"]').addEventListener('click', function () {
+  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+  this.classList.add('active');
+  state.currentCategory = 'all';
+  state.currentSearch = '';
+  state.featuredLoaded = false;
+  document.getElementById('featuredPost').style.display = 'none';
+  document.getElementById('blogGrid').innerHTML = '';
+  fetchBlogs({ page: 1, category: 'all', search: '' });
+});
+
+// ─── SEARCH ────────────────────────────────────────────────────────────────
+function triggerSearch(value) {
+  const q = (value || '').trim();
+  state.currentSearch = q;
+  state.currentCategory = 'all';
+  state.featuredLoaded = true;
+  document.getElementById('blogGrid').innerHTML = '';
+  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector('.cat-tab[data-cat="all"]').classList.add('active');
+  document.getElementById('featuredPost').style.display = 'none';
+  fetchBlogs({ page: 1, category: 'all', search: q });
+}
+
+document.getElementById('heroSearchBtn').addEventListener('click', () => {
+  triggerSearch(document.getElementById('heroSearch').value);
+});
+document.getElementById('heroSearch').addEventListener('keydown', e => {
+  if (e.key === 'Enter') triggerSearch(e.target.value);
+});
+document.getElementById('sidebarSearchBtn').addEventListener('click', () => {
+  triggerSearch(document.getElementById('sidebarSearch').value);
+});
+document.getElementById('sidebarSearch').addEventListener('keydown', e => {
+  if (e.key === 'Enter') triggerSearch(e.target.value);
+});
+
+// ─── NEWSLETTER ────────────────────────────────────────────────────────────
+document.getElementById('nlBtn').addEventListener('click', async () => {
+  const email = document.getElementById('nlEmail').value.trim();
+  if (!email) return;
+  const btn = document.getElementById('nlBtn');
+  btn.disabled = true;
+  btn.textContent = 'Subscribing…';
+  try {
+    const res = await fetch(`${API_BASE}/subscribe`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ email }),
+    });
+    btn.textContent = res.ok ? 'Subscribed ✓' : 'Error. Try again.';
+  } catch {
+    btn.textContent = 'Error. Try again.';
+    btn.disabled = false;
+  }
+});
+
+// ─── HELPERS ───────────────────────────────────────────────────────────────
+function showState(msg) {
+  const el = document.getElementById('blogState');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+function hideState() {
+  document.getElementById('blogState').style.display = 'none';
+}
+function escHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+function stripHtml(html) {
+  if (!html) return '';
+  return html.replace(/<[^>]*>/g, '');
+}
+function formatDate(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+function initReveal() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal:not(.visible)').forEach(el => obs.observe(el));
+}
+
+// ─── NAV SCROLL ────────────────────────────────────────────────────────────
+const nav = document.getElementById('mainNav');
+if (nav) {
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 80));
+}
+
+// ─── INIT ──────────────────────────────────────────────────────────────────
+fetchBlogs({ page: 1, category: 'all', search: '' });
+initReveal();
+</script>
+<script src="taxguide-shared.js"></script>
+</body>
+</html>
