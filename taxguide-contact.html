@@ -16,31 +16,75 @@
     />
     <link rel="stylesheet" href="taxguide-shared.css" />
     <link rel="stylesheet" href="taxguide-page.css" />
+
+    <style>
+      /* ── Hero layout fix ────────────────────────────────────────────── */
+      /* The hero-inner wraps TWO children: the text column and the stats.
+         We make it a proper column-then-row layout so nothing overlaps.  */
+      .hero-inner {
+        display: flex;
+        flex-direction: column;
+        gap: 48px;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Text column: constrain width so it doesn't bleed into stats */
+      .hero-inner > div:first-child {
+        max-width: 680px;
+      }
+
+      /* Actions row sits naturally below the paragraph */
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 32px;
+        align-items: center;
+      }
+
+      /* Stats row pushed below text column, never on top of it */
+      .hero-stats {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+
+      @media (min-width: 900px) {
+        .hero-inner {
+          flex-direction: row;
+          align-items: flex-start;
+          justify-content: space-between;
+        }
+
+        .hero-stats {
+          flex-direction: column;
+          flex-shrink: 0;
+          width: 220px;
+          gap: 12px;
+          margin-top: 60px; /* align roughly with heading */
+        }
+      }
+    </style>
   </head>
   <body>
     <!-- WhatsApp floating button -->
     <a
+      id="wa-float-link"
       href="https://wa.me/254711355015?text=Hello%20TaxGuide%20Africa%20LLP%2C%20I%20would%20like%20to%20inquire%20about%20your%20services."
       class="wa-float"
       target="_blank"
       aria-label="Chat on WhatsApp"
     >
       <svg viewBox="0 0 24 24" fill="currentColor">
-        <path
-          d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"
-        />
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
       </svg>
     </a>
 
     <!-- Success toast -->
     <div class="toast hidden" id="toast">
       <div class="toast-icon">
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2.5"
-        >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <path d="M20 6L9 17l-5-5" />
         </svg>
       </div>
@@ -56,15 +100,12 @@
     <section class="hero">
       <div class="hero-grid-bg"></div>
       <div class="hero-inner">
+
+        <!-- Left: text + actions -->
         <div>
           <div class="breadcrumb">
             <a href="index.html">Home</a>
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M9 18l6-6-6-6" />
             </svg>
             Contact Us
@@ -81,52 +122,29 @@
             LLP can support your organization's strategic objectives — across
             Kenya and the wider African continent.
           </p>
+          <!-- Actions live here, BELOW the paragraph, inside the text column -->
           <div class="hero-actions">
             <a href="#inquiry" class="btn btn-gold btn-lg">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path
-                  d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"
-                />
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
               </svg>
               Send a Message
             </a>
-            <a href="tel:+254711355015" class="btn btn-outline-white btn-lg">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path
-                  d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.08a16 16 0 006 6z"
-                />
+            <a id="hero-phone-btn" href="tel:+254711355015" class="btn btn-outline-white btn-lg">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.08a16 16 0 006 6z"/>
               </svg>
-              +254 711 355 015
+              <span id="hero-phone-text">+254 711 355 015</span>
             </a>
           </div>
         </div>
 
-        <!-- Stats -->
+        <!-- Right: stats -->
         <div class="hero-stats">
           <div class="hero-stat">
             <div class="hs-icon gold">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <path d="M12 6v6l4 2" />
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
               </svg>
             </div>
             <div class="hs-num">1 Day</div>
@@ -134,15 +152,10 @@
           </div>
           <div class="hero-stat">
             <div class="hs-icon cyan">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-              >
-                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-                <circle cx="9" cy="7" r="4" />
-                <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
               </svg>
             </div>
             <div class="hs-num">5</div>
@@ -150,13 +163,8 @@
           </div>
           <div class="hero-stat">
             <div class="hs-icon green">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-              >
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
               </svg>
             </div>
             <div class="hs-num">100%</div>
@@ -164,33 +172,22 @@
           </div>
           <div class="hero-stat">
             <div class="hs-icon rose">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <path d="M2 12h20M12 2a15.3 15.3 0 010 20" />
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M2 12h20M12 2a15.3 15.3 0 010 20"/>
               </svg>
             </div>
             <div class="hs-num">Pan-AF</div>
             <div class="hs-label">Service Reach</div>
           </div>
         </div>
+
       </div>
 
       <!-- Wave bottom -->
       <div class="hero-wave">
-        <svg
-          viewBox="0 0 1440 60"
-          preserveAspectRatio="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M0,0 C360,60 1080,60 1440,0 L1440,60 L0,60 Z"
-            fill="var(--navy)"
-          />
+        <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0,0 C360,60 1080,60 1440,0 L1440,60 L0,60 Z" fill="var(--navy)"/>
         </svg>
       </div>
     </section>
@@ -198,82 +195,54 @@
     <!-- CHANNELS BAR -->
     <div class="channels-bar">
       <div class="channels-inner">
-        <a href="tel:+254711355015" class="channel-card">
+        <a id="ch-phone-link" href="tel:+254711355015" class="channel-card">
           <div class="ch-icon">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-            >
-              <path
-                d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.08a16 16 0 006 6z"
-              />
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.08a16 16 0 006 6z"/>
             </svg>
           </div>
           <div>
             <div class="ch-label">Phone</div>
-            <div class="ch-value">+254 711 355 015</div>
-            <div class="ch-sub">Mon–Fri, 8 AM–5:30 PM EAT</div>
+            <div class="ch-value" id="ch-phone-value">+254 711 355 015</div>
+            <div class="ch-sub" id="ch-hours-value">Mon–Fri, 8 AM–5:30 PM EAT</div>
           </div>
         </a>
-        <a href="mailto:info@taxguidellp.com" class="channel-card">
+        <a id="ch-email-link" href="mailto:info@taxguidellp.com" class="channel-card">
           <div class="ch-icon">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-            >
-              <path
-                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
-              />
-              <polyline points="22,6 12,13 2,6" />
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
             </svg>
           </div>
           <div>
             <div class="ch-label">Email</div>
-            <div class="ch-value">info@taxguidellp.com</div>
+            <div class="ch-value" id="ch-email-value">info@taxguidellp.com</div>
             <div class="ch-sub">24 hr response guaranteed</div>
           </div>
         </a>
-        <div class="channel-card" style="cursor: default">
+        <div class="channel-card" style="cursor:default">
           <div class="ch-icon">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-            >
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
-              <circle cx="12" cy="10" r="3" />
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+              <circle cx="12" cy="10" r="3"/>
             </svg>
           </div>
           <div>
             <div class="ch-label">Head Office</div>
-            <div class="ch-value">Milligan Court, 1st Floor</div>
-            <div class="ch-sub">Suite 4 · Nairobi, Kenya</div>
+            <div class="ch-value" id="ch-address-line1">Milligan Court, 1st Floor</div>
+            <div class="ch-sub" id="ch-address-line2">Suite 4 · Nairobi, Kenya</div>
           </div>
         </div>
-        <a
-          href="http://www.taxguidellp.com"
-          target="_blank"
-          class="channel-card"
-        >
+        <a href="http://www.taxguidellp.com" target="_blank" class="channel-card">
           <div class="ch-icon">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <path d="M2 12h20M12 2a15.3 15.3 0 010 20" />
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M2 12h20M12 2a15.3 15.3 0 010 20"/>
             </svg>
           </div>
           <div>
             <div class="ch-label">Website</div>
-            <div class="ch-value">www.taxguidellp.com</div>
+            <div class="ch-value" id="ch-site-value">www.taxguidellp.com</div>
             <div class="ch-sub">Visit us online</div>
           </div>
         </a>
@@ -282,128 +251,67 @@
 
     <!-- MAIN: FORM + INFO -->
     <div class="main-wrap" id="inquiry">
+
       <!-- FORM PANEL -->
       <div class="form-panel reveal">
         <div class="panel-eyebrow">Send a Message</div>
         <h2 class="panel-title">How Can We Help<br />Your Organization?</h2>
         <p class="panel-desc">
           Fill in the form below and one of our specialists will respond within
-          one business day. All inquiries are handled with strict
-          confidentiality.
+          one business day. All inquiries are handled with strict confidentiality.
         </p>
 
         <!-- Service selector -->
-        <p
-          style="
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 12px;
-          "
-        >
+        <p style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px;">
           I need help with
         </p>
         <div class="service-selector" id="svcSelector">
-          <div
-            class="svc-opt selected"
-            onclick="selectSvc(this, 'Accounting & Assurance')"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-            >
-              <path d="M9 7H6a2 2 0 00-2 2v9a2 2 0 002 2h9a2 2 0 002-2v-3" />
-              <path d="M21 3L9 15" />
+          <div class="svc-opt selected" onclick="selectSvc(this,'Accounting & Assurance')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M9 7H6a2 2 0 00-2 2v9a2 2 0 002 2h9a2 2 0 002-2v-3"/>
+              <path d="M21 3L9 15"/>
             </svg>
             Accounting
           </div>
-          <div class="svc-opt" onclick="selectSvc(this, 'Tax Advisory')">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-            >
-              <rect x="2" y="3" width="20" height="14" rx="2" />
-              <path d="M7 8h10M7 12h6" />
+          <div class="svc-opt" onclick="selectSvc(this,'Tax Advisory')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="2" y="3" width="20" height="14" rx="2"/>
+              <path d="M7 8h10M7 12h6"/>
             </svg>
             Tax Advisory
           </div>
-          <div class="svc-opt" onclick="selectSvc(this, 'Legal & Corporate')">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-            >
-              <path
-                d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"
-              />
+          <div class="svc-opt" onclick="selectSvc(this,'Legal & Corporate')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/>
             </svg>
             Legal
           </div>
-          <div class="svc-opt" onclick="selectSvc(this, 'Financial Advisory')">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-            >
-              <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+          <div class="svc-opt" onclick="selectSvc(this,'Financial Advisory')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
             </svg>
             Financial
           </div>
-          <div
-            class="svc-opt"
-            onclick="selectSvc(this, 'Technology & Digital')"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-            >
-              <rect x="2" y="3" width="20" height="14" rx="2" />
-              <path d="M17 8l-5 5-3-3-3 3" />
+          <div class="svc-opt" onclick="selectSvc(this,'Technology & Digital')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="2" y="3" width="20" height="14" rx="2"/>
+              <path d="M17 8l-5 5-3-3-3 3"/>
             </svg>
             Technology
           </div>
-          <div class="svc-opt" onclick="selectSvc(this, 'General Inquiry')">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <path d="M12 8v4M12 16h.01" />
+          <div class="svc-opt" onclick="selectSvc(this,'General Inquiry')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 8v4M12 16h.01"/>
             </svg>
             General
           </div>
         </div>
 
-        <input
-          type="hidden"
-          id="selectedService"
-          value="Accounting & Assurance"
-        />
+        <input type="hidden" id="selectedService" value="Accounting & Assurance" />
 
         <!-- Priority -->
-        <p
-          style="
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 10px;
-            margin-top: 6px;
-          "
-        >
+        <p style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;margin-top:6px;">
           Priority
         </p>
         <div class="priority-row">
@@ -432,7 +340,7 @@
             <label for="lastName">Last Name</label>
           </div>
         </div>
-        <div class="form-grid" style="margin-bottom: 18px">
+        <div class="form-grid" style="margin-bottom:18px">
           <div class="field">
             <input type="email" id="email" placeholder=" " />
             <label for="email">Email Address</label>
@@ -442,19 +350,19 @@
             <label for="phone">Phone Number</label>
           </div>
         </div>
-        <div class="form-grid single" style="margin-bottom: 18px">
+        <div class="form-grid single" style="margin-bottom:18px">
           <div class="field">
             <input type="text" id="company" placeholder=" " />
             <label for="company">Organization / Company Name</label>
           </div>
         </div>
-        <div class="form-grid single" style="margin-bottom: 18px">
+        <div class="form-grid single" style="margin-bottom:18px">
           <div class="field">
             <input type="text" id="subject" placeholder=" " />
             <label for="subject">Subject</label>
           </div>
         </div>
-        <div class="form-grid single" style="margin-bottom: 24px">
+        <div class="form-grid single" style="margin-bottom:24px">
           <div class="field">
             <textarea id="message" placeholder=" "></textarea>
             <label for="message">Your Message</label>
@@ -464,54 +372,34 @@
         <!-- Consent -->
         <div class="check-row">
           <div class="custom-check" id="consentBox" onclick="toggleConsent()">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="3"
-            >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
               <path d="M20 6L9 17l-5-5" />
             </svg>
           </div>
           <div class="check-text">
-            I agree that TaxGuide Africa LLP may contact me about my inquiry.
-            All information is handled in accordance with our
-            <a href="#">Privacy Policy</a>.
+            I agree that <span id="consent-site-name">TaxGuide Africa LLP</span> may contact me about my inquiry.
+            All information is handled in accordance with our <a href="#">Privacy Policy</a>.
           </div>
         </div>
 
         <button class="submit-btn" onclick="submitForm()">
           <span>Send Message</span>
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
           </svg>
         </button>
         <p class="form-note">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <rect x="3" y="11" width="18" height="11" rx="2" />
-            <path d="M7 11V7a5 5 0 0110 0v4" />
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2"/>
+            <path d="M7 11V7a5 5 0 0110 0v4"/>
           </svg>
-          Your information is strictly confidential and never shared with third
-          parties.
+          Your information is strictly confidential and never shared with third parties.
         </p>
       </div>
 
       <!-- INFO PANEL -->
-      <div
-        style="display: flex; flex-direction: column; gap: 16px"
-        class="reveal"
-        style="transition-delay: 0.15s"
-      >
+      <div style="display:flex;flex-direction:column;gap:16px" class="reveal">
+
         <!-- Office card -->
         <div class="office-card">
           <div class="office-title">Our Nairobi Office</div>
@@ -519,134 +407,96 @@
           <div class="office-details">
             <div class="office-row">
               <div class="office-row-icon">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                >
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
-                  <circle cx="12" cy="10" r="3" />
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                  <circle cx="12" cy="10" r="3"/>
                 </svg>
               </div>
               <div>
                 <div class="office-row-label">Address</div>
-                <div class="office-row-value">
-                  Milligan Court, 1st Floor, Suite 4<br />Opposite Ngong Hills
-                  Hotel<br />Nairobi, Kenya
+                <div class="office-row-value" id="office-address">
+                  Milligan Court, 1st Floor, Suite 4<br />Opposite Ngong Hills Hotel<br />Nairobi, Kenya
                 </div>
               </div>
             </div>
             <div class="office-row">
               <div class="office-row-icon">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                >
-                  <path
-                    d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.08a16 16 0 006 6z"
-                  />
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.08a16 16 0 006 6z"/>
                 </svg>
               </div>
               <div>
                 <div class="office-row-label">Phone</div>
                 <div class="office-row-value">
-                  <a href="tel:+254711355015">+254 711 355 015</a>
+                  <a id="office-phone-link" href="tel:+254711355015">
+                    <span id="office-phone-text">+254 711 355 015</span>
+                  </a>
                 </div>
               </div>
             </div>
             <div class="office-row">
               <div class="office-row-icon">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                >
-                  <path
-                    d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
-                  />
-                  <polyline points="22,6 12,13 2,6" />
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
                 </svg>
               </div>
               <div>
                 <div class="office-row-label">Email</div>
                 <div class="office-row-value">
-                  <a href="mailto:info@taxguidellp.com">info@taxguidellp.com</a>
+                  <a id="office-email-link" href="mailto:info@taxguidellp.com">
+                    <span id="office-email-text">info@taxguidellp.com</span>
+                  </a>
                 </div>
               </div>
             </div>
           </div>
           <div class="office-hours-badge">
             <span class="hours-dot"></span>
-            Open Now · Mon–Fri, 8:00 AM – 5:30 PM EAT
+            <span id="office-hours-text">Open Now · Mon–Fri, 8:00 AM – 5:30 PM EAT</span>
           </div>
         </div>
 
         <!-- Channel mini-cards -->
         <div class="channel-mini-grid">
-          <a href="tel:+254711355015" class="channel-mini">
+          <a id="mini-phone-link" href="tel:+254711355015" class="channel-mini">
             <div class="cm-icon navy">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-              >
-                <path
-                  d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.08a16 16 0 006 6z"
-                />
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.08a16 16 0 006 6z"/>
               </svg>
             </div>
             <div class="cm-label">Call Direct</div>
-            <div class="cm-value">+254 711 355 015</div>
+            <div class="cm-value" id="mini-phone-value">+254 711 355 015</div>
           </a>
-          <a href="mailto:info@taxguidellp.com" class="channel-mini">
+          <a id="mini-email-link" href="mailto:info@taxguidellp.com" class="channel-mini">
             <div class="cm-icon cyan">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-              >
-                <path
-                  d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
-                />
-                <polyline points="22,6 12,13 2,6" />
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
               </svg>
             </div>
             <div class="cm-label">Email Us</div>
-            <div class="cm-value">info@taxguidellp.com</div>
+            <div class="cm-value" id="mini-email-value">info@taxguidellp.com</div>
           </a>
         </div>
 
         <!-- WhatsApp CTA -->
-        <a
-          href="https://wa.me/254711355015?text=Hello%20TaxGuide%20Africa%20LLP%2C%20I%20would%20like%20to%20inquire%20about%20your%20services."
-          target="_blank"
-          class="wa-btn"
-        >
+        <a id="wa-btn-link"
+           href="https://wa.me/254711355015?text=Hello%20TaxGuide%20Africa%20LLP%2C%20I%20would%20like%20to%20inquire%20about%20your%20services."
+           target="_blank"
+           class="wa-btn">
           <div class="wa-icon">
             <svg viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"
-              />
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
             </svg>
           </div>
           <div>
             <div class="wa-title">Chat on WhatsApp</div>
-            <div class="wa-sub">Instant messaging · +254 711 355 015</div>
+            <div class="wa-sub">Instant messaging · <span id="wa-phone-text">+254 711 355 015</span></div>
           </div>
           <div class="wa-arrow">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path d="M5 12h14M12 5l7 7-7 7" />
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
             </svg>
           </div>
         </a>
@@ -655,62 +505,37 @@
         <div>
           <div class="social-section-label">Follow Us</div>
           <div class="social-row">
-            <a
-              href="https://www.linkedin.com/company/taxguideafricallp"
-              class="social-pill linkedin"
-            >
+            <a id="social-linkedin" href="https://www.linkedin.com/company/taxguideafricallp" class="social-pill linkedin">
               <svg viewBox="0 0 24 24" fill="currentColor">
-                <path
-                  d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"
-                />
-                <circle cx="4" cy="4" r="2" />
+                <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/>
+                <circle cx="4" cy="4" r="2"/>
               </svg>
               LinkedIn
             </a>
-            <a href="https://x.com/Taxguideafrica" class="social-pill twitter">
+            <a id="social-twitter" href="https://x.com/Taxguideafrica" class="social-pill twitter">
               <svg viewBox="0 0 24 24" fill="currentColor">
-                <path
-                  d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
-                />
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
               </svg>
               X / Twitter
             </a>
-            <a
-              href="https://www.facebook.com/profile.php?id=61555963430604"
-              class="social-pill facebook"
-            >
+            <a id="social-facebook" href="https://www.facebook.com/profile.php?id=61555963430604" class="social-pill facebook">
               <svg viewBox="0 0 24 24" fill="currentColor">
-                <path
-                  d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"
-                />
+                <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
               </svg>
               Facebook
             </a>
-            <a
-              href="https://www.instagram.com/taxguideafricallp?igsh=MW9mdm5pZGh6NXR5Yg=="
-              class="social-pill instagram"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-              >
-                <rect x="2" y="2" width="20" height="20" rx="5" />
-                <circle cx="12" cy="12" r="4" />
-                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
+            <a id="social-instagram" href="https://www.instagram.com/taxguideafricallp?igsh=MW9mdm5pZGh6NXR5Yg==" class="social-pill instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="2" y="2" width="20" height="20" rx="5"/>
+                <circle cx="12" cy="12" r="4"/>
+                <circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>
               </svg>
               Instagram
             </a>
-            <a
-              href="https://www.youtube.com/@TaxGuideAfricaLLP"
-              class="social-pill youtube"
-            >
+            <a id="social-youtube" href="https://www.youtube.com/@TaxGuideAfricaLLP" class="social-pill youtube">
               <svg viewBox="0 0 24 24" fill="currentColor">
-                <path
-                  d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58z"
-                />
-                <polygon points="9.75 15.02" fill="white" />
+                <path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58z"/>
+                <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white"/>
               </svg>
               YouTube
             </a>
@@ -723,27 +548,8 @@
     <div class="map-section">
       <div class="map-header reveal">
         <div>
-          <div
-            style="
-              display: inline-flex;
-              align-items: center;
-              gap: 8px;
-              font-size: 11px;
-              font-weight: 600;
-              letter-spacing: 2.5px;
-              text-transform: uppercase;
-              color: var(--navy);
-              margin-bottom: 12px;
-            "
-          >
-            <span
-              style="
-                display: block;
-                width: 20px;
-                height: 1.5px;
-                background: var(--cyan);
-              "
-            ></span>
+          <div style="display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--navy);margin-bottom:12px;">
+            <span style="display:block;width:20px;height:1.5px;background:var(--cyan)"></span>
             Find Us
           </div>
           <div class="map-title">Visit Our Office</div>
@@ -752,21 +558,10 @@
             welcome — call ahead to ensure a specialist is available.
           </p>
         </div>
-        <a
-          href="https://maps.google.com/?q=Milligan+Court+Nairobi"
-          target="_blank"
-          class="btn btn-navy"
-        >
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
-            <circle cx="12" cy="10" r="3" />
+        <a href="https://maps.google.com/?q=Milligan+Court+Nairobi" target="_blank" class="btn btn-navy">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+            <circle cx="12" cy="10" r="3"/>
           </svg>
           Get Directions
         </a>
@@ -777,61 +572,35 @@
           allowfullscreen=""
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
-          title="TaxGuide Africa LLP — Nairobi Office"
-        >
+          title="TaxGuide Africa LLP — Nairobi Office">
         </iframe>
         <div class="map-card">
           <div class="map-card-tag">
-            <svg
-              width="11"
-              height="11"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
             </svg>
             Head Office
           </div>
-          <h4>TaxGuide Africa LLP</h4>
+          <h4 id="map-card-name">TaxGuide Africa LLP</h4>
           <div class="map-card-detail">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-            >
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
-              <circle cx="12" cy="10" r="3" />
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+              <circle cx="12" cy="10" r="3"/>
             </svg>
-            <p>
-              Milligan Court, 1st Floor, Suite 4<br />Opposite Ngong Hills
-              Hotel<br />Nairobi, Kenya
+            <p id="map-card-address">
+              Milligan Court, 1st Floor, Suite 4<br />Opposite Ngong Hills Hotel<br />Nairobi, Kenya
             </p>
           </div>
           <div class="map-card-detail">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <path d="M12 6v6l4 2" />
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 6v6l4 2"/>
             </svg>
-            <p>Mon–Fri · 8:00 AM – 5:30 PM EAT</p>
+            <p id="map-card-hours">Mon–Fri · 8:00 AM – 5:30 PM EAT</p>
           </div>
           <div class="map-card-actions">
-            <a
-              href="https://maps.google.com/?q=Milligan+Court+Nairobi"
-              target="_blank"
-              class="dir"
-              >Get Directions</a
-            >
-            <a href="https://wa.me/254711355015" target="_blank" class="wa"
-              >WhatsApp</a
-            >
+            <a href="https://maps.google.com/?q=Milligan+Court+Nairobi" target="_blank" class="dir">Get Directions</a>
+            <a id="map-card-wa" href="https://wa.me/254711355015" target="_blank" class="wa">WhatsApp</a>
           </div>
         </div>
       </div>
@@ -847,159 +616,85 @@
 
         <div class="faq-item reveal">
           <div class="faq-q" onclick="toggleFaq(this)">
-            <span
-              ><span class="faq-number">01</span> What types of organizations
-              does TaxGuide Africa LLP serve?</span
-            >
+            <span><span class="faq-number">01</span> What types of organizations does TaxGuide Africa LLP serve?</span>
             <div class="faq-q-icon">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-              >
-                <line x1="12" y1="5" x2="12" y2="19" />
-                <line x1="5" y1="12" x2="19" y2="12" />
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
               </svg>
             </div>
           </div>
           <div class="faq-a">
-            We serve a wide spectrum of organizations — multinational
-            corporations, SMEs, start-ups, NGOs, government agencies, financial
-            institutions, and individual investors. Our five practice areas are
-            designed to address the needs of virtually any organization
-            operating across Africa.
+            We serve a wide spectrum of organizations — multinational corporations, SMEs, start-ups, NGOs, government agencies, financial institutions, and individual investors. Our five practice areas are designed to address the needs of virtually any organization operating across Africa.
           </div>
         </div>
 
         <div class="faq-item reveal">
           <div class="faq-q" onclick="toggleFaq(this)">
-            <span
-              ><span class="faq-number">02</span> How quickly can I expect a
-              response to my inquiry?</span
-            >
+            <span><span class="faq-number">02</span> How quickly can I expect a response to my inquiry?</span>
             <div class="faq-q-icon">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-              >
-                <line x1="12" y1="5" x2="12" y2="19" />
-                <line x1="5" y1="12" x2="19" y2="12" />
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
               </svg>
             </div>
           </div>
           <div class="faq-a">
-            We aim to respond to all inquiries within one business day. For
-            urgent matters, call us directly on +254 711 355 015 or message us
-            on WhatsApp for near-immediate assistance.
+            We aim to respond to all inquiries within one business day. For urgent matters, call us directly on <span id="faq-phone">+254 711 355 015</span> or message us on WhatsApp for near-immediate assistance.
           </div>
         </div>
 
         <div class="faq-item reveal">
           <div class="faq-q" onclick="toggleFaq(this)">
-            <span
-              ><span class="faq-number">03</span> Do you provide services
-              outside Kenya?</span
-            >
+            <span><span class="faq-number">03</span> Do you provide services outside Kenya?</span>
             <div class="faq-q-icon">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-              >
-                <line x1="12" y1="5" x2="12" y2="19" />
-                <line x1="5" y1="12" x2="19" y2="12" />
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
               </svg>
             </div>
           </div>
           <div class="faq-a">
-            Yes. TaxGuide Africa LLP provides cross-border advisory services
-            across multiple African jurisdictions — including international tax
-            planning, transfer pricing, cross-border legal structuring, and
-            multinational financial advisory support.
+            Yes. TaxGuide Africa LLP provides cross-border advisory services across multiple African jurisdictions — including international tax planning, transfer pricing, cross-border legal structuring, and multinational financial advisory support.
           </div>
         </div>
 
         <div class="faq-item reveal">
           <div class="faq-q" onclick="toggleFaq(this)">
-            <span
-              ><span class="faq-number">04</span> How is client confidentiality
-              protected?</span
-            >
+            <span><span class="faq-number">04</span> How is client confidentiality protected?</span>
             <div class="faq-q-icon">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-              >
-                <line x1="12" y1="5" x2="12" y2="19" />
-                <line x1="5" y1="12" x2="19" y2="12" />
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
               </svg>
             </div>
           </div>
           <div class="faq-a">
-            Confidentiality is a non-negotiable core value. All client
-            information is handled under strict professional and ethical
-            obligations. We maintain rigorous data protection standards and
-            never share client information with third parties without explicit
-            consent.
+            Confidentiality is a non-negotiable core value. All client information is handled under strict professional and ethical obligations. We maintain rigorous data protection standards and never share client information with third parties without explicit consent.
           </div>
         </div>
 
         <div class="faq-item reveal">
           <div class="faq-q" onclick="toggleFaq(this)">
-            <span
-              ><span class="faq-number">05</span> Can I have an initial
-              consultation before committing?</span
-            >
+            <span><span class="faq-number">05</span> Can I have an initial consultation before committing?</span>
             <div class="faq-q-icon">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-              >
-                <line x1="12" y1="5" x2="12" y2="19" />
-                <line x1="5" y1="12" x2="19" y2="12" />
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
               </svg>
             </div>
           </div>
           <div class="faq-a">
-            Absolutely. We offer initial consultations to understand your
-            organization's challenges and explore how we can best support you —
-            with no obligation. Use the form above, call us, or send a WhatsApp
-            message to arrange yours.
+            Absolutely. We offer initial consultations to understand your organization's challenges and explore how we can best support you — with no obligation. Use the form above, call us, or send a WhatsApp message to arrange yours.
           </div>
         </div>
 
         <div class="faq-item reveal">
           <div class="faq-q" onclick="toggleFaq(this)">
-            <span
-              ><span class="faq-number">06</span> What information should I
-              prepare before contacting you?</span
-            >
+            <span><span class="faq-number">06</span> What information should I prepare before contacting you?</span>
             <div class="faq-q-icon">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-              >
-                <line x1="12" y1="5" x2="12" y2="19" />
-                <line x1="5" y1="12" x2="19" y2="12" />
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
               </svg>
             </div>
           </div>
           <div class="faq-a">
-            A brief description of your organization, the nature of your
-            challenge or inquiry, and any relevant timeline or urgency is
-            helpful. The more context you provide, the faster we can connect you
-            with the right specialist. You are not required to have everything
-            figured out before reaching out.
+            A brief description of your organization, the nature of your challenge or inquiry, and any relevant timeline or urgency is helpful. The more context you provide, the faster we can connect you with the right specialist. You are not required to have everything figured out before reaching out.
           </div>
         </div>
       </div>
@@ -1017,33 +712,17 @@
         </div>
         <div class="cta-actions">
           <a href="#inquiry" class="btn btn-gold btn-lg">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"
-              />
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
             </svg>
             Send Us a Message
           </a>
           <a href="taxguide-services.html" class="btn btn-outline-white btn-lg">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <rect x="3" y="3" width="7" height="7" rx="1" />
-              <rect x="14" y="3" width="7" height="7" rx="1" />
-              <rect x="3" y="14" width="7" height="7" rx="1" />
-              <rect x="14" y="14" width="7" height="7" rx="1" />
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="7" rx="1"/>
+              <rect x="14" y="3" width="7" height="7" rx="1"/>
+              <rect x="3" y="14" width="7" height="7" rx="1"/>
+              <rect x="14" y="14" width="7" height="7" rx="1"/>
             </svg>
             Explore Our Services
           </a>
@@ -1054,190 +733,311 @@
     <!-- FOOTER -->
 
     <script>
-      // Nav scroll
-      const nav = document.getElementById("mainNav");
-      if (nav) {
-        window.addEventListener("scroll", () =>
-          nav.classList.toggle("scrolled", window.scrollY > 80),
+      // ── Settings API ─────────────────────────────────────────────────────
+      // Fallback values match the original hardcoded content exactly.
+      // If the API call fails for any reason, the page stays fully functional.
+
+      const SETTINGS_FALLBACKS = {
+        site_name:       'TaxGuide Africa LLP',
+        contact_phone:   '+254 711 355 015',
+        contact_email:   'info@taxguidellp.com',
+        address:         'Milligan Court, 1st Floor, Suite 4\nOpposite Ngong Hills Hotel\nNairobi, Kenya',
+        working_hours:   'Mon–Fri, 8:00 AM – 5:30 PM EAT',
+        site_url:        'http://www.taxguidellp.com',
+        linkedin_url:    'https://www.linkedin.com/company/taxguideafricallp',
+        twitter_url:     'https://x.com/Taxguideafrica',
+        facebook_url:    'https://www.facebook.com/profile.php?id=61555963430604',
+        instagram_url:   'https://www.instagram.com/taxguideafricallp?igsh=MW9mdm5pZGh6NXR5Yg==',
+        youtube_url:     'https://www.youtube.com/@TaxGuideAfricaLLP',
+      };
+
+      /**
+       * Builds a WhatsApp URL from a phone number string.
+       * Strips all non-digit characters except leading +.
+       */
+      function buildWaUrl(phone, siteName) {
+        const digits = phone.replace(/\D/g, '');
+        const msg = encodeURIComponent(
+          `Hello ${siteName}, I would like to inquire about your services.`
         );
+        return `https://wa.me/${digits}?text=${msg}`;
       }
 
-      // Unified Service selector function
-      function selectSvc(el, value) {
-        // Remove selected class from all options
-        document
-          .querySelectorAll(".svc-opt")
-          .forEach((o) => o.classList.remove("selected"));
+      /**
+       * Applies settings to every dynamic element on the page.
+       * Called with either API data or fallback values.
+       */
+      function applySettings(s) {
+        const phone      = s.contact_phone  || SETTINGS_FALLBACKS.contact_phone;
+        const email      = s.contact_email  || SETTINGS_FALLBACKS.contact_email;
+        const address    = s.address        || SETTINGS_FALLBACKS.address;
+        const hours      = s.working_hours  || SETTINGS_FALLBACKS.working_hours;
+        const siteName   = s.site_name      || SETTINGS_FALLBACKS.site_name;
+        const siteUrl    = s.site_url       || SETTINGS_FALLBACKS.site_url;
 
-        // Add selected class to the clicked option
-        el.classList.add("selected");
+        // Derive a short hours label for the channels bar sub-text
+        // e.g. "Mon–Fri, 8:00 AM – 5:30 PM EAT" → use as-is
+        const hoursShort = hours;
 
-        // Update hidden input value
-        const hiddenInput = document.getElementById("selectedService");
-        if (hiddenInput) {
-          hiddenInput.value = value;
+        // WhatsApp URL
+        const waUrl = buildWaUrl(phone, siteName);
+
+        // ── Hero phone button ───────────────────────────────────────────
+        const heroPhoneBtn  = document.getElementById('hero-phone-btn');
+        const heroPhoneText = document.getElementById('hero-phone-text');
+        if (heroPhoneBtn)  heroPhoneBtn.href = `tel:${phone.replace(/\s/g, '')}`;
+        if (heroPhoneText) heroPhoneText.textContent = phone;
+
+        // ── Channels bar ────────────────────────────────────────────────
+        const chPhoneLink  = document.getElementById('ch-phone-link');
+        const chPhoneValue = document.getElementById('ch-phone-value');
+        const chHoursValue = document.getElementById('ch-hours-value');
+        const chEmailLink  = document.getElementById('ch-email-link');
+        const chEmailValue = document.getElementById('ch-email-value');
+        const chSiteValue  = document.getElementById('ch-site-value');
+
+        if (chPhoneLink)  chPhoneLink.href = `tel:${phone.replace(/\s/g, '')}`;
+        if (chPhoneValue) chPhoneValue.textContent = phone;
+        if (chHoursValue) chHoursValue.textContent = hoursShort;
+        if (chEmailLink)  chEmailLink.href = `mailto:${email}`;
+        if (chEmailValue) chEmailValue.textContent = email;
+        if (chSiteValue)  chSiteValue.textContent = (siteUrl).replace(/^https?:\/\//, '');
+
+        // Address: split into two display lines for channels bar
+        const addressLines = address.split('\n');
+        const addrLine1 = document.getElementById('ch-address-line1');
+        const addrLine2 = document.getElementById('ch-address-line2');
+        if (addrLine1) addrLine1.textContent = addressLines[0] || '';
+        if (addrLine2) addrLine2.textContent = addressLines.slice(1).join(', ') || '';
+
+        // ── Office card ─────────────────────────────────────────────────
+        const officeAddress   = document.getElementById('office-address');
+        const officePhoneLink = document.getElementById('office-phone-link');
+        const officePhoneText = document.getElementById('office-phone-text');
+        const officeEmailLink = document.getElementById('office-email-link');
+        const officeEmailText = document.getElementById('office-email-text');
+        const officeHoursText = document.getElementById('office-hours-text');
+
+        if (officeAddress) {
+          // Render newlines as <br>
+          officeAddress.innerHTML = address.replace(/\n/g, '<br />');
         }
-      }
+        if (officePhoneLink)  officePhoneLink.href = `tel:${phone.replace(/\s/g, '')}`;
+        if (officePhoneText)  officePhoneText.textContent = phone;
+        if (officeEmailLink)  officeEmailLink.href = `mailto:${email}`;
+        if (officeEmailText)  officeEmailText.textContent = email;
+        if (officeHoursText)  officeHoursText.textContent = `Open Now · ${hoursShort}`;
 
-      // Consent checkbox toggle
-      function toggleConsent() {
-        const box = document.getElementById("consentBox");
-        if (box) {
-          box.classList.toggle("checked");
-        }
-      }
+        // ── Channel mini-cards ───────────────────────────────────────────
+        const miniPhoneLink  = document.getElementById('mini-phone-link');
+        const miniPhoneValue = document.getElementById('mini-phone-value');
+        const miniEmailLink  = document.getElementById('mini-email-link');
+        const miniEmailValue = document.getElementById('mini-email-value');
 
-      // FAQ toggle
-      function toggleFaq(el) {
-        const item = el.closest(".faq-item");
-        const wasOpen = item.classList.contains("open");
-        document
-          .querySelectorAll(".faq-item.open")
-          .forEach((i) => i.classList.remove("open"));
-        if (!wasOpen) item.classList.add("open");
-      }
+        if (miniPhoneLink)  miniPhoneLink.href = `tel:${phone.replace(/\s/g, '')}`;
+        if (miniPhoneValue) miniPhoneValue.textContent = phone;
+        if (miniEmailLink)  miniEmailLink.href = `mailto:${email}`;
+        if (miniEmailValue) miniEmailValue.textContent = email;
 
-      // Form submit
-      async function submitForm() {
-        const consent = document
-          .getElementById("consentBox")
-          .classList.contains("checked");
+        // ── WhatsApp elements ────────────────────────────────────────────
+        const waFloat   = document.getElementById('wa-float-link');
+        const waBtnLink = document.getElementById('wa-btn-link');
+        const waPhoneTxt= document.getElementById('wa-phone-text');
+        const mapCardWa = document.getElementById('map-card-wa');
 
-        if (!consent) {
-          document.getElementById("consentBox").style.borderColor = "#e11d48";
-          setTimeout(
-            () =>
-              (document.getElementById("consentBox").style.borderColor = ""),
-            1500,
-          );
-          return;
-        }
+        if (waFloat)    waFloat.href   = waUrl;
+        if (waBtnLink)  waBtnLink.href = waUrl;
+        if (waPhoneTxt) waPhoneTxt.textContent = phone;
+        if (mapCardWa)  mapCardWa.href = `https://wa.me/${phone.replace(/\D/g, '')}`;
 
-        // Capture current values right at submission time
-        const firstName = document.getElementById("firstName").value.trim();
-        const lastName = document.getElementById("lastName").value.trim();
-        const email = document.getElementById("email").value.trim();
-        const phone = document.getElementById("phone").value.trim();
-        const company = document.getElementById("company").value.trim();
-        const subject = document.getElementById("subject").value.trim();
-        const message = document.getElementById("message").value.trim();
-        const service = document.getElementById("selectedService").value;
+        // ── Map card ─────────────────────────────────────────────────────
+        const mapCardName    = document.getElementById('map-card-name');
+        const mapCardAddress = document.getElementById('map-card-address');
+        const mapCardHours   = document.getElementById('map-card-hours');
 
-        const priorityEl = document.querySelector(
-          'input[name="priority"]:checked',
-        );
-        const priority = priorityEl ? priorityEl.value : "Normal";
+        if (mapCardName)    mapCardName.textContent = siteName;
+        if (mapCardAddress) mapCardAddress.innerHTML = address.replace(/\n/g, '<br />');
+        if (mapCardHours)   mapCardHours.textContent = `${hoursShort.replace('Mon–Fri,', 'Mon–Fri ·')}`;
 
-        // Validate required fields
-        if (
-          !firstName ||
-          !lastName ||
-          !email ||
-          !phone ||
-          !subject ||
-          !message ||
-          !service ||
-          !priority 
-        ) {
-          alert("Please fill in all required fields");
-          return;
-        }
+        // ── Consent label ────────────────────────────────────────────────
+        const consentSiteName = document.getElementById('consent-site-name');
+        if (consentSiteName) consentSiteName.textContent = siteName;
 
-        // Prepare payload matching database schema
-        const payload = {
-          first_name: firstName,
-          last_name: lastName,
-          email: email,
-          phone: phone,
-          company: company || null,
-          subject: subject,
-          message: message,
-          service: service,
-          priority: priority,
+        // ── FAQ phone mention ────────────────────────────────────────────
+        const faqPhone = document.getElementById('faq-phone');
+        if (faqPhone) faqPhone.textContent = phone;
+
+        // ── Social links ─────────────────────────────────────────────────
+        const socialMap = {
+          'social-linkedin':  s.linkedin_url  || SETTINGS_FALLBACKS.linkedin_url,
+          'social-twitter':   s.twitter_url   || SETTINGS_FALLBACKS.twitter_url,
+          'social-facebook':  s.facebook_url  || SETTINGS_FALLBACKS.facebook_url,
+          'social-instagram': s.instagram_url || SETTINGS_FALLBACKS.instagram_url,
+          'social-youtube':   s.youtube_url   || SETTINGS_FALLBACKS.youtube_url,
         };
 
-        const submitBtn = document.querySelector(".submit-btn");
-        const originalText = submitBtn.innerHTML;
+        Object.entries(socialMap).forEach(([id, url]) => {
+          const el = document.getElementById(id);
+          if (el && url) {
+            el.href = url;
+          }
+        });
+      }
+
+      /**
+       * Fetches /api/settings and applies results.
+       * On any failure, silently applies fallback values.
+       */
+      async function loadSettings() {
+        try {
+          const response = await fetch('http://127.0.0.1:8000/api/settings', {
+            headers: { Accept: 'application/json' },
+          });
+
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+          const data = await response.json();
+          // API returns { settings: { ... } }
+          applySettings(data.settings || {});
+        } catch (err) {
+          // Silent fallback — page remains fully functional with hardcoded values
+          console.warn('Settings API unavailable, using defaults.', err.message);
+          applySettings(SETTINGS_FALLBACKS);
+        }
+      }
+
+      // Run immediately — no need to wait for DOMContentLoaded since
+      // this script is at the bottom of <body>.
+      loadSettings();
+
+      // ── Nav scroll ───────────────────────────────────────────────────────
+      const nav = document.getElementById('mainNav');
+      if (nav) {
+        window.addEventListener('scroll', () =>
+          nav.classList.toggle('scrolled', window.scrollY > 80)
+        );
+      }
+
+      // ── Service selector ─────────────────────────────────────────────────
+      function selectSvc(el, value) {
+        document.querySelectorAll('.svc-opt').forEach(o => o.classList.remove('selected'));
+        el.classList.add('selected');
+        const hiddenInput = document.getElementById('selectedService');
+        if (hiddenInput) hiddenInput.value = value;
+      }
+
+      // ── Consent toggle ───────────────────────────────────────────────────
+      function toggleConsent() {
+        const box = document.getElementById('consentBox');
+        if (box) box.classList.toggle('checked');
+      }
+
+      // ── FAQ toggle ───────────────────────────────────────────────────────
+      function toggleFaq(el) {
+        const item = el.closest('.faq-item');
+        const wasOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+        if (!wasOpen) item.classList.add('open');
+      }
+
+      // ── Form submit ──────────────────────────────────────────────────────
+      async function submitForm() {
+        const consentBox = document.getElementById('consentBox');
+        if (!consentBox.classList.contains('checked')) {
+          consentBox.style.borderColor = '#e11d48';
+          setTimeout(() => (consentBox.style.borderColor = ''), 1500);
+          return;
+        }
+
+        const firstName = document.getElementById('firstName').value.trim();
+        const lastName  = document.getElementById('lastName').value.trim();
+        const email     = document.getElementById('email').value.trim();
+        const phone     = document.getElementById('phone').value.trim();
+        const company   = document.getElementById('company').value.trim();
+        const subject   = document.getElementById('subject').value.trim();
+        const message   = document.getElementById('message').value.trim();
+        const service   = document.getElementById('selectedService').value;
+        const priorityEl= document.querySelector('input[name="priority"]:checked');
+        const priority  = priorityEl ? priorityEl.value : 'Normal';
+
+        if (!firstName || !lastName || !email || !phone || !subject || !message || !service || !priority) {
+          alert('Please fill in all required fields');
+          return;
+        }
+
+        const payload = {
+          first_name: firstName,
+          last_name:  lastName,
+          email,
+          phone,
+          company: company || null,
+          subject,
+          message,
+          service,
+          priority,
+        };
+
+        const submitBtn   = document.querySelector('.submit-btn');
+        const originalHTML= submitBtn.innerHTML;
         submitBtn.disabled = true;
-        submitBtn.innerHTML = "<span>Sending...</span>";
+        submitBtn.innerHTML = '<span>Sending...</span>';
 
         try {
-          const response = await fetch("http://127.0.0.1:8000/api/contact", {
-            method: "POST",
+          const response = await fetch('http://127.0.0.1:8000/api/contact', {
+            method: 'POST',
             headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
+              'Content-Type': 'application/json',
+              Accept: 'application/json',
             },
             body: JSON.stringify(payload),
           });
 
           if (!response.ok) {
             const errorData = await response.json();
-            throw new Error(
-              errorData.message || `HTTP error! status: ${response.status}`,
-            );
+            throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
           }
 
-          // Show success toast
-          const toast = document.getElementById("toast");
-          toast.classList.remove("hidden");
-          toast.style.display = "flex";
-          setTimeout(() => {
-            toast.style.display = "none";
-          }, 5000);
+          // Show toast
+          const toast = document.getElementById('toast');
+          toast.classList.remove('hidden');
+          toast.style.display = 'flex';
+          setTimeout(() => { toast.style.display = 'none'; }, 5000);
 
-          // Clear form text inputs
-          [
-            "firstName",
-            "lastName",
-            "email",
-            "phone",
-            "company",
-            "subject",
-            "message",
-
-          ].forEach((id) => {
+          // Reset form
+          ['firstName','lastName','email','phone','company','subject','message'].forEach(id => {
             const el = document.getElementById(id);
-            if (el) el.value = "";
+            if (el) el.value = '';
           });
 
-          // Reset UI selections back to original system defaults
-          document
-            .querySelectorAll(".svc-opt")
-            .forEach((o) => o.classList.remove("selected"));
-          document.querySelector(".svc-opt").classList.add("selected");
-          document.getElementById("selectedService").value =
-            "Accounting & Assurance";
+          document.querySelectorAll('.svc-opt').forEach(o => o.classList.remove('selected'));
+          document.querySelector('.svc-opt').classList.add('selected');
+          document.getElementById('selectedService').value = 'Accounting & Assurance';
+          document.querySelector('input[name="priority"][value="Normal"]').checked = true;
+          consentBox.classList.remove('checked');
 
-          document.querySelector(
-            'input[name="priority"][value="Normal"]',
-          ).checked = true;
-          document.getElementById("consentBox").classList.remove("checked");
         } catch (error) {
-          console.error("Form submission error:", error);
+          console.error('Form submission error:', error);
           alert(`Error submitting form: ${error.message}`);
         } finally {
           submitBtn.disabled = false;
-          submitBtn.innerHTML = originalText;
+          submitBtn.innerHTML = originalHTML;
         }
       }
 
-      // Scroll reveal
+      // ── Scroll reveal ────────────────────────────────────────────────────
       const revealObs = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((e) => {
+        entries => {
+          entries.forEach(e => {
             if (e.isIntersecting) {
-              e.target.classList.add("visible");
+              e.target.classList.add('visible');
               revealObs.unobserve(e.target);
             }
           });
         },
-        { threshold: 0.1 },
+        { threshold: 0.1 }
       );
 
-      document
-        .querySelectorAll(".reveal")
-        .forEach((el) => revealObs.observe(el));
+      document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
     </script>
     <script src="taxguide-shared.js"></script>
   </body>

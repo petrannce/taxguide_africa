@@ -3,50 +3,146 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Case Study: Transfer Pricing | TaxGuide Africa LLP</title>
+<title>Case Study | TaxGuide Africa LLP</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="taxguide-shared.css">
 <link rel="stylesheet" href="taxguide-page.css">
-
 </head>
 <body>
 
-<div class="project-hero">
+<div class="project-hero" id="projectHero">
   <div class="ph-grid-bg"></div>
-  <div class="hero-inner">
-    <div class="breadcrumb">
-      <a href="index.html">Home</a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
-      <a href="taxguide-projects.html">Projects</a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
-      Transfer Pricing Case Study
-    </div>
-    <div class="project-type-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Case Study · Tax Advisory</div>
-    <h1>Transfer Pricing Documentation &amp; Audit Defence for a Multinational Manufacturing Group — Kenya, Uganda &amp; Tanzania</h1>
-    <div class="project-meta-bar">
-      <div class="meta-item"><div class="meta-label">Client Sector</div><div class="meta-value">Manufacturing</div></div>
-      <div class="meta-divider"></div>
-      <div class="meta-item"><div class="meta-label">Countries</div><div class="meta-value">Kenya · Uganda · Tanzania</div></div>
-      <div class="meta-divider"></div>
-      <div class="meta-item"><div class="meta-label">Duration</div><div class="meta-value">8 Months</div></div>
-      <div class="meta-divider"></div>
-      <div class="meta-item"><div class="meta-label">Practice Area</div><div class="meta-value">Tax Advisory</div></div>
-      <div class="meta-divider"></div>
-      <div class="meta-item"><div class="meta-label">Status</div><div class="meta-value" style="color:#4ade80">✓ Completed</div></div>
-    </div>
-    <div class="impact-row">
-      <div class="impact-card"><div class="impact-num">KSh 180<span>M</span></div><div class="impact-label">Tax Risk Mitigated</div></div>
-      <div class="impact-card"><div class="impact-num">3</div><div class="impact-label">Countries Covered</div></div>
-      <div class="impact-card"><div class="impact-num">100<span>%</span></div><div class="impact-label">Audit Defence Success</div></div>
-      <div class="impact-card"><div class="impact-num">BEPS<span> ✓</span></div><div class="impact-label">Fully Compliant</div></div>
+  <div class="hero-inner" id="heroInner">
+    <!-- Injected by JS -->
+    <div id="heroSkeleton" style="opacity:0.4">
+      <div style="height:14px;width:220px;background:rgba(255,255,255,0.15);border-radius:4px;margin-bottom:24px"></div>
+      <div style="height:12px;width:140px;background:rgba(255,255,255,0.1);border-radius:4px;margin-bottom:16px"></div>
+      <div style="height:48px;width:80%;background:rgba(255,255,255,0.1);border-radius:6px;margin-bottom:32px"></div>
     </div>
   </div>
 </div>
 
 <div class="page-body">
-  <div>
+  <div id="mainContent">
+    <!-- Injected by JS -->
+    <div id="contentSkeleton" style="padding:40px 0;opacity:0.3">
+      <div style="height:16px;width:100px;background:var(--border-light);border-radius:4px;margin-bottom:12px"></div>
+      <div style="height:32px;width:60%;background:var(--border-light);border-radius:6px;margin-bottom:24px"></div>
+      <div style="height:14px;background:var(--border-light);border-radius:4px;margin-bottom:10px"></div>
+      <div style="height:14px;width:90%;background:var(--border-light);border-radius:4px;margin-bottom:10px"></div>
+      <div style="height:14px;width:75%;background:var(--border-light);border-radius:4px"></div>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-card" id="sidebarDetails">
+      <h4>Project Details</h4>
+      <div style="color:var(--text-muted);font-size:13px">Loading…</div>
+    </div>
+    <div class="sidebar-card" style="background:linear-gradient(135deg,var(--navy),var(--navy-deeper));border-color:transparent">
+      <h4 style="color:white;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:12px;margin-bottom:16px">Have a Similar Project?</h4>
+      <p style="font-size:13px;color:rgba(255,255,255,0.55);line-height:1.65;margin-bottom:18px">Talk to our team about your challenge and we'll connect you with the right specialist.</p>
+      <a href="taxguide-contact.html" class="btn btn-gold" style="width:100%;justify-content:center;margin-bottom:10px">Start a Conversation</a>
+      <a href="taxguide-services.html" class="btn btn-outline-white" style="width:100%;justify-content:center">Our Services</a>
+    </div>
+    <div class="sidebar-card" id="sidebarRelated" style="display:none">
+      <h4>Related Publications</h4>
+      <div id="relatedPubsList"></div>
+    </div>
+  </aside>
+</div>
+
+<!-- RELATED PROJECTS -->
+<div class="related-section" id="relatedSection" style="display:none">
+  <div class="related-inner">
+    <div class="sec-label">More Case Studies</div>
+    <h2 class="sec-title" style="margin-bottom:0">Related Projects</h2>
+    <div class="related-grid" id="relatedGrid"></div>
+  </div>
+</div>
+
+<div class="cta-band">
+  <div class="cta-inner">
+    <div><h2>Start a Similar Engagement</h2><p>Tell us about your challenge and we'll connect you with the right specialist to deliver results.</p></div>
+    <div class="cta-actions">
+      <a href="taxguide-contact.html" class="btn btn-gold btn-lg">Request Consultation</a>
+      <a href="taxguide-projects.html" class="btn btn-outline-white btn-lg">All Projects</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const API_BASE = 'http://127.0.0.1:8000/api';
+
+// ─── GET SLUG FROM URL ─────────────────────────────────────────────────────
+const slug = new URLSearchParams(window.location.search).get('slug');
+
+if (!slug) {
+  document.getElementById('heroSkeleton').innerHTML = '<p style="color:rgba(255,255,255,0.6)">No project specified.</p>';
+}
+
+// ─── FETCH ─────────────────────────────────────────────────────────────────
+async function fetchProject() {
+  try {
+    const res = await fetch(`${API_BASE}/projects/${encodeURIComponent(slug)}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    renderHero(data.project);
+    renderContent(data.project);
+    renderSidebar(data.project);
+    if (data.related_projects?.length) renderRelated(data.related_projects);
+    document.title = `${data.project.title} | TaxGuide Africa LLP`;
+    initReveal();
+  } catch (err) {
+    document.getElementById('heroSkeleton').innerHTML =
+      '<p style="color:rgba(255,255,255,0.5);margin-top:20px">Failed to load project. Please try again.</p>';
+    console.error(err);
+  }
+}
+
+// ─── RENDER: HERO ──────────────────────────────────────────────────────────
+function renderHero(p) {
+  const dept = p.department?.name || '';
+  const countries = Array.isArray(p.countries) ? p.countries.join(' · ') : '';
+
+  document.getElementById('heroInner').innerHTML = `
+    <div class="breadcrumb">
+      <a href="index.html">Home</a>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      <a href="taxguide-projects.html">Projects</a>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      ${escHtml(dept)} Case Study
+    </div>
+    <div class="project-type-badge">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      Case Study · ${escHtml(dept)}
+    </div>
+    <h1>${escHtml(p.title)}</h1>
+    <div class="project-meta-bar">
+      ${dept ? `<div class="meta-item"><div class="meta-label">Practice Area</div><div class="meta-value">${escHtml(dept)}</div></div><div class="meta-divider"></div>` : ''}
+      ${countries ? `<div class="meta-item"><div class="meta-label">Countries</div><div class="meta-value">${escHtml(countries)}</div></div><div class="meta-divider"></div>` : ''}
+      <div class="meta-item"><div class="meta-label">Added</div><div class="meta-value">${formatDate(p.created_at)}</div></div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><div class="meta-label">Status</div><div class="meta-value" style="color:#4ade80">✓ Active</div></div>
+    </div>
+  `;
+}
+
+// ─── RENDER: MAIN CONTENT ──────────────────────────────────────────────────
+function renderContent(p) {
+  const countries = Array.isArray(p.countries) ? p.countries.join(', ') : '';
+
+  document.getElementById('contentSkeleton').style.display = 'none';
+
+  const content = document.getElementById('mainContent');
+  content.innerHTML = `
     <!-- Cover image -->
-    <div class="project-cover reveal"><img src="images/graph-1.jpeg" alt="Tax Advisory Engagement"></div>
+    <div class="project-cover reveal">
+      <img src="${p.image_url}" alt="${escHtml(p.title)}" onerror="this.src='images/graph.jpeg'">
+    </div>
 
     <!-- Overview -->
     <div class="reveal">
@@ -54,145 +150,95 @@
       <h2 class="sec-title">The Engagement</h2>
     </div>
     <div class="prose reveal">
-      <p>TaxGuide Africa LLP was engaged by a multinational manufacturing group with intercompany transactions spanning Kenya, Uganda, and Tanzania to prepare comprehensive transfer pricing documentation in compliance with the OECD Transfer Pricing Guidelines and the domestic transfer pricing rules of all three East African jurisdictions.</p>
-      <p>The group had historically not maintained formal transfer pricing documentation, creating significant exposure following the increasing aggressiveness of revenue authorities — particularly the Kenya Revenue Authority (KRA) — in challenging intercompany pricing arrangements. The engagement was triggered when KRA issued a formal notice of intention to audit the group's transfer pricing arrangements.</p>
+      ${p.description}
     </div>
 
-    <div class="challenge-box reveal">
-      <div class="cb-label">The Challenge</div>
-      <p>The group had over 15 intercompany transaction categories across three jurisdictions with a combined value exceeding KSh 2.4 billion annually, no existing transfer pricing documentation, and an active KRA audit notice — all within a 90-day documentation deadline. The geographic complexity of three different domestic transfer pricing regimes required simultaneous expertise in Kenyan, Ugandan, and Tanzanian tax law.</p>
-    </div>
-
-    <div class="prose reveal">
-      <h3>Our Approach</h3>
-      <p>TaxGuide Africa LLP deployed a multidisciplinary team led by Grace Wambui (Head of Tax Advisory) alongside transfer pricing specialists and legal advisors. Our approach proceeded in four concurrent workstreams:</p>
-      <ul>
-        <li>Detailed transaction mapping across all 15 intercompany categories, including goods, services, financing, and IP licensing arrangements</li>
-        <li>Functional analysis of each entity within the group structure to determine appropriate economic characterisations</li>
-        <li>Comprehensive benchmarking studies using recognised commercial databases (Bureau van Dijk Orbis, TP Catalyst) to identify comparable uncontrolled transactions</li>
-        <li>Master File and Local File preparation in accordance with OECD BEPS Action 13, adapted for East African domestic requirements</li>
-      </ul>
-      <h3>Transfer Pricing Documentation Delivered</h3>
-      <ul>
-        <li>Group Master File covering global organisational structure, value chain analysis, and group-wide TP policies</li>
-        <li>Three jurisdiction-specific Local Files (Kenya, Uganda, Tanzania) with benchmarking analyses for all intercompany transactions</li>
-        <li>Country-by-Country Report (CbCR) filed with KRA in accordance with Finance Act requirements</li>
-        <li>Comprehensive written responses to KRA's audit queries with technical legal and economic arguments</li>
-        <li>TP Policy Manual for ongoing compliance and future-proofing of intercompany arrangements</li>
-      </ul>
-      <h3>KRA Audit Defence</h3>
-      <p>Concurrent with the documentation exercise, our team managed the KRA audit through structured engagement — including a technical meeting with KRA Transfer Pricing Unit, preparation of detailed written responses to 23 audit queries, and presentation of benchmarking evidence. The audit concluded with no transfer pricing adjustments — a complete success for the client.</p>
-    </div>
-
-    <!-- Outcomes -->
-    <div class="reveal" style="margin-top:40px">
-      <div class="sec-label">Outcomes</div>
-      <h2 class="sec-title">Results Delivered</h2>
-    </div>
-    <div class="outcome-grid reveal">
-      <div class="outcome-item"><div class="outcome-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div><div><h5>Zero Transfer Pricing Adjustments</h5><p>KRA audit concluded with no TP adjustments — full vindication of the documentation and defence strategy.</p></div></div>
-      <div class="outcome-item"><div class="outcome-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div><div><h5>KSh 180M Tax Risk Eliminated</h5><p>Potential additional tax assessments of approximately KSh 180 million successfully defended and avoided entirely.</p></div></div>
-      <div class="outcome-item"><div class="outcome-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div><h5>Full BEPS Compliance Achieved</h5><p>All three jurisdictions now fully compliant with OECD BEPS Action 13 — Master File, Local Files, and CbCR in place.</p></div></div>
-      <div class="outcome-item"><div class="outcome-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div><h5>Ongoing TP Policy Framework</h5><p>TP Policy Manual implemented for ongoing compliance — protecting the group from future audit risk across all three markets.</p></div></div>
-    </div>
-
-    <!-- Testimonial -->
-    <div class="project-testimonial reveal">
-      <p class="pt-text">"TaxGuide Africa LLP's transfer pricing team was exceptional — technically brilliant, commercially aware, and incredibly responsive under the pressure of an active KRA audit. They didn't just prepare documentation; they developed a comprehensive defence strategy that protected our entire East African operations. We have zero hesitation in recommending them."</p>
-      <div class="pt-author">
-        <div class="pt-av">CFO</div>
-        <div><div class="pt-name">Chief Financial Officer</div><div class="pt-role">Multinational Manufacturing Group, Kenya &amp; Uganda</div></div>
-        <div class="pt-sector">Manufacturing</div>
-      </div>
-    </div>
-
-    <!-- Navigation between projects -->
-    <div style="display:flex;justify-content:space-between;align-items:center;padding:24px 0;border-top:1px solid var(--border-light);margin-top:20px">
+    <!-- Nav -->
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:24px 0;border-top:1px solid var(--border-light);margin-top:32px">
       <a href="taxguide-projects.html" class="btn btn-outline">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
         All Projects
       </a>
-      <a href="taxguide-contact.html" class="btn btn-navy">Start a Similar Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <a href="taxguide-contact.html" class="btn btn-navy">
+        Start a Similar Project
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
     </div>
-  </div>
+  `;
+}
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="sidebar-card">
-      <h4>Project Details</h4>
-      <div style="display:flex;flex-direction:column;gap:14px">
-        <div><div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px">Practice Area</div><div style="font-size:14px;font-weight:600;color:var(--navy-deeper)">Tax Advisory</div></div>
-        <div><div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px">Client Sector</div><div style="font-size:14px;font-weight:600;color:var(--navy-deeper)">Manufacturing</div></div>
-        <div><div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px">Geography</div><div style="font-size:14px;font-weight:600;color:var(--navy-deeper)">Kenya, Uganda, Tanzania</div></div>
-        <div><div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px">Duration</div><div style="font-size:14px;font-weight:600;color:var(--navy-deeper)">8 Months</div></div>
-        <div><div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px">Services Tags</div>
-          <div style="margin-top:6px">
-            <a href="taxguide-service-single.html" class="service-tag-pill">Transfer Pricing</a>
-            <a href="taxguide-service-single.html" class="service-tag-pill">BEPS</a>
-            <a href="taxguide-service-single.html" class="service-tag-pill">KRA Audit</a>
-            <a href="taxguide-service-single.html" class="service-tag-pill">Tax Advisory</a>
-          </div>
-        </div>
+// ─── RENDER: SIDEBAR ───────────────────────────────────────────────────────
+function renderSidebar(p) {
+  const dept = p.department?.name || '—';
+  const countries = Array.isArray(p.countries) && p.countries.length
+    ? p.countries.join(', ')
+    : '—';
+
+  document.getElementById('sidebarDetails').innerHTML = `
+    <h4>Project Details</h4>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px">Practice Area</div>
+        <div style="font-size:14px;font-weight:600;color:var(--navy-deeper)">${escHtml(dept)}</div>
+      </div>
+      <div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px">Geography</div>
+        <div style="font-size:14px;font-weight:600;color:var(--navy-deeper)">${escHtml(countries)}</div>
+      </div>
+      <div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px">Date</div>
+        <div style="font-size:14px;font-weight:600;color:var(--navy-deeper)">${formatDate(p.created_at)}</div>
       </div>
     </div>
-    <div class="sidebar-card">
-      <h4>Project Team</h4>
-      <div class="team-member"><div class="team-av" style="background:linear-gradient(135deg,var(--gold-dark),#5a3a00)">GW</div><div><div class="team-name">Grace Wambui</div><div class="team-role">Head of Tax · Lead Partner</div></div></div>
-      <div class="team-member"><div class="team-av" style="background:linear-gradient(135deg,var(--navy),var(--cyan))">LK</div><div><div class="team-name">Linda Kariuki</div><div class="team-role">Transfer Pricing Specialist</div></div></div>
-      <div class="team-member"><div class="team-av" style="background:linear-gradient(135deg,#7c3aed,#4c1d95)">DO</div><div><div class="team-name">David Ochieng</div><div class="team-role">Legal Advisory (Tax Law)</div></div></div>
-    </div>
-    <div class="sidebar-card" style="background:linear-gradient(135deg,var(--navy),var(--navy-deeper));border-color:transparent">
-      <h4 style="color:white;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:12px;margin-bottom:16px">Have a Similar Project?</h4>
-      <p style="font-size:13px;color:rgba(255,255,255,0.55);line-height:1.65;margin-bottom:18px">Talk to our Tax Advisory team about your transfer pricing, KRA audit, or cross-border tax challenges.</p>
-      <a href="taxguide-contact.html" class="btn btn-gold" style="width:100%;justify-content:center;margin-bottom:10px">Start a Conversation</a>
-      <a href="taxguide-service-single.html" class="btn btn-outline-white" style="width:100%;justify-content:center">Tax Advisory Services</a>
-    </div>
-    <div class="sidebar-card">
-      <h4>Related Publications</h4>
-      <div class="downloads-list" style="display:flex;flex-direction:column;gap:0">
-        <a href="taxguide-publications.html" style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border-light);font-size:13px;color:var(--text-secondary);text-decoration:none;transition:color var(--t)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Transfer Pricing Whitepaper 2025
-        </a>
-        <a href="taxguide-publications.html" style="display:flex;align-items:center;gap:10px;padding:10px 0;font-size:13px;color:var(--text-secondary);text-decoration:none;transition:color var(--t)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>East Africa Tax Outlook 2025
-        </a>
+  `;
+}
+
+// ─── RENDER: RELATED ───────────────────────────────────────────────────────
+function renderRelated(projects) {
+  const section = document.getElementById('relatedSection');
+  const grid = document.getElementById('relatedGrid');
+  section.style.display = '';
+
+  grid.innerHTML = projects.map(p => `
+    <a href="taxguide-project-single.html?slug=${encodeURIComponent(p.slug)}" class="proj-mini reveal">
+      <div class="proj-mini-img">
+        <img src="${p.image_url}" alt="${escHtml(p.title)}" onerror="this.src='images/graph.jpeg'">
       </div>
-    </div>
-  </aside>
-</div>
+      <div class="proj-mini-body">
+        <div class="proj-mini-cat">${escHtml(p.department?.name || '')}</div>
+        <h4>${escHtml(p.title)}</h4>
+        <p>${escHtml(stripHtml(p.description).substring(0, 100))}…</p>
+      </div>
+    </a>
+  `).join('');
+}
 
-<!-- RELATED PROJECTS -->
-<div class="related-section">
-  <div class="related-inner">
-    <div class="sec-label">More Case Studies</div>
-    <h2 class="sec-title" style="margin-bottom:0">Related Projects</h2>
-    <div class="related-grid">
-      <a href="taxguide-project-single.html" class="proj-mini reveal">
-        <div class="proj-mini-img"><img src="images/legal-1.jpeg" alt="M&A Legal"></div>
-        <div class="proj-mini-body"><div class="proj-mini-cat">Legal Advisory</div><h4>Cross-Border M&A Legal Advisory — $85M Bank Acquisition</h4><p>Full legal advisory from due diligence to CBK approval and completion.</p></div>
-      </a>
-      <a href="taxguide-project-single.html" class="proj-mini reveal">
-        <div class="proj-mini-img"><img src="images/audit.jpeg" alt="Audit"></div>
-        <div class="proj-mini-body"><div class="proj-mini-cat">Audit &amp; Assurance</div><h4>Statutory Audit — $2.1B Regional Development Finance Institution</h4><p>6-country IPSAS-compliant statutory audit across East Africa.</p></div>
-      </a>
-      <a href="taxguide-project-single.html" class="proj-mini reveal">
-        <div class="proj-mini-img"><img src="images/graph.jpeg" alt="Energy"></div>
-        <div class="proj-mini-body"><div class="proj-mini-cat">Financial Advisory</div><h4>$62M Solar Energy Project — Feasibility &amp; IFC Co-financing</h4><p>Financial modelling and investor presentation for 40MW solar project.</p></div>
-      </a>
-    </div>
-  </div>
-</div>
+// ─── HELPERS ───────────────────────────────────────────────────────────────
+function escHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+function stripHtml(html) {
+  return html ? html.replace(/<[^>]*>/g, '') : '';
+}
+function formatDate(str) {
+  if (!str) return '';
+  return new Date(str).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+}
+function initReveal() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal:not(.visible)').forEach(el => obs.observe(el));
+}
 
-<div class="cta-band">
-  <div class="cta-inner">
-    <div><h2>Start a Similar Engagement</h2><p>Tell us about your tax challenge and we'll connect you with the right specialist to deliver results.</p></div>
-    <div class="cta-actions"><a href="taxguide-contact.html" class="btn btn-gold btn-lg">Request Consultation</a><a href="taxguide-projects.html" class="btn btn-outline-white btn-lg">All Projects</a></div>
-  </div>
-</div>
+// ─── NAV SCROLL ────────────────────────────────────────────────────────────
+const nav = document.getElementById('mainNav');
+if (nav) window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 80));
 
-<script>
-const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target)}})},{threshold:0.1});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+// ─── INIT ──────────────────────────────────────────────────────────────────
+if (slug) fetchProject();
+initReveal();
 </script>
 <script src="taxguide-shared.js"></script>
 </body>
