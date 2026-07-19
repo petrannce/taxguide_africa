@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    TaxGuide Africa LLP — Shared Nav + Footer
    Include this file on every page:
    <script src="taxguide-shared.js"></script>
@@ -6,9 +6,18 @@
    ============================================================ */
 
 (function () {
+  "use strict";
+
+  /* ── 0. GUARD AGAINST DOUBLE-INJECTION ───────
+     If this script is accidentally included twice on a page (a common
+     copy/paste mistake across a multi-page static site), running the
+     injector a second time would create duplicate #tg-nav /
+     #tg-mobile-menu / #tg-footer IDs, duplicate event listeners on
+     document/window, and a duplicate stylesheet <link>. Bail out early. */
+  if (window.__tgSharedInitialized) return;
+  window.__tgSharedInitialized = true;
+
   /* ── 1. INJECT SHARED CSS ────────────────────── */
-  // Styles have been extracted to external stylesheet: taxguide-shared.css
-  // Load shared stylesheet (and a page-specific placeholder) if not already present
   (function ensureTaxGuideStyles() {
     if (!document.querySelector('link[href="taxguide-shared.css"]')) {
       const l = document.createElement("link");
@@ -23,6 +32,7 @@
       document.head.appendChild(l2);
     }
   })();
+
   /* ── 2. DETECT ACTIVE PAGE ───────────────────── */
   const path = location.pathname.split("/").pop() || "index.html";
 
@@ -158,14 +168,26 @@
     },
   ];
 
+  /* Simple HTML-escaping for any data that ends up as text content.
+     Not strictly needed for this static, developer-authored `services`
+     array, but included so the pattern is safe if this data is ever
+     sourced dynamically (e.g. a CMS) in future. */
+  function escapeHTML(str) {
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
   /* Build the left tabs + right panels HTML */
   const tabsHTML = services
     .map(
       (s, i) => `
-    <button class="tg-svc-tab${i === 0 ? " active" : ""}" data-svc="${s.id}">
+    <button type="button" class="tg-svc-tab${i === 0 ? " active" : ""}" data-svc="${s.id}" role="tab" id="tg-svc-tab-${s.id}" aria-selected="${i === 0 ? "true" : "false"}" aria-controls="tg-svc-panel-${s.id}">
       <span class="tg-svc-tab-dot" style="background:${s.dot}"></span>
-      <span class="tg-svc-tab-label">${s.label}</span>
-      <svg class="tg-svc-tab-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+      <span class="tg-svc-tab-label">${escapeHTML(s.label)}</span>
+      <svg class="tg-svc-tab-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
     </button>
   `,
     )
@@ -174,27 +196,27 @@
   const panelsHTML = services
     .map(
       (s, i) => `
-    <div class="tg-svc-panel${i === 0 ? " active" : ""}" data-panel="${s.id}">
+    <div class="tg-svc-panel${i === 0 ? " active" : ""}" data-panel="${s.id}" id="tg-svc-panel-${s.id}" role="tabpanel" aria-labelledby="tg-svc-tab-${s.id}">
       <div class="tg-svc-panel-head">
         <div class="tg-svc-panel-icon" style="background:${s.iconBg}">${s.icon}</div>
         <div>
-          <div class="tg-svc-panel-title">${s.label}</div>
-          <div class="tg-svc-panel-sub">${s.desc}</div>
+          <div class="tg-svc-panel-title">${escapeHTML(s.label)}</div>
+          <div class="tg-svc-panel-sub">${escapeHTML(s.desc)}</div>
         </div>
       </div>
       <div class="tg-svc-sub-grid">
         ${s.subs
           .map(
             (sub) => `
-          <a href="taxguide-services.html#${s.id}" class="tg-svc-sub-item">${sub}</a>
+          <a href="taxguide-services.html#${s.id}" class="tg-svc-sub-item">${escapeHTML(sub)}</a>
         `,
           )
           .join("")}
       </div>
       <div class="tg-svc-panel-foot">
         <a href="taxguide-services.html#${s.id}">
-          View all ${s.label} services
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          View all ${escapeHTML(s.label)} services
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
       </div>
     </div>
@@ -205,7 +227,6 @@
   /* ── 4. NAV HTML ────────────────────────────── */
   const navHTML = `
   <nav id="tg-nav">
-    
     <a href="index.html" class="tg-logo">
       <img src="images/logo.png" alt="TaxGuide Africa LLP" class="tg-logo-img">
     </a>
@@ -214,14 +235,13 @@
       <li><a href="index.html" class="${active("home") || (path === "" || path === "index.html" ? "tg-active" : "")}">Home</a></li>
       <li><a href="taxguide-about.html" class="${active("about")}">About</a></li>
 
-      <!-- SERVICES with mega-dropdown -->
-      <li class="tg-has-dd tg-has-svc" style="position:relative;">
-        <a href="taxguide-services.html" class="tg-nav-btn${active("services")}" aria-haspopup="true">
+      <li class="tg-has-dd tg-has-svc">
+        <a href="taxguide-services.html" class="tg-nav-btn${active("services")}" aria-haspopup="true" aria-expanded="false">
           Services
-          <svg class="tg-chevron" viewBox="0 0 24 24" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          <svg class="tg-chevron" viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
         </a>
         <div class="tg-svc-mega">
-          <div class="tg-svc-left">
+          <div class="tg-svc-left" role="tablist" aria-label="Practice areas">
             <div class="tg-svc-left-head">Practice Areas</div>
             ${tabsHTML}
           </div>
@@ -233,80 +253,78 @@
 
       <li><a href="taxguide-careers.html" class="${active("careers")}">Careers</a></li>
 
-      <!-- RESOURCES dropdown -->
       <li class="tg-has-dd">
-        <a href="taxguide-resources.html" class="tg-nav-btn${resourcesActive()}" aria-haspopup="true">
+        <a href="taxguide-blog.html" class="tg-nav-btn${resourcesActive()}" aria-haspopup="true" aria-expanded="false">
           Resources
-          <svg class="tg-chevron" viewBox="0 0 24 24" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          <svg class="tg-chevron" viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
         </a>
         <div class="tg-dropdown">
           <a href="taxguide-blog.html" class="tg-dd-item">
             <div class="tg-dd-icon" style="background:rgba(0,87,125,0.08)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="1.5" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
             </div>
             <div><div class="tg-dd-title">Blog</div><div class="tg-dd-desc">Expert articles, tax updates &amp; regulatory insights</div></div>
           </a>
           <a href="taxguide-publications.html" class="tg-dd-item">
             <div class="tg-dd-icon" style="background:rgba(10,160,215,0.08)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="1.5" aria-hidden="true"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             </div>
             <div><div class="tg-dd-title">Publications</div><div class="tg-dd-desc">Whitepapers, reports &amp; regulatory bulletins</div></div>
           </a>
           <a href="taxguide-events.html" class="tg-dd-item">
             <div class="tg-dd-icon" style="background:rgba(239,191,4,0.10)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold-dark)" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold-dark)" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
             </div>
             <div><div class="tg-dd-title">Events</div><div class="tg-dd-desc">Seminars, webinars &amp; networking events</div></div>
           </a>
           <a href="taxguide-projects.html" class="tg-dd-item">
             <div class="tg-dd-icon" style="background:rgba(5,150,105,0.08)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="1.5" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
             </div>
             <div><div class="tg-dd-title">Projects</div><div class="tg-dd-desc">Case studies &amp; client engagement highlights</div></div>
           </a>
           <div class="tg-dd-div"></div>
           <div class="tg-dd-foot">
             <span>56+ publications available</span>
-            <a href="taxguide-blog.html">Browse all <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+            <a href="taxguide-blog.html">Browse all <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
           </div>
         </div>
       </li>
 
-      <!-- BRANCHES dropdown -->
       <li class="tg-has-dd">
-        <a href="taxguide-branches.html" class="tg-nav-btn${branchesActive()}" aria-haspopup="true">
+        <a href="taxguide-branches.html" class="tg-nav-btn${branchesActive()}" aria-haspopup="true" aria-expanded="false">
           Branches
-          <svg class="tg-chevron" viewBox="0 0 24 24" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          <svg class="tg-chevron" viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
         </a>
         <div class="tg-dropdown">
           <a href="taxguide-branches.html#nairobi" class="tg-dd-item">
             <div class="tg-dd-icon" style="background:rgba(0,87,125,0.08)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="1.5" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
             </div>
             <div><div class="tg-dd-title">Nairobi</div><div class="tg-dd-desc">Milligan Court, 1st Floor, Suite 4</div></div>
           </a>
           <a href="taxguide-branches.html#mombasa" class="tg-dd-item">
             <div class="tg-dd-icon" style="background:rgba(10,160,215,0.08)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="1.5" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
             </div>
             <div><div class="tg-dd-title">Mombasa</div><div class="tg-dd-desc">Coast region office</div></div>
           </a>
           <a href="taxguide-branches.html#kisumu" class="tg-dd-item">
             <div class="tg-dd-icon" style="background:rgba(239,191,4,0.10)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold-dark)" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold-dark)" stroke-width="1.5" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
             </div>
             <div><div class="tg-dd-title">Kisumu</div><div class="tg-dd-desc">Western Kenya office</div></div>
           </a>
           <a href="taxguide-branches.html#oyugis" class="tg-dd-item">
             <div class="tg-dd-icon" style="background:rgba(5,150,105,0.08)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="1.5" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
             </div>
             <div><div class="tg-dd-title">Homabay</div><div class="tg-dd-desc">South Nyanza office</div></div>
           </a>
           <div class="tg-dd-div"></div>
           <div class="tg-dd-foot">
             <span>4 offices across Kenya</span>
-            <a href="taxguide-branches.html">View all <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+            <a href="taxguide-branches.html">View all <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
           </div>
         </div>
       </li>
@@ -319,24 +337,24 @@
       <a href="taxguide-services.html" class="tg-btn tg-btn-gold">Our Services</a>
     </div>
 
-    <button class="tg-hamburger" id="tg-hamburger" aria-label="Open menu">
+    <button type="button" class="tg-hamburger" id="tg-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="tg-mobile-menu">
       <span></span><span></span><span></span>
     </button>
   </nav>
 
   <!-- Mobile drawer -->
-  <div id="tg-mobile-menu">
+  <div id="tg-mobile-menu" role="dialog" aria-modal="true" aria-label="Mobile navigation">
     <div class="tg-drawer">
       <div class="tg-drawer-head">
         <a href="index.html" class="tg-logo">
           <div class="tg-logo-mark">TG</div>
           <div class="tg-logo-text"><span class="tg-name">TaxGuide Africa</span><span class="tg-llp">LLP</span></div>
         </a>
-        <button class="tg-drawer-close" id="tg-drawer-close" aria-label="Close">
-          <svg viewBox="0 0 24 24" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        <button type="button" class="tg-drawer-close" id="tg-drawer-close" aria-label="Close menu">
+          <svg viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
         </button>
       </div>
-      <nav class="tg-drawer-links">
+      <nav class="tg-drawer-links" aria-label="Mobile">
         <a href="index.html" class="${active("home")}">Home</a>
         <a href="taxguide-about.html" class="${active("about")}">About</a>
         <a href="taxguide-services.html" class="${active("services")}">Services</a>
@@ -377,28 +395,26 @@
   <footer id="tg-footer">
     <div class="tg-footer-top">
       <div class="tg-footer-brand">
-       <a href="taxguide-home.html" class="tg-footer-logo" 
-   style="margin-bottom:14px; display:inline-block; text-decoration:none;">
-  <img src="images/logo.png" alt="TaxGuide Africa LLP"
-       style="width:120px; height:120px; object-fit:contain; display:block; filter:brightness(0) invert(1);">
-</a>
+        <a href="index.html" class="tg-footer-logo" style="margin-bottom:10px; display:inline-block; text-decoration:none;">
+          <img src="images/logo.png" alt="TaxGuide Africa LLP" style="height:60px; width:auto; object-fit:contain; display:block; filter:brightness(0) invert(1); transform: scale(3.5); transform-origin: left center;">
+        </a>
         <div class="tg-fdivider"></div>
         <p style="margin-top:16px;">A premier multidisciplinary professional services firm delivering world-class audit, tax, legal, financial, and technology advisory solutions across Africa.</p>
         <div class="tg-footer-contact">
           <div class="tg-fci">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
             <span>Milligan Court, 1st Floor, Suite 4<br>Opposite Ngong Hills Hotel, Nairobi, Kenya</span>
           </div>
           <div class="tg-fci">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.08a16 16 0 006 6z"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.08a16 16 0 006 6z"/></svg>
             <span>+254 711 355 015</span>
           </div>
           <div class="tg-fci">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             <span>info@taxguidellp.com</span>
           </div>
           <div class="tg-fci">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20"/></svg>
             <span>www.taxguidellp.com</span>
           </div>
         </div>
@@ -438,11 +454,11 @@
         <div class="tg-footer-qc">
           <div class="tg-footer-qc-label">Quick Contact</div>
           <a href="tel:+254711355015">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.08a16 16 0 006 6z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.08a16 16 0 006 6z"/></svg>
             +254 711 355 015
           </a>
           <a href="mailto:info@taxguidellp.com">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             info@taxguidellp.com
           </a>
         </div>
@@ -454,22 +470,23 @@
         <a href="#" class="tg-flink">www.taxguidellp.com</a>
       </p>
       <div class="tg-socials">
-        <a href="https://www.linkedin.com/company/taxguideafricallp" class="tg-social" aria-label="LinkedIn">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        <a href="https://www.linkedin.com/company/taxguideafricallp" class="tg-social" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
         </a>
-        <a href="https://x.com/Taxguideafrica" class="tg-social" aria-label="X / Twitter">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        <a href="https://x.com/Taxguideafrica" class="tg-social" aria-label="X / Twitter" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         </a>
-        <a href="https://www.facebook.com/profile.php?id=61555963430604" class="tg-social" aria-label="Facebook">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+        <a href="https://www.facebook.com/profile.php?id=61555963430604" class="tg-social" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
         </a>
-        <a href="https://www.instagram.com/taxguideafrica/" class="tg-social" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+        <a href="https://www.instagram.com/taxguideafrica/" class="tg-social" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
         </a>
-        <a href="https://wa.me/254711355015" class="tg-social" aria-label="WhatsApp">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52 -.075 -.１４９ -.６６９ -１．６１２ -.９１６ -２．２０７ -.２４２ -．５７９ -.４８７ -．５ -.６６９ -．５１ -.１７３ -．００８ -.３７１ -．０１ -.５７ -．０１ -.１９８ ０ -.５２ .０７４ -.７９２ .３７２ -.２７２ .２９７ -１．０４ １．０１６ -１．０４ ２．４７９ ０ １．４６２ １．０６５ ２．８７５ １．２１３ ３．０７４ .１４９ .１９８ ２．０９６ ３．２ ５．０７７ ４．４８７ .７０９ .３０６ １．２６２ .４８９ １．６９４ .６２５ .７１２ .２２７ １．３６ .１９５ １．８７１ .₁₁₈ .５₇₁ -." stroke-width="2"><path d="M5,
-        <a href="https://www.youtube.com/@TaxGuideAfricaLLP" class="tg-social" aria-label="YouTube">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 15l5.19-3L10 9v6z"/><path d="M21.8 8s-.2-1.4-.8-2c-.7-.8-1.5-.8-1.9-.8C16.4 5 12 5 12 5s-4.4 0-7.1.2c-.4 0-1.2 0-1.9.8-.6.6-.8 2-.8 2S2 9.6 2.1 11c0 .8.3 1.6.7 2 .7.8 1.6.8 1.9.8C7.6 14 12 14 12 14s4.4 0 7.1-.2c.4 0 1.2 0 1.9-.8.6-.6.8-2 .8-2z"/></svg>
+        <a href="https://wa.me/254711355015" class="tg-social" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </a>
+        <a href="https://www.youtube.com/@TaxGuideAfricaLLP" class="tg-social" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 15l5.19-3L10 9v6z"/><path d="M21.8 8s-.2-1.4-.8-2c-.7-.8-1.5-.8-1.9-.8C16.4 5 12 5 12 5s-4.4 0-7.1.2c-.4 0-1.2 0-1.9.8-.6.6-.8 2-.8 2S2 9.6 2.1 11c0 .8.3 1.6.7 2 .7.8 1.6.8 1.9.8C7.6 14 12 14 12 14s4.4 0 7.1-.2c.4 0 1.2 0 1.9-.8.6-.6.8-2 .8-2z"/></svg>
         </a>
       </div>
     </div>
@@ -477,76 +494,240 @@
   `;
 
   /* ── 6. INJECT INTO DOM ──────────────────────── */
-  const existingMainNav = document.getElementById("mainNav");
-  if (existingMainNav) {
-    existingMainNav.remove();
+  function injectSharedElements() {
+    // Legacy nav (older page markup, pre-dating this shared script) —
+    // remove it so it doesn't sit alongside the injected nav.
+    const existingMainNav = document.getElementById("mainNav");
+    if (existingMainNav) existingMainNav.remove();
+
+    // If a previous run already injected our own nav/drawer (defensive;
+    // the __tgSharedInitialized guard above should normally prevent this),
+    // remove them first rather than creating duplicate IDs.
+    document.getElementById("tg-nav")?.remove();
+    document.getElementById("tg-mobile-menu")?.remove();
+
+    const navWrapper = document.createElement("div");
+    navWrapper.innerHTML = navHTML;
+
+    // navHTML contains two top-level nodes: <nav id="tg-nav"> and
+    // <div id="tg-mobile-menu">. Both need to land in the DOM in that
+    // order. Element.prepend() accepts multiple nodes and inserts them
+    // in the order given, so no manual reverse-and-loop is needed.
+    const nodes = [...navWrapper.children];
+    document.body.prepend(...nodes);
+
+    const existingFooter = document.querySelector("footer");
+    const footerWrapper = document.createElement("div");
+    footerWrapper.innerHTML = footerHTML;
+    const newFooter = footerWrapper.firstElementChild;
+
+    // Preserve #contact as an in-page scroll target (used by hero/nav CTAs)
+    // without clobbering #tg-footer's id, which taxguide-shared.css relies on.
+    if (
+      existingFooter?.id === "contact" ||
+      existingFooter?.querySelector?.("#contact")
+    ) {
+      const contactAnchor = document.createElement("span");
+      contactAnchor.id = "contact";
+      contactAnchor.style.cssText = "position:absolute;top:-88px;left:0;";
+      newFooter.style.position = newFooter.style.position || "relative";
+      newFooter.prepend(contactAnchor);
+    }
+
+    if (existingFooter) {
+      existingFooter.replaceWith(newFooter);
+    } else {
+      document.body.appendChild(newFooter);
+    }
+
+    /* ── BODY PADDING ─────────────────────────────
+       Only set this once; respect a value the page may already define
+       (inline or otherwise) via a data attribute rather than reading
+       computed/inline style back, which is unreliable across browsers. */
+    if (!document.body.hasAttribute("data-tg-padded")) {
+      document.body.style.paddingTop = "72px";
+      document.body.setAttribute("data-tg-padded", "true");
+    }
+
+    initializeInteractions();
   }
 
-  const navWrapper = document.createElement("div");
-  navWrapper.innerHTML = navHTML;
-  document.body.prepend(navWrapper.firstElementChild);
+  function initializeInteractions() {
+    const tgNav = document.getElementById("tg-nav");
+    const hamburger = document.getElementById("tg-hamburger");
+    const mobileMenu = document.getElementById("tg-mobile-menu");
+    const drawerClose = document.getElementById("tg-drawer-close");
 
-  const existingFooter = document.querySelector("footer");
-  const footerWrapper = document.createElement("div");
-  footerWrapper.innerHTML = footerHTML;
-  if (existingFooter) {
-    existingFooter.replaceWith(footerWrapper.firstElementChild);
+    /* ── NAV SCROLL SHADOW ────────────────────────
+       Cheap, single classList.toggle per scroll event; already passive
+       and does not read layout, so no forced reflow / jank concern. */
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (tgNav) tgNav.classList.toggle("scrolled", window.scrollY > 60);
+      },
+      { passive: true },
+    );
+
+    /* ── MOBILE DRAWER ─────────────────────────────
+       Handles open/close, scroll locking (with iOS-safe body pinning),
+       Escape key, click-outside, focus trapping, and returning focus to
+       the hamburger button on close. */
+    let scrollYBeforeOpen = 0;
+    let lastFocusedBeforeOpen = null;
+
+    function getFocusableInDrawer() {
+      if (!mobileMenu) return [];
+      return [
+        ...mobileMenu.querySelectorAll(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+      ].filter((el) => el.offsetParent !== null);
+    }
+
+    function trapFocus(e) {
+      if (e.key !== "Tab" || !mobileMenu?.classList.contains("open")) return;
+      const focusable = getFocusableInDrawer();
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+
+    function openDrawer() {
+      if (!mobileMenu) return;
+      lastFocusedBeforeOpen = document.activeElement;
+      scrollYBeforeOpen = window.scrollY;
+
+      mobileMenu.classList.add("open");
+      hamburger?.setAttribute("aria-expanded", "true");
+
+      // Lock background scroll. Plain `overflow:hidden` on body does not
+      // reliably stop touch scrolling on iOS Safari, so pin the body in
+      // place with position:fixed and restore the scroll offset on close.
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollYBeforeOpen}px`;
+      document.body.style.left = "0";
+      document.body.style.right = "0";
+      document.body.style.overflow = "hidden";
+
+      // Move focus into the drawer for keyboard/screen-reader users.
+      const focusable = getFocusableInDrawer();
+      (focusable[0] || drawerClose)?.focus();
+    }
+
+    function closeDrawer() {
+      if (!mobileMenu) return;
+      mobileMenu.classList.remove("open");
+      hamburger?.setAttribute("aria-expanded", "false");
+
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      document.body.style.overflow = "";
+      window.scrollTo(0, scrollYBeforeOpen);
+
+      // Return focus to whatever opened the drawer (normally the
+      // hamburger) so keyboard users aren't dropped at the top of body.
+      (lastFocusedBeforeOpen || hamburger)?.focus();
+    }
+
+    hamburger?.addEventListener("click", () => {
+      mobileMenu?.classList.contains("open") ? closeDrawer() : openDrawer();
+    });
+    drawerClose?.addEventListener("click", closeDrawer);
+    mobileMenu?.addEventListener("click", (e) => {
+      if (e.target === mobileMenu) closeDrawer();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && mobileMenu?.classList.contains("open")) {
+        closeDrawer();
+      } else {
+        trapFocus(e);
+      }
+    });
+
+    // If the viewport is resized/rotated past the desktop breakpoint
+    // while the drawer is open (e.g. tablet rotation, devtools resize),
+    // close it so it doesn't get stuck open behind the now-visible
+    // desktop nav.
+    let resizeTimer;
+    window.addEventListener(
+      "resize",
+      () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+          if (window.innerWidth > 768 && mobileMenu?.classList.contains("open")) {
+            closeDrawer();
+          }
+        }, 150);
+      },
+      { passive: true },
+    );
+
+    /* ── SERVICES MEGA-DROPDOWN TABS ───────────────
+       Switches the active tab/panel on hover (desktop mouse), and also
+       on focus and click so keyboard users (Tab) and touch/hybrid
+       devices can operate it — the original mouseover-only handler was
+       unusable without a mouse. */
+    function activateServiceTab(tab) {
+      if (!tab) return;
+      const id = tab.dataset.svc;
+
+      document.querySelectorAll(".tg-svc-tab").forEach((t) => {
+        const isActive = t === tab;
+        t.classList.toggle("active", isActive);
+        t.setAttribute("aria-selected", isActive ? "true" : "false");
+      });
+
+      document.querySelectorAll(".tg-svc-panel").forEach((panel) => {
+        panel.classList.toggle("active", panel.dataset.panel === id);
+      });
+    }
+
+    document.addEventListener("mouseover", (e) => {
+      activateServiceTab(e.target.closest(".tg-svc-tab"));
+    });
+    document.addEventListener("focusin", (e) => {
+      activateServiceTab(e.target.closest(".tg-svc-tab"));
+    });
+    document.addEventListener("click", (e) => {
+      const tab = e.target.closest(".tg-svc-tab");
+      if (tab) {
+        e.preventDefault();
+        activateServiceTab(tab);
+      }
+    });
+
+    /* ── DROPDOWN aria-expanded SYNC ───────────────
+       The dropdown/mega-menu visuals are driven by CSS :hover /
+       :focus-within, but aria-expanded should reflect actual state for
+       assistive tech. */
+    document.querySelectorAll(".tg-has-dd").forEach((li) => {
+      const trigger = li.querySelector(":scope > .tg-nav-btn");
+      if (!trigger) return;
+      const setExpanded = (val) => trigger.setAttribute("aria-expanded", val ? "true" : "false");
+      li.addEventListener("mouseenter", () => setExpanded(true));
+      li.addEventListener("mouseleave", () => setExpanded(false));
+      li.addEventListener("focusin", () => setExpanded(true));
+      li.addEventListener("focusout", (e) => {
+        if (!li.contains(e.relatedTarget)) setExpanded(false);
+      });
+    });
+  }
+
+  /* ── EXECUTION ENTRYPOINT ────────────────────── */
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", injectSharedElements);
   } else {
-    document.body.appendChild(footerWrapper.firstElementChild);
-  }
-
-  /* ── 7. NAV SCROLL ───────────────────────────── */
-  const tgNav = document.getElementById("tg-nav");
-  window.addEventListener(
-    "scroll",
-    () => {
-      tgNav && tgNav.classList.toggle("scrolled", window.scrollY > 60);
-    },
-    { passive: true },
-  );
-
-  /* ── 8. MOBILE DRAWER ────────────────────────── */
-  const hamburger =
-    document.getElementById("tg-hamburger") ||
-    document.getElementById("navHamburger");
-  const mobileMenu =
-    document.getElementById("tg-mobile-menu") ||
-    document.getElementById("navMobileMenu");
-  const drawerClose =
-    document.getElementById("tg-drawer-close") ||
-    document.getElementById("navMobileClose");
-
-  hamburger?.addEventListener("click", () => mobileMenu.classList.add("open"));
-  drawerClose?.addEventListener("click", () =>
-    mobileMenu.classList.remove("open"),
-  );
-  mobileMenu?.addEventListener("click", (e) => {
-    if (e.target === mobileMenu) mobileMenu.classList.remove("open");
-  });
-
-  /* ── 9. SERVICES MEGA-DROPDOWN HOVER TABS ────── */
-  // Activate panel on tab mouseover
-  document.addEventListener("mouseover", (e) => {
-    const tab = e.target.closest(".tg-svc-tab");
-    if (!tab) return;
-    const id = tab.dataset.svc;
-
-    // Update tab active state
-    document
-      .querySelectorAll(".tg-svc-tab")
-      .forEach((t) => t.classList.remove("active"));
-    tab.classList.add("active");
-
-    // Show matching panel
-    document
-      .querySelectorAll(".tg-svc-panel")
-      .forEach((p) => p.classList.remove("active"));
-    const panel = document.querySelector(`.tg-svc-panel[data-panel="${id}"]`);
-    if (panel) panel.classList.add("active");
-  });
-
-  /* ── 10. BODY PADDING ────────────────────────── */
-  if (!document.body.style.paddingTop) {
-    document.body.style.paddingTop = "72px";
+    injectSharedElements();
   }
 })();

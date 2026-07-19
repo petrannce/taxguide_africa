@@ -65,12 +65,31 @@
   </div>
 </div>
 
+<!-- FIX: load shared config BEFORE the inline script that depends on it -->
+<script src="taxguide-config.js?v=20260621"></script>
 <script>
 // ─── CONFIG ────────────────────────────────────────────────────────────────
-const API_BASE = 'http://127.0.0.1:8000/api';
+const API_BASE = window.TAXGUIDE_CONFIG.API_BASE;
+const BACKEND_ASSET_BASE = window.TAXGUIDE_CONFIG.BACKEND_ASSET_BASE;
+
+// ─── IMAGE HANDLING ─────────────────────────────────────────────────────────
+const SVC_PLACEHOLDER_IMG = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+  <svg xmlns="http://www.w3.org/2000/svg" width="400" height="280" viewBox="0 0 400 280">
+    <rect width="400" height="280" fill="#0a3d5c"/>
+    <text x="50%" y="50%" fill="#ffffff" font-family="sans-serif" font-size="16"
+          text-anchor="middle" dominant-baseline="middle" opacity="0.6">
+      TaxGuide Africa
+    </text>
+  </svg>
+`);
+
+function svcImageUrl(svc) {
+  if (!svc || !svc.image_url) return SVC_PLACEHOLDER_IMG;
+  if (/^https?:\/\//i.test(svc.image_url)) return svc.image_url;
+  return `${BACKEND_ASSET_BASE}/${svc.image_url.replace(/^\/+/, '')}`;
+}
 
 // ─── ICON MAP (keyed on slug fragments / name fragments) ──────────────────
-// Falls back to a generic briefcase icon if no match
 const ICON_MAP = [
   {
     test: s => /tax/i.test(s),
@@ -97,14 +116,16 @@ const ICON_MAP = [
 const FALLBACK_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-4 0v2"/></svg>`;
 
 function getIcon(name) {
-  const match = ICON_MAP.find(m => m.test(name));
+  const match = ICON_MAP.find(m => m.test(name || ''));
   return match ? match.svg : FALLBACK_ICON;
 }
 
 // ─── FETCH & RENDER ────────────────────────────────────────────────────────
 async function loadServices() {
   try {
-    const res = await fetch(`${API_BASE}/services`);
+    const res = await fetch(`${API_BASE}/services`, {
+      headers: { Accept: 'application/json' }
+    });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const { services } = await res.json();
 
@@ -153,12 +174,10 @@ function renderBlocks(services) {
     const num = String(index + 1).padStart(2, '0');
     const children = Array.isArray(svc.children) ? svc.children : [];
 
-    // Build sub-service grid items
-    // If children exist use them; otherwise show nothing (admin adds via CMS)
     const listHTML = children.length > 0
       ? children.map(c => `<div class="svc-list-item">${escHtml(c.name)}</div>`).join('')
       : (svc.description
-          ? '' // description-only mode, no grid
+          ? ''
           : '<div style="color:var(--text-muted);font-size:13px">Sub-services coming soon.</div>');
 
     const block = document.createElement('div');
@@ -169,9 +188,9 @@ function renderBlocks(services) {
       <div class="svc-block-grid${isReverse ? ' reverse' : ''}">
         <div class="svc-photo">
           <img
-            src="${svc.image_url}"
+            src="${svcImageUrl(svc)}"
             alt="${escHtml(svc.name)}"
-            onerror="this.src='images/default-service.jpg'"
+            onerror="this.onerror=null; this.src='${SVC_PLACEHOLDER_IMG}';"
           >
         </div>
         <div class="svc-body">

@@ -10,6 +10,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="taxguide-shared.css">
 <link rel="stylesheet" href="taxguide-page.css">
+<style>
+  /* ── Series section: cards are now real <a> elements (were <div>) so
+     "Browse Series" actually navigates/filters. Reset anchor defaults only —
+     all visual rules still come from .series-card in taxguide-page.css. */
+  .series-card{ text-decoration:none; display:block; cursor:pointer; }
+  .series-card .sc-count{ min-height:1em; } /* avoid layout shift while "Loading…" swaps to a number */
+</style>
 </head>
 <body>
 
@@ -96,12 +103,22 @@
   <!-- GRID -->
   <div class="pub-grid" id="pubGrid"></div>
 
-  <div style="text-align:center;margin-top:44px;display:none" id="loadMoreSection" style="display:none">
+  <div style="text-align:center;margin-top:44px" id="loadMoreSection" style="display:none">
     <button class="btn btn-outline btn-lg" id="loadMoreBtn">Load More Publications</button>
   </div>
 </div>
 
 <!-- PUBLICATION SERIES -->
+<!--
+  ── LIVE SERIES SECTION ──────────────────────────────────────────────────
+  No backend/API changes were made to support this. Instead of a formal
+  "series" concept in the database, each card below is bound to a keyword
+  and reuses the EXISTING /api/publications?search= endpoint (the same one
+  the search box above already calls). This gives us:
+    - real, self-updating counts (no more hardcoded "18 Publications")
+    - a functional "Browse Series" action that filters the real library
+  ...without touching a single line of the controller/model.
+-->
 <div class="series-sec">
   <div class="series-inner">
     <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:32px;flex-wrap:wrap" class="reveal">
@@ -111,35 +128,35 @@
         <p style="font-size:16px;color:rgba(255,255,255,0.55);max-width:480px">Ongoing series of in-depth research and guidance across our five practice areas — published regularly throughout the year.</p>
       </div>
     </div>
-    <div class="series-grid">
-      <div class="series-card reveal" style="--sc:var(--gold)">
+    <div class="series-grid" id="seriesGrid">
+      <a href="#pub-library" class="series-card reveal" data-keyword="tax" style="--sc:var(--gold)">
         <div class="sc-icon" style="background:rgba(239,191,4,0.12)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M7 8h10M7 12h6"/></svg></div>
-        <div class="sc-count">18 Publications</div>
+        <div class="sc-count" data-count-for="tax">Loading…</div>
         <h3>East Africa Tax Intelligence Series</h3>
         <p>Quarterly tax bulletins, Finance Act summaries, transfer pricing updates, and cross-border structuring guidance for East African markets.</p>
         <div class="sc-link">Browse Series <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-      </div>
-      <div class="series-card reveal" style="--sc:var(--cyan)">
+      </a>
+      <a href="#pub-library" class="series-card reveal" data-keyword="audit" style="--sc:var(--cyan)">
         <div class="sc-icon" style="background:rgba(10,160,215,0.12)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="1.5"><path d="M9 7H6a2 2 0 00-2 2v9a2 2 0 002 2h9a2 2 0 002-2v-3"/><path d="M21 3L9 15"/></svg></div>
-        <div class="sc-count">12 Publications</div>
+        <div class="sc-count" data-count-for="audit">Loading…</div>
         <h3>Audit &amp; Governance Advisory Series</h3>
         <p>Practical guidance on audit standards, internal controls, board governance, and financial reporting for corporations, NGOs, and public sector entities.</p>
         <div class="sc-link">Browse Series <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-      </div>
-      <div class="series-card reveal" style="--sc:#a78bfa">
+      </a>
+      <a href="#pub-library" class="series-card reveal" data-keyword="legal" style="--sc:#a78bfa">
         <div class="sc-icon" style="background:rgba(167,139,250,0.12)"><svg viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.5"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/></svg></div>
-        <div class="sc-count">9 Publications</div>
+        <div class="sc-count" data-count-for="legal">Loading…</div>
         <h3>Africa Legal Intelligence Series</h3>
         <p>Commercial law updates, employment law briefings, IP guidance, and regulatory compliance notes for legal teams and business leaders.</p>
         <div class="sc-link">Browse Series <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-      </div>
-      <div class="series-card reveal" style="--sc:#6ee7a0">
+      </a>
+      <a href="#pub-library" class="series-card reveal" data-keyword="technology" style="--sc:#6ee7a0">
         <div class="sc-icon" style="background:rgba(52,211,153,0.12)"><svg viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
-        <div class="sc-count">11 Publications</div>
+        <div class="sc-count" data-count-for="technology">Loading…</div>
         <h3>Digital &amp; Technology Risk Series</h3>
         <p>Cybersecurity handbooks, IT governance guides, FinTech regulatory briefings, and cloud security frameworks for technology-focused practitioners.</p>
         <div class="sc-link">Browse Series <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-      </div>
+      </a>
     </div>
   </div>
 </div>
@@ -179,9 +196,15 @@
   </div>
 </div>
 
+<!-- FIX: load shared config BEFORE the inline script that depends on it -->
+<script src="taxguide-config.js?v=20260621"></script>
 <script>
 // ─── CONFIG ────────────────────────────────────────────────────────────────
-const API_BASE = 'http://127.0.0.1:8000/api';
+// FIX: was hardcoded 'http://127.0.0.1:8000/api' — unreachable from a real
+// visitor's browser on the live domain, so every fetch on this page
+// (publications, types, newsletter) silently failed and the library never rendered.
+const API_BASE = window.TAXGUIDE_CONFIG.API_BASE;
+const BACKEND_ASSET_BASE = window.TAXGUIDE_CONFIG.BACKEND_ASSET_BASE;
 const PER_PAGE = 6;
 
 // ─── STATE ─────────────────────────────────────────────────────────────────
@@ -227,7 +250,9 @@ async function fetchPublications({ page = 1, type = 'all', search = '', append =
   if (search) params.set('search', search);
 
   try {
-    const res = await fetch(`${API_BASE}/publications?${params}`);
+    const res = await fetch(`${API_BASE}/publications?${params}`, {
+      headers: { Accept: 'application/json' }
+    });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
 
@@ -440,7 +465,8 @@ function triggerPubSearch(value) {
     document.getElementById('pubGrid').innerHTML = '';
     document.getElementById('featuredPub').style.display = 'none';
     document.querySelectorAll('.pf-tab').forEach(t => t.classList.remove('active'));
-    document.querySelector('.pf-tab[data-type="all"], .pf-tab:first-child').classList.add('active');
+    const allTab = document.querySelector('.pf-tab[data-type="all"], .pf-tab:first-child');
+    if (allTab) allTab.classList.add('active');
     fetchPublications({ page: 1, type: 'all', search: q });
   }, 350);
 }
@@ -475,6 +501,52 @@ document.getElementById('nlBtn').addEventListener('click', async () => {
     btn.textContent = 'Error. Try again.';
     btn.disabled = false;
   }
+});
+
+// ─── SERIES: live counts + functional "Browse Series" ──────────────────────
+// No backend/API changes. Each card is bound to a keyword and reuses the
+// EXISTING /api/publications?search= endpoint — the same one the search box
+// above already calls — to pull a real, self-updating count via the
+// pagination `.total` field (per_page=1 keeps each request cheap since we
+// only need the total, not the rows).
+async function loadSeriesCounts() {
+  const cards = document.querySelectorAll('.series-card[data-keyword]');
+
+  await Promise.all(Array.from(cards).map(async (card) => {
+    const keyword = card.dataset.keyword;
+    const countEl = card.querySelector('.sc-count');
+    try {
+      const params = new URLSearchParams({ per_page: 1, page: 1, search: keyword });
+      const res = await fetch(`${API_BASE}/publications?${params}`, {
+        headers: { Accept: 'application/json' }
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const { publications } = await res.json();
+      const total = publications.total ?? 0;
+      countEl.textContent = `${total} Publication${total !== 1 ? 's' : ''}`;
+    } catch (err) {
+      countEl.textContent = 'Publications';
+      console.error(`Series count fetch failed for "${keyword}":`, err);
+    }
+  }));
+}
+
+// Wire "Browse Series" clicks into the existing, already-working search flow
+document.querySelectorAll('.series-card[data-keyword]').forEach(card => {
+  card.addEventListener('click', (e) => {
+    e.preventDefault();
+    const keyword = card.dataset.keyword;
+
+    // Reflect it in the visible search box for clarity
+    const searchInput = document.getElementById('pubSearch');
+    if (searchInput) searchInput.value = keyword;
+
+    // Reuse the existing search pipeline exactly as-is
+    triggerPubSearch(keyword);
+
+    // Smooth-scroll to the library so the result is visible
+    document.getElementById('pub-library').scrollIntoView({ behavior: 'smooth' });
+  });
 });
 
 // ─── HELPERS ───────────────────────────────────────────────────────────────
@@ -540,6 +612,7 @@ if (nav) {
 
 // ─── INIT ──────────────────────────────────────────────────────────────────
 fetchPublications({ page: 1, type: 'all', search: '' });
+loadSeriesCounts();
 initReveal();
 </script>
 <script src="taxguide-shared.js"></script>

@@ -115,10 +115,29 @@
   </div>
 </div>
 
+<script src="taxguide-config.js?v=20260621"></script>
 <script>
 // ─── CONFIG ────────────────────────────────────────────────────────────────
-const API_BASE = 'http://127.0.0.1:8000/api';
+const API_BASE = window.TAXGUIDE_CONFIG.API_BASE;
+const BACKEND_ASSET_BASE = window.TAXGUIDE_CONFIG.BACKEND_ASSET_BASE;
 const PER_PAGE = 6;
+
+// ─── IMAGE HANDLING ─────────────────────────────────────────────────────────
+const BLOG_PLACEHOLDER_IMG = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+  <svg xmlns="http://www.w3.org/2000/svg" width="500" height="320" viewBox="0 0 500 320">
+    <rect width="500" height="320" fill="#0a3d5c"/>
+    <text x="50%" y="50%" fill="#ffffff" font-family="sans-serif" font-size="16"
+          text-anchor="middle" dominant-baseline="middle" opacity="0.6">
+      TaxGuide Africa
+    </text>
+  </svg>
+`);
+
+function blogImageUrl(blog) {
+  if (!blog || !blog.image_url) return BLOG_PLACEHOLDER_IMG;
+  if (/^https?:\/\//i.test(blog.image_url)) return blog.image_url;
+  return `${BACKEND_ASSET_BASE}/${blog.image_url.replace(/^\/+/, '')}`;
+}
 
 // ─── STATE ─────────────────────────────────────────────────────────────────
 let state = {
@@ -163,7 +182,9 @@ async function fetchBlogs({ page = 1, category = 'all', search = '', append = fa
   if (search) params.set('search', search);
 
   try {
-    const res = await fetch(`${API_BASE}/blogs?${params}`);
+    const res = await fetch(`${API_BASE}/blogs?${params}`, {
+      headers: { Accept: 'application/json' }
+    });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
 
@@ -225,7 +246,9 @@ function renderFeaturedPost(blog) {
   el.style.display = '';
   el.innerHTML = `
     <div class="fp-img">
-      <img src="${blog.image_url}" alt="${escHtml(blog.title)}" onerror="this.src='images/graph.jpeg'">
+      <img src="${blogImageUrl(blog)}" alt="${escHtml(blog.title)}"
+           style="width:100%;height:380px;object-fit:cover;display:block"
+           onerror="this.onerror=null; this.src='${BLOG_PLACEHOLDER_IMG}';">
       <div class="fp-badge">
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 6 7 1-5 5 1.18 7L12 17l-6.18 3L7 13 2 8l7-1 3-6z"/></svg>
         Featured
@@ -270,7 +293,9 @@ function appendBlogCard(blog) {
 
   card.innerHTML = `
     <a href="taxguide-blog-single.html?slug=${encodeURIComponent(blog.slug)}" class="bc-img-wrap">
-      <img src="${blog.image_url}" alt="${escHtml(blog.title)}" loading="lazy" onerror="this.src='images/graph.jpeg'">
+      <img src="${blogImageUrl(blog)}" alt="${escHtml(blog.title)}" loading="lazy"
+           style="width:100%;height:220px;object-fit:cover;display:block"
+           onerror="this.onerror=null; this.src='${BLOG_PLACEHOLDER_IMG}';">
       <div class="bc-cat" style="background:${catColor(blog.category)}">${escHtml(blog.category || 'General')}</div>
     </a>
     <div class="bc-body">
@@ -377,7 +402,9 @@ function renderTagCloud(tags) {
       // Tag filtering via query param
       const params = new URLSearchParams({ per_page: PER_PAGE, page: 1, tag });
       try {
-        const res = await fetch(`${API_BASE}/blogs?${params}`);
+        const res = await fetch(`${API_BASE}/blogs?${params}`, {
+          headers: { Accept: 'application/json' }
+        });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         const { blogs } = data;
@@ -409,8 +436,10 @@ function renderPopularPosts(blogs) {
   }
   el.innerHTML = blogs.map(b => `
     <div class="pop-post">
-      <div class="pop-thumb">
-        <img src="${b.image_url}" alt="${escHtml(b.title)}" onerror="this.src='images/graph.jpeg'">
+      <div class="pop-thumb" style="width:70px;height:70px;overflow:hidden;flex-shrink:0">
+        <img src="${blogImageUrl(b)}" alt="${escHtml(b.title)}"
+             style="width:100%;height:100%;object-fit:cover;display:block"
+             onerror="this.onerror=null; this.src='${BLOG_PLACEHOLDER_IMG}';">
       </div>
       <div>
         <div class="pop-title">

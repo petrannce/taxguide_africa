@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    TaxGuide Africa LLP — Shared CSS
    Include on every page: <link rel="stylesheet" href="taxguide-shared.css">
    ============================================================ */
@@ -32,10 +32,24 @@
   --radius: 4px;
   --radius-lg: 10px;
   --t: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --nav-height: 72px;
+  --focus-ring: 2px solid var(--cyan);
 }
 
 html {
   scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 body {
@@ -46,6 +60,15 @@ body {
   overflow-x: hidden;
 }
 
+#tg-nav a:focus-visible,
+#tg-nav button:focus-visible,
+#tg-mobile-menu a:focus-visible,
+#tg-mobile-menu button:focus-visible,
+#tg-footer a:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 2px;
+}
+
 /* ── NAV ────────────────────────────────────── */
 #tg-nav {
   position: fixed;
@@ -54,7 +77,7 @@ body {
   right: 0;
   z-index: 1000;
   padding: 0 5%;
-  height: 72px;
+  height: var(--nav-height);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -75,16 +98,20 @@ body {
   align-items: center;
   gap: 10px;
   text-decoration: none;
+  height: 100%;
+  max-width: calc(100vw - 80px);
 }
 
 .tg-logo-img {
   display: block;
-  height: 240px;
+  height: 52px;
   width: auto;
-  max-height: 240px;
+  max-height: 100%;
   object-fit: contain;
   margin: 0;
   padding: 0;
+  transform: scale(3.0);
+  transform-origin: left center;
 }
 
 .tg-logo-mark {
@@ -193,11 +220,13 @@ body {
   height: 16px;
 }
 
-.tg-has-dd:hover .tg-chevron {
+.tg-has-dd:hover .tg-chevron,
+.tg-has-dd:focus-within .tg-chevron {
   transform: rotate(180deg);
 }
 
-.tg-has-dd:hover > .tg-nav-btn {
+.tg-has-dd:hover > .tg-nav-btn,
+.tg-has-dd:focus-within > .tg-nav-btn {
   color: var(--navy);
   background: rgba(0, 87, 125, 0.05);
 }
@@ -219,6 +248,8 @@ body {
   pointer-events: none;
   transform: translateX(-50%) translateY(-6px);
   transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
 .tg-dropdown::before {
@@ -235,7 +266,8 @@ body {
   border-radius: 2px;
 }
 
-.tg-has-dd:hover .tg-dropdown {
+.tg-has-dd:hover .tg-dropdown,
+.tg-has-dd:focus-within .tg-dropdown {
   opacity: 1;
   visibility: visible;
   pointer-events: all;
@@ -253,7 +285,8 @@ body {
   transition: background var(--t);
 }
 
-.tg-dd-item:hover {
+.tg-dd-item:hover,
+.tg-dd-item:focus-visible {
   background: var(--off-white);
 }
 
@@ -335,9 +368,10 @@ body {
 .tg-svc-mega {
   position: absolute;
   top: calc(100% + 6px);
-  left: 50%;
-  transform: translateX(-50%) translateY(-6px);
+  left: 0;
+  transform: translateY(-6px);
   width: 680px;
+  max-width: min(680px, calc(100vw - 40px));
   background: #fff;
   border: 1px solid var(--border-light);
   border-radius: 16px;
@@ -349,14 +383,15 @@ body {
   transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s;
   display: flex;
   overflow: hidden;
+  max-height: 80vh;
 }
 
 .tg-svc-mega::before {
   content: '';
   position: absolute;
   top: -6px;
-  left: 50%;
-  transform: translateX(-50%) rotate(45deg);
+  left: 28px;
+  transform: rotate(45deg);
   width: 12px;
   height: 12px;
   background: #fff;
@@ -365,18 +400,21 @@ body {
   border-radius: 2px;
 }
 
-.tg-has-svc:hover .tg-svc-mega {
+.tg-has-svc:hover .tg-svc-mega,
+.tg-has-svc:focus-within .tg-svc-mega {
   opacity: 1;
   visibility: visible;
   pointer-events: all;
-  transform: translateX(-50%) translateY(0);
+  transform: translateY(0);
 }
 
-.tg-has-svc:hover .tg-chevron {
+.tg-has-svc:hover .tg-chevron,
+.tg-has-svc:focus-within .tg-chevron {
   transform: rotate(180deg);
 }
 
-.tg-has-svc:hover > .tg-nav-btn {
+.tg-has-svc:hover > .tg-nav-btn,
+.tg-has-svc:focus-within > .tg-nav-btn {
   color: var(--navy);
   background: rgba(0, 87, 125, 0.05);
 }
@@ -390,6 +428,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  overflow-y: auto;
 }
 
 .tg-svc-left-head {
@@ -417,8 +456,14 @@ body {
 }
 
 .tg-svc-tab:hover,
-.tg-svc-tab.active {
+.tg-svc-tab.active,
+.tg-svc-tab:focus-visible {
   background: rgba(255, 255, 255, 0.08);
+}
+
+.tg-svc-tab:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.6);
+  outline-offset: -2px;
 }
 
 .tg-svc-tab-dot {
@@ -460,6 +505,7 @@ body {
   padding: 16px;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 }
 
 .tg-svc-panel {
@@ -530,7 +576,8 @@ body {
   line-height: 1.3;
 }
 
-.tg-svc-sub-item:hover {
+.tg-svc-sub-item:hover,
+.tg-svc-sub-item:focus-visible {
   background: var(--off-white);
   color: var(--navy);
 }
@@ -644,11 +691,14 @@ body {
   transform: translateY(-1px);
 }
 
-/* Hamburger */
 .tg-hamburger {
   display: none;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 5px;
+  width: 44px;
+  height: 44px;
   background: none;
   border: none;
   cursor: pointer;
@@ -698,6 +748,10 @@ body {
   transform: translateX(100%);
   transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-right: env(safe-area-inset-right);
 }
 
 #tg-mobile-menu.open .tg-drawer {
@@ -714,8 +768,8 @@ body {
 }
 
 .tg-drawer-close {
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   border: 1.5px solid var(--border-light);
   background: transparent;
@@ -805,7 +859,7 @@ body {
 
 .tg-drawer-cta {
   padding: 16px 20px 24px;
-  display: flex;
+  display: flex !important;
   flex-direction: column;
   gap: 10px;
   border-top: 1px solid var(--border-light);
@@ -848,6 +902,7 @@ body {
   gap: 12px;
   text-decoration: none;
   width: fit-content;
+  padding-left: 5px;
 }
 
 .tg-footer-brand .tg-fdivider {
@@ -929,7 +984,6 @@ body {
   margin-top: 28px;
   padding-top: 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 20px 0 0 0;
 }
 
 .tg-footer-qc-label {
@@ -1024,23 +1078,38 @@ body {
   }
 }
 
+@media (max-width: 1150px) {
+  .tg-svc-mega {
+    width: 560px;
+  }
+  .tg-svc-left {
+    width: 190px;
+  }
+}
+
 @media (max-width: 768px) {
   .tg-nav-links,
   .tg-nav-cta {
     display: none !important;
   }
-  
+
   .tg-hamburger {
     display: flex !important;
   }
-  
+
   .tg-footer-top {
     grid-template-columns: 1fr;
     gap: 28px;
   }
-  
+
   .tg-footer-bottom {
     flex-direction: column;
     text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .tg-drawer {
+    width: 100vw;
   }
 }
