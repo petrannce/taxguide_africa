@@ -1,7 +1,7 @@
 ﻿/* ============================================================
    TaxGuide Africa LLP — Shared Nav + Footer
    Include this file on every page:
-   <script src="taxguide-shared.js"></script>
+   <script src="taxguide-shared.1.0.1.js"></script>
    before closing </body>
    ============================================================ */
 
@@ -19,10 +19,10 @@
 
   /* ── 1. INJECT SHARED CSS ────────────────────── */
   (function ensureTaxGuideStyles() {
-    if (!document.querySelector('link[href="taxguide-shared.css"]')) {
+    if (!document.querySelector('link[href="taxguide-shared.1.0.1.css"]')) {
       const l = document.createElement("link");
       l.rel = "stylesheet";
-      l.href = "taxguide-shared.css";
+      l.href = "taxguide-shared.1.0.1.css";
       document.head.appendChild(l);
     }
     if (!document.querySelector('link[href="taxguide-page.css"]')) {
@@ -224,6 +224,23 @@
     )
     .join("");
 
+  /* Mobile drawer accordion HTML for Services — one row per practice
+     area (mirrors the desktop mega-menu's left-hand tabs), linking
+     straight to that section of the services page. Listing every
+     individual sub-service (60+ across 5 categories) inside the
+     mobile drawer would make the panel unusably long, so mobile gets
+     the same 5-item grouping desktop users see first. */
+  const svcAccordionHTML = services
+    .map(
+      (s) => `
+      <a href="taxguide-services.html#${s.id}" class="tg-sub">
+        <span class="tg-drawer-acc-dot" style="background:${s.dot}"></span>
+        ${escapeHTML(s.label)}
+      </a>
+    `,
+    )
+    .join("");
+
   /* ── 4. NAV HTML ────────────────────────────── */
   const navHTML = `
   <nav id="tg-nav">
@@ -354,34 +371,68 @@
           <svg viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
         </button>
       </div>
-      <nav class="tg-drawer-links" aria-label="Mobile">
-        <a href="index.html" class="${active("home")}">Home</a>
-        <a href="taxguide-about.html" class="${active("about")}">About</a>
-        <a href="taxguide-services.html" class="${active("services")}">Services</a>
-        <div class="tg-drawer-group">
-          <div class="tg-drawer-group-label">Practice Areas</div>
-          <a href="taxguide-services.html#accounting" class="tg-sub">Accounting &amp; Assurance</a>
-          <a href="taxguide-services.html#tax" class="tg-sub">Tax Advisory</a>
-          <a href="taxguide-services.html#legal" class="tg-sub">Legal &amp; Corporate</a>
-          <a href="taxguide-services.html#financial" class="tg-sub">Financial Advisory</a>
-          <a href="taxguide-services.html#technology" class="tg-sub">Technology &amp; Digital</a>
-        </div>
-        <a href="taxguide-careers.html" class="${active("careers")}">Careers</a>
-        <div class="tg-drawer-group">
-          <div class="tg-drawer-group-label">Resources</div>
-          <a href="taxguide-blog.html" class="tg-sub${active("blog")}">Blog</a>
-          <a href="taxguide-publications.html" class="tg-sub${active("publications")}">Publications</a>
-          <a href="taxguide-events.html" class="tg-sub${active("events")}">Events</a>
-          <a href="taxguide-projects.html" class="tg-sub${active("projects")}">Projects</a>
-        </div>
-        <div class="tg-drawer-group">
-          <div class="tg-drawer-group-label">Branches</div>
-          <a href="taxguide-branches.html" class="tg-sub${active("mombasa")}">Mombasa</a>
-          <a href="taxguide-branches.html" class="tg-sub${active("oyugis")}">Oyugis</a>
-          <a href="taxguide-branches.html" class="tg-sub${active("kisumu")}">Kisumu</a>
-        </div>
-        <a href="taxguide-contact.html" class="${active("contact")}">Contact</a>
-      </nav>
+
+      <!-- NEW: dedicated scroll region. This is the ONLY part of the
+           drawer that scrolls; the head above and the CTA below are
+           fixed, always-visible, and can never be overlapped by list
+           content because they no longer share a scroll box with it. -->
+      <div class="tg-drawer-scroll">
+        <nav class="tg-drawer-links" aria-label="Mobile">
+          <a href="index.html" class="${active("home")}">Home</a>
+          <a href="taxguide-about.html" class="${active("about")}">About</a>
+
+          <div class="tg-drawer-acc">
+            <div class="tg-drawer-acc-row">
+              <a href="taxguide-services.html" class="tg-drawer-acc-link${active("services")}">Services</a>
+              <button type="button" class="tg-drawer-acc-toggle" aria-expanded="false" aria-controls="tg-acc-services">
+                <svg viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+            </div>
+            <div class="tg-drawer-acc-panel" id="tg-acc-services">
+              <div class="tg-drawer-acc-panel-inner">${svcAccordionHTML}</div>
+            </div>
+          </div>
+
+          <a href="taxguide-careers.html" class="${active("careers")}">Careers</a>
+
+          <div class="tg-drawer-acc">
+            <div class="tg-drawer-acc-row">
+              <a href="taxguide-blog.html" class="tg-drawer-acc-link${resourcesActive()}">Resources</a>
+              <button type="button" class="tg-drawer-acc-toggle" aria-expanded="false" aria-controls="tg-acc-resources">
+                <svg viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+            </div>
+            <div class="tg-drawer-acc-panel" id="tg-acc-resources">
+              <div class="tg-drawer-acc-panel-inner">
+                <a href="taxguide-blog.html" class="tg-sub">Blog</a>
+                <a href="taxguide-publications.html" class="tg-sub">Publications</a>
+                <a href="taxguide-events.html" class="tg-sub">Events</a>
+                <a href="taxguide-projects.html" class="tg-sub">Projects</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="tg-drawer-acc">
+            <div class="tg-drawer-acc-row">
+              <a href="taxguide-branches.html" class="tg-drawer-acc-link${branchesActive()}">Branches</a>
+              <button type="button" class="tg-drawer-acc-toggle" aria-expanded="false" aria-controls="tg-acc-branches">
+                <svg viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+            </div>
+            <div class="tg-drawer-acc-panel" id="tg-acc-branches">
+              <div class="tg-drawer-acc-panel-inner">
+                <a href="taxguide-branches.html#nairobi" class="tg-sub">Nairobi</a>
+                <a href="taxguide-branches.html#mombasa" class="tg-sub">Mombasa</a>
+                <a href="taxguide-branches.html#kisumu" class="tg-sub">Kisumu</a>
+                <a href="taxguide-branches.html#oyugis" class="tg-sub">Homabay</a>
+              </div>
+            </div>
+          </div>
+
+          <a href="taxguide-contact.html" class="${active("contact")}">Contact</a>
+        </nav>
+      </div>
+
       <div class="tg-drawer-cta">
         <a href="taxguide-contact.html" class="tg-btn tg-btn-navy">Get in Touch</a>
         <a href="taxguide-services.html" class="tg-btn tg-btn-gold">Our Services</a>
@@ -446,19 +497,19 @@
       <div class="tg-footer-col">
         <h4>Legal</h4>
         <ul>
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Terms &amp; Conditions</a></li>
-          <li><a href="#">Cookie Policy</a></li>
-          <li><a href="#">Disclaimer</a></li>
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="terms-conditions.html">Terms &amp; Conditions</a></li>
+          <li><a href="cookie-policy.html">Cookie Policy</a></li>
+          <li><a href="disclaimer.html">Disclaimer</a></li>
         </ul>
         <div class="tg-footer-qc">
           <div class="tg-footer-qc-label">Quick Contact</div>
           <a href="tel:+254711355015">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.08a16 16 0 006 6z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.08a16 16 0 006 6z"/></svg>
             +254 711 355 015
           </a>
           <a href="mailto:info@taxguidellp.com">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             info@taxguidellp.com
           </a>
         </div>
@@ -467,7 +518,7 @@
 
     <div class="tg-footer-bottom">
       <p>&copy; ${new Date().getFullYear()} TaxGuide Africa LLP. All rights reserved. |
-        <a href="#" class="tg-flink">www.taxguidellp.com</a>
+        <a href="index.html" class="tg-flink" target="_blank" rel="noopener noreferrer">www.taxguidellp.com</a>
       </p>
       <div class="tg-socials">
         <a href="https://www.linkedin.com/company/taxguideafricallp" class="tg-social" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
@@ -522,7 +573,7 @@
     const newFooter = footerWrapper.firstElementChild;
 
     // Preserve #contact as an in-page scroll target (used by hero/nav CTAs)
-    // without clobbering #tg-footer's id, which taxguide-shared.css relies on.
+    // without clobbering #tg-footer's id, which taxguide-shared.1.0.1.css relies on.
     if (
       existingFooter?.id === "contact" ||
       existingFooter?.querySelector?.("#contact")
@@ -601,6 +652,18 @@
       }
     }
 
+    const accordionToggles = mobileMenu
+      ? [...mobileMenu.querySelectorAll(".tg-drawer-acc-toggle")]
+      : [];
+
+    function setAccordion(toggle, expand) {
+      const panel = document.getElementById(toggle.getAttribute("aria-controls"));
+      if (!panel) return;
+      toggle.setAttribute("aria-expanded", expand ? "true" : "false");
+      toggle.classList.toggle("expanded", expand);
+      panel.classList.toggle("open", expand);
+    }
+
     function openDrawer() {
       if (!mobileMenu) return;
       lastFocusedBeforeOpen = document.activeElement;
@@ -638,6 +701,11 @@
       // Return focus to whatever opened the drawer (normally the
       // hamburger) so keyboard users aren't dropped at the top of body.
       (lastFocusedBeforeOpen || hamburger)?.focus();
+
+      // Collapse any expanded accordion so re-opening the drawer later
+      // starts fresh rather than surprising the user with a panel still
+      // open from last time.
+      accordionToggles.forEach((t) => setAccordion(t, false));
     }
 
     hamburger?.addEventListener("click", () => {
@@ -673,6 +741,24 @@
       { passive: true },
     );
 
+    /* ── MOBILE DRAWER ACCORDIONS (Services / Resources / Branches) ───
+       Each accordion row has its own link (navigates normally) plus a
+       dedicated toggle button that expands/collapses the sub-item panel
+       without navigating. Only one panel open at a time keeps the list
+       from growing unmanageably long on small screens. */
+    accordionToggles.forEach((toggle) => {
+      toggle.addEventListener("click", () => {
+        const isOpen = toggle.getAttribute("aria-expanded") === "true";
+        // Collapse any other open accordion first (single-open pattern
+        // keeps the drawer scannable instead of turning into one long
+        // scroll of every sub-item at once).
+        accordionToggles.forEach((t) => {
+          if (t !== toggle) setAccordion(t, false);
+        });
+        setAccordion(toggle, !isOpen);
+      });
+    });
+
     /* ── SERVICES MEGA-DROPDOWN TABS ───────────────
        Switches the active tab/panel on hover (desktop mouse), and also
        on focus and click so keyboard users (Tab) and touch/hybrid
@@ -707,10 +793,40 @@
       }
     });
 
+    /* ── TOUCH: TAP TO OPEN HEADER DROPDOWNS ───────
+       .tg-dropdown / .tg-svc-mega only open via CSS :hover /
+       :focus-within, which never fire on tap. On touch devices, the
+       first tap on a trigger opens its panel instead of navigating;
+       tapping elsewhere (or a real link inside the panel) closes it. */
+    document
+      .querySelectorAll(".tg-has-dd > .tg-nav-btn, .tg-has-dd > a[aria-haspopup]")
+      .forEach((trigger) => {
+        trigger.addEventListener("click", (e) => {
+          if (window.matchMedia("(hover: hover)").matches) return; // desktop: hover already handles it
+          const li = trigger.closest(".tg-has-dd");
+          const isOpen = li.classList.contains("tg-force-open");
+          document
+            .querySelectorAll(".tg-has-dd.tg-force-open")
+            .forEach((el) => el !== li && el.classList.remove("tg-force-open"));
+          if (!isOpen) {
+            e.preventDefault();
+            li.classList.add("tg-force-open");
+          }
+        });
+      });
+
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".tg-has-dd")) {
+        document
+          .querySelectorAll(".tg-has-dd.tg-force-open")
+          .forEach((el) => el.classList.remove("tg-force-open"));
+      }
+    });
+
     /* ── DROPDOWN aria-expanded SYNC ───────────────
        The dropdown/mega-menu visuals are driven by CSS :hover /
-       :focus-within, but aria-expanded should reflect actual state for
-       assistive tech. */
+       :focus-within (plus .tg-force-open on touch above), but
+       aria-expanded should reflect actual state for assistive tech. */
     document.querySelectorAll(".tg-has-dd").forEach((li) => {
       const trigger = li.querySelector(":scope > .tg-nav-btn");
       if (!trigger) return;

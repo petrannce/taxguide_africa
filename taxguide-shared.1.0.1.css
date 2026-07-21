@@ -1,12 +1,12 @@
 ﻿/* ============================================================
-   TaxGuide Africa LLP — Shared CSS
-   Include on every page: <link rel="stylesheet" href="taxguide-shared.css">
+   TaxGuide Africa LLP — Shared CSS (Updated for Mobile Drawer Layout)
+   Include on every page: <link rel="stylesheet" href="taxguide-shared.1.0.1.css">
    ============================================================ */
 
 /* ── FONTS ──────────────────────────────────── */
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap');
 
-/* ── RESET & TOKENS ────────────────────────── */
+/* ── RESET & TOKENS ────────────────          */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -274,6 +274,17 @@ body {
   transform: translateX(-50%) translateY(0);
 }
 
+.tg-has-dd.tg-force-open > .tg-dropdown {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+  transform: translateX(-50%) translateY(0);
+}
+
+.tg-has-dd.tg-force-open > .tg-nav-btn .tg-chevron {
+  transform: rotate(180deg);
+}
+
 /* Dropdown items */
 .tg-dd-item {
   display: flex;
@@ -417,6 +428,17 @@ body {
 .tg-has-svc:focus-within > .tg-nav-btn {
   color: var(--navy);
   background: rgba(0, 87, 125, 0.05);
+}
+
+.tg-has-svc.tg-force-open > .tg-svc-mega {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+  transform: translateY(0);
+}
+
+.tg-has-svc.tg-force-open > .tg-nav-btn .tg-chevron {
+  transform: rotate(180deg);
 }
 
 /* Left panel — main service list */
@@ -625,7 +647,6 @@ body {
   height: 12px;
 }
 
-/* bridge to keep dropdown open */
 .tg-has-svc::after {
   content: '';
   position: absolute;
@@ -747,8 +768,7 @@ body {
   flex-direction: column;
   transform: translateX(100%);
   transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow-y: auto;
-  overscroll-behavior: contain;
+  overflow: hidden;
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
   padding-right: env(safe-area-inset-right);
@@ -758,13 +778,80 @@ body {
   transform: translateX(0);
 }
 
+/* ── DRAWER HEADER (LOGO) ────────────────────── */
 .tg-drawer-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 24px;
-  border-bottom: 1px solid var(--border-light);
-  flex-shrink: 0;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  min-height: 76px !important;
+  height: auto !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 18px 24px !important;
+  border-bottom: 1px solid var(--border-light) !important;
+  flex-shrink: 0 !important;
+  box-sizing: border-box !important;
+  background: #fff !important;
+  position: relative;
+  z-index: 2;
+}
+
+#tg-mobile-menu .tg-logo {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  text-decoration: none;
+  height: auto !important;
+  max-width: none !important;
+}
+
+#tg-mobile-menu .tg-logo-mark {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: 38px !important;
+  height: 38px !important;
+  flex-shrink: 0 !important;
+  border-radius: 6px;
+  background: linear-gradient(135deg, var(--navy), var(--cyan));
+  font-family: var(--ff-display);
+  font-weight: 700;
+  font-size: 18px;
+  color: #fff !important;
+  line-height: 1 !important;
+}
+
+#tg-mobile-menu .tg-logo-text {
+  display: flex !important;
+  flex-direction: column !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  line-height: 1.1 !important;
+}
+
+#tg-mobile-menu .tg-logo-text .tg-name {
+  display: block !important;
+  font-family: var(--ff-display);
+  font-size: 17px !important;
+  font-weight: 600 !important;
+  color: var(--navy-deeper) !important;
+  line-height: 1.2 !important;
+}
+
+#tg-mobile-menu .tg-logo-text .tg-llp {
+  display: block !important;
+  font-size: 10px !important;
+  font-weight: 500 !important;
+  color: var(--gold-dark) !important;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  line-height: 1.4 !important;
 }
 
 .tg-drawer-close {
@@ -779,6 +866,7 @@ body {
   justify-content: center;
   color: var(--text-secondary);
   transition: all var(--t);
+  flex-shrink: 0;
 }
 
 .tg-drawer-close:hover {
@@ -793,68 +881,232 @@ body {
   fill: none;
 }
 
-.tg-drawer-links {
-  display: flex;
-  flex-direction: column;
-  padding: 16px;
+.tg-drawer-scroll {
   flex: 1;
-  gap: 6px;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
-.tg-drawer-links a {
-  display: block;
-  padding: 12px 16px;
-  font-size: 15px;
-  font-weight: 500;
+/* ── FIXED LAYOUT FOR .tg-drawer-links CONTAINER ──── */
+.tg-drawer-links {
+  display: flex !important;
+  flex-direction: column !important;
+  position: static !important;
+  float: none !important;
+  clear: both !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 20px 24px 16px !important;
+  box-sizing: border-box !important;
+  gap: 2px !important;
+  list-style: none !important;
+  border: none !important;
+  border-bottom: none !important;
+}
+
+/* Ensure Home, About, and top-level accordion rows stretch properly and span the full width */
+.tg-drawer-links > a,
+.tg-drawer-acc {
+  display: flex !important;
+  position: static !important;
+  float: none !important;
+  clear: both !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  border: none !important;
+  border-bottom: none !important;
+}
+
+.tg-drawer-links > a:first-child,
+.tg-drawer-acc:first-child {
+  margin-top: 4px !important;
+}
+
+/* ── LOCKED ROW MODEL FOR LINKS & ACCORDION ROWS ──── */
+.tg-drawer-links > a,
+.tg-drawer-acc-link {
+  display: flex !important;
+  position: static !important;
+  float: none !important;
+  clear: both !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  text-align: left !important;
+  box-sizing: border-box !important;
+  min-height: 44px !important;
+  height: auto !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 12px 16px !important;
+  font-family: var(--ff-body) !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  line-height: 1.3 !important;
   color: var(--text-primary);
-  text-decoration: none;
-  border-radius: 10px;
+  background: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  border-bottom: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  text-decoration: none !important;
+  border-radius: 10px !important;
   transition: background var(--t), color var(--t);
   word-wrap: break-word;
   overflow-wrap: break-word;
+  white-space: normal !important;
 }
 
-.tg-drawer-links a:hover {
-  background: var(--off-white);
+.tg-drawer-links > a:hover,
+.tg-drawer-acc-link:hover {
+  background: var(--off-white) !important;
   color: var(--navy);
 }
 
-.tg-drawer-links a.tg-active {
+.tg-drawer-links > a.tg-active,
+.tg-drawer-acc-link.tg-active {
   color: var(--navy);
-  font-weight: 600;
-  background: rgba(0, 87, 125, 0.06);
+  font-weight: 600 !important;
+  background: rgba(0, 87, 125, 0.06) !important;
 }
 
-.tg-drawer-group {
-  margin-top: 12px;
+/* ── MOBILE DRAWER ACCORDIONS ────────────────── */
+.tg-drawer-acc {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  border-bottom: none !important;
 }
 
-.tg-drawer-group-label {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
+.tg-drawer-acc-row {
+  display: flex !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  border-bottom: none !important;
+  gap: 2px;
+}
+
+.tg-drawer-acc-link {
+  flex: 1 !important;
+}
+
+.tg-drawer-acc-toggle {
+  flex-shrink: 0 !important;
+  width: 44px !important;
+  height: 44px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: none !important;
+  border-bottom: none !important;
+  outline: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 10px !important;
+  cursor: pointer;
   color: var(--text-muted);
-  padding: 8px 16px 8px;
+  transition: background var(--t), color var(--t);
+}
+
+.tg-drawer-acc-toggle:hover {
+  background: var(--off-white) !important;
+  color: var(--navy);
+}
+
+.tg-drawer-acc-toggle svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  fill: none;
+  transition: transform 0.22s ease;
+}
+
+.tg-drawer-acc-toggle.expanded svg {
+  transform: rotate(180deg);
+}
+
+.tg-drawer-acc-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  border-bottom: none !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  transition: grid-template-rows 0.25s ease;
+}
+
+.tg-drawer-acc-panel.open {
+  grid-template-rows: 1fr;
+}
+
+.tg-drawer-acc-panel-inner {
+  overflow: hidden;
+  min-height: 0;
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  gap: 2px;
+  border: none !important;
 }
 
 .tg-drawer-links a.tg-sub {
-  padding: 10px 16px 10px 30px;
-  font-size: 14px;
+  display: flex !important;
+  position: static !important;
+  float: none !important;
+  clear: both !important;
+  align-items: center !important;
+  gap: 8px;
+  box-sizing: border-box !important;
+  min-height: 40px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 9px 16px 9px 30px !important;
+  font-size: 14px !important;
+  line-height: 1.3 !important;
   color: var(--text-secondary);
+  background: transparent !important;
+  border: none !important;
+  border-bottom: none !important;
+  outline: none !important;
+  box-shadow: none !important;
   position: relative;
+  text-decoration: none !important;
+  border-radius: 10px !important;
+  transition: background var(--t), color var(--t);
 }
 
-.tg-drawer-links a.tg-sub::before {
-  content: '';
-  position: absolute;
-  left: 18px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 4px;
-  height: 4px;
+.tg-drawer-links a.tg-sub:hover {
+  background: var(--off-white) !important;
+  color: var(--navy);
+}
+
+.tg-drawer-acc-dot {
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: var(--cyan);
+  flex-shrink: 0;
 }
 
 .tg-drawer-cta {
@@ -864,6 +1116,10 @@ body {
   gap: 10px;
   border-top: 1px solid var(--border-light);
   flex-shrink: 0;
+  position: relative;
+  z-index: 5;
+  background: #fff;
+  box-shadow: 0 -8px 20px rgba(0, 0, 0, 0.05);
 }
 
 .tg-drawer-cta a {
@@ -871,6 +1127,7 @@ body {
   align-items: center;
   justify-content: center;
   width: 100%;
+  min-height: 44px;
 }
 
 /* ── FOOTER ─────────────────────────────────── */
